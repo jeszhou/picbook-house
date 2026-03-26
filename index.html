@@ -37,10 +37,10 @@ textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 12px; 
 .mode-title { font-family: Georgia,serif; font-size: 16px; font-weight: 700; color: var(--brown); margin-bottom: 3px; }
 .mode-desc { font-size: 12px; color: var(--brownP); }
 .mode-example { font-size: 12px; color: var(--brownL); line-height: 1.7; margin-top: 8px; padding-left: 46px; }
-.book-card { background: var(--warm); border-radius: 20px; padding: 22px; margin-bottom: 18px; border: 1.5px solid var(--border); box-shadow: 0 4px 20px rgba(92,61,46,0.06); position: relative; overflow: hidden; }
+.book-card { background: var(--warm); border-radius: 20px; padding: 22px; margin-bottom: 18px; border: 1.5px solid var(--border); box-shadow: 0 4px 20px rgba(92,61,46,0.06); overflow: hidden; }
 .book-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg,var(--peach),var(--sageL)); border-radius: 4px 0 0 4px; }
 .book-top { display: flex; gap: 16px; margin-bottom: 14px; }
-.book-cover { width: 82px; flex-shrink: 0; height: 112px; border-radius: 10px; overflow: hidden; box-shadow: 4px 5px 16px rgba(92,61,46,0.2); }
+.book-cover { width: 72px; flex-shrink: 0; height: 96px; border-radius: 10px; overflow: hidden; box-shadow: 4px 5px 16px rgba(92,61,46,0.2); }
 .book-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cover-placeholder { width: 82px; height: 112px; border-radius: 10px; overflow: hidden; box-shadow: 4px 5px 16px rgba(92,61,46,0.2); display: flex; }
 .cover-spine { width: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
@@ -71,13 +71,13 @@ textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 12px; 
 .navbar-inner { max-width: 680px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 52px; }
 .navbar-logo { font-family: Georgia,serif; font-size: 15px; font-weight: 700; color: var(--brown); cursor: pointer; }
 .navbar-links { display: flex; gap: 4px; }
-.nav-btn { background: transparent; border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: var(--brownL); cursor: pointer; font-family: inherit; transition: all 0.2s; white-space: nowrap; }
+.nav-btn { background: transparent; border: none; padding: 6px 10px; border-radius: 20px; font-size: 11px; color: var(--brownL); cursor: pointer; font-family: inherit; transition: all 0.2s; white-space: nowrap; }
 .nav-btn:hover { background: var(--peachL); color: var(--brown); }
 .nav-btn.active { background: var(--brown); color: var(--warm); }
 body { padding-top: 52px; }
 /* Book action buttons */
-.book-actions { position: absolute; top: 14px; right: 14px; display: flex; gap: 6px; z-index: 5; }
-.action-btn { border: 1.5px solid var(--border); background: var(--cream); border-radius: 50px; padding: 4px 10px; font-size: 11px; color: var(--brownL); cursor: pointer; font-family: inherit; transition: all 0.2s; white-space: nowrap; }
+.book-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.action-btn { border: 1.5px solid var(--border); background: var(--cream); border-radius: 50px; padding: 7px 14px; font-size: 12px; color: var(--brownL); cursor: pointer; font-family: inherit; transition: all 0.2s; flex: 1; text-align: center; min-width: 80px; }
 .action-btn:hover { border-color: var(--brownP); }
 .action-btn.active-fav { background: #fff0e8; border-color: var(--peach); color: var(--rose); }
 .action-btn.active-own { background: #e8f0e4; border-color: var(--sage); color: var(--sage); }
@@ -1044,44 +1044,42 @@ function submitCreate() {
   generateBook(name, concern, createSel.style, createSel.lang, createSel.level);
 }
 
-function generateBook(name, concern, style, lang, level) {
-  // Show loading
+async function generateBook(name, concern, style, lang, level) {
+  var n = name || "小宝";
   document.getElementById("create-section").style.display = "none";
   document.getElementById("book-reader").style.display = "block";
-  document.getElementById("book-title-display").textContent = `${name}的专属绘本`;
-  document.getElementById("book-pages").innerHTML = `
-    <div style="text-align:center;padding:60px 20px">
-      <div style="font-size:40px;margin-bottom:20px;animation:spin 2s linear infinite;display:inline-block">✨</div>
-      <div style="font-family:Georgia,serif;font-size:16px;color:var(--brown);margin-bottom:8px">正在为${name}创作专属绘本…</div>
-      <div style="font-size:13px;color:var(--brownP)">AI正在构思故事，约需20秒</div>
-    </div>
-    <style>@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>`;
+  document.getElementById("book-title-display").textContent = n + "的专属绘本";
+  document.getElementById("book-pages").innerHTML =
+    '<div style="text-align:center;padding:60px 20px">' +
+    '<div style="font-size:40px;margin-bottom:20px;display:inline-block">✨</div>' +
+    '<div style="font-family:Georgia,serif;font-size:16px;color:var(--brown);margin-bottom:8px">正在为' + n + '创作专属绘本…</div>' +
+    '<div style="font-size:13px;color:var(--brownP)">AI正在构思故事，约需15-20秒</div>' +
+    '</div>';
   document.getElementById("page-dots").innerHTML = "";
   document.getElementById("page-indicator").textContent = "";
   document.getElementById("prev-btn").style.display = "none";
   document.getElementById("next-btn").style.display = "none";
 
-  // Mock data - replaced with DeepSeek API later
-  setTimeout(function() {
-    var n = name;
-    var isEn = lang === "en";
-    var mockPages = isEn ? [
-      { scene: "A cozy bedroom. " + n + " sits on the bed, refusing to brush teeth.", text: n + " did not want to brush teeth. It takes too long!" },
-      { scene: "Tiny tooth fairies appear, dancing around " + n + ".", text: "We protect your teeth! But we need your help!" },
-      { scene: n + " looks surprised, mouth wide open.", text: "What can I do? asked " + n + ". Just brush us clean!" },
-      { scene: n + " picks up the toothbrush, smiling.", text: n + " brushed up, down, and all around. The fairies cheered!" },
-      { scene: "Clean sparkling teeth shine bright. " + n + " smiles in the mirror.", text: "Thank you! said the fairies. See you tomorrow night!" },
-      { scene: n + " sleeps peacefully, dreaming of tooth fairies.", text: "From that night on, " + n + " always brushed before bed. Sweet dreams!" }
-    ] : [
-      { scene: "温馨的卧室里，夜灯亮着。" + n + "坐在床上，旁边放着牙刷和牙膏，一脸不情愿。", text: "每天晚上，" + n + "最不喜欢做的事就是刷牙。\n为什么要刷牙呀？好麻烦！" + n + "嘟起了嘴。" },
-      { scene: "牙刷突然发光，跳出一个戴白帽子的小精灵，手里拿着小扫帚。", text: "突然，牙刷里跳出一个小精灵！\n你好！我是牙齿卫士，专门保护小朋友的牙齿！" },
-      { scene: n + "张开嘴巴，里面有城堡和花园，牙齿卫士在里面巡逻。", text: "你的嘴巴里住着好多小怪兽！卫士说。\n" + n + "吓了一跳：那怎么办？" },
-      { scene: n + "认真地刷牙，牙齿卫士在旁边加油打气，小怪兽们纷纷逃跑。", text: "只要你认真刷牙，它们就会逃跑！\n" + n + "拿起牙刷，刷刷刷！" },
-      { scene: "干净亮白的牙齿闪闪发光，牙齿卫士开心地竖起大拇指。", text: "太棒了！卫士鼓掌。\n" + n + "对着镜子笑了，牙齿白白的，亮亮的。" },
-      { scene: n + "开心地躺在床上，闭上眼睛，嘴角挂着微笑。", text: "从那以后，" + n + "每天晚上都会认真刷牙。\n因为" + n + "知道，牙齿卫士在等着和自己一起战斗！\n\n晚安，" + n + "。" }
-    ];
-    showBook(n + "的专属绘本", mockPages);
-  }, 2000);
+  try {
+    var resp = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: n, concern: concern, style: style, lang: lang, level: level })
+    });
+    var book = await resp.json();
+    if (!resp.ok || book.error) throw new Error(book.error || "生成失败");
+    showBook(book.title || n + "的专属绘本", book.pages);
+  } catch(e) {
+    document.getElementById("book-pages").innerHTML =
+      '<div style="text-align:center;padding:40px">' +
+      '<div style="font-size:32px;margin-bottom:12px">😔</div>' +
+      '<div style="font-family:Georgia,serif;font-size:15px;color:var(--brown);margin-bottom:8px">生成失败了</div>' +
+      '<div style="font-size:13px;color:var(--brownP);margin-bottom:20px">' + e.message + '</div>' +
+      '<button onclick="closeReader()" style="background:var(--brown);color:var(--warm);border:none;border-radius:50px;padding:12px 28px;font-size:14px;cursor:pointer">返回重试</button>' +
+      '</div>';
+    document.getElementById("prev-btn").style.display = "none";
+    document.getElementById("next-btn").style.display = "none";
+  }
 }
 
 function showBook(title, pages) {
