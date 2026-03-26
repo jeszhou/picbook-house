@@ -641,12 +641,24 @@ function recommend(concern) {
     .sort((a,b)=>b.s-a.s).slice(0,5).map(({b})=>b);
 }
 
-function coverHTML(book) {
-  if (book.cover) return `<div class="book-cover"><img src="${book.cover}" alt="${book.title}" onerror="this.style.display='none'"></div>`;
+function placeholder(book) {
   const p = hashColor(book.title);
   const chars = Array.from(book.title).slice(0,6);
   const spans = chars.map((c,i)=>`<span style="font-size:${i===0?13:10}px;font-weight:${i===0?700:500};color:${i===0?p.ac:p.tx};font-family:Georgia,serif;line-height:1.2">${c}</span>`).join("");
-  return `<div class="cover-placeholder" style="background:${p.bg}"><div class="cover-spine" style="background:${p.ac};width:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;font-size:7px;color:rgba(255,255,255,0.8);font-weight:600">${book.title.slice(0,5)}</span></div><div class="cover-body"><div style="width:70%;height:1.5px;background:${p.ac};opacity:0.5"></div><div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1;justify-content:center;padding:4px 0">${spans}</div><div style="font-size:7px;color:${p.tx};opacity:0.7">${(book.author||"").slice(0,5)}</div><div style="width:70%;height:1.5px;background:${p.ac};opacity:0.5"></div></div></div>`;
+  return `<div class="cover-placeholder" style="background:${p.bg};width:82px;height:112px;border-radius:10px;overflow:hidden;box-shadow:4px 5px 16px rgba(92,61,46,0.2);display:flex;flex-shrink:0"><div style="width:12px;flex-shrink:0;background:${p.ac};display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;font-size:7px;color:rgba(255,255,255,0.8);font-weight:600">${book.title.slice(0,5)}</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 6px 8px"><div style="width:70%;height:1.5px;background:${p.ac};opacity:0.5"></div><div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1;justify-content:center;padding:4px 0">${spans}</div><div style="font-size:7px;color:${p.tx};opacity:0.7">${(book.author||"").slice(0,5)}</div><div style="width:70%;height:1.5px;background:${p.ac};opacity:0.5"></div></div></div>`;
+}
+
+function coverHTML(book) {
+  if (book.cover) {
+    const ph = placeholder(book);
+    return `<div style="position:relative;width:82px;flex-shrink:0;height:112px">
+      <img src="${book.cover}" alt="${book.title}" 
+        style="width:82px;height:112px;border-radius:10px;object-fit:cover;display:block;box-shadow:4px 5px 16px rgba(92,61,46,0.2);position:absolute;top:0;left:0;z-index:2" 
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;position:absolute;top:0;left:0;z-index:1">${ph}</div>
+    </div>`;
+  }
+  return placeholder(book);
 }
 
 function bookCardHTML(book, i) {
@@ -721,14 +733,19 @@ function doLookup() {
   let html = "";
   found.forEach(b => {
     html += `<div class="lookup-item">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;color:var(--brown)">${b.title}</div>
-        <span style="font-size:10px;padding:3px 10px;border-radius:50px;background:#e8f0e4;color:var(--sage);font-weight:500">✓ 收录</span>
+      <div style="display:flex;gap:14px;margin-bottom:10px">
+        ${coverHTML(b)}
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;color:var(--brown)">${b.title}</div>
+            <span style="font-size:10px;padding:3px 10px;border-radius:50px;background:#e8f0e4;color:var(--sage);font-weight:500;flex-shrink:0;margin-left:8px">✓ 收录</span>
+          </div>
+          <div style="font-size:11px;color:var(--brownP);margin-bottom:8px">${b.author} · ${b.ageMin}–${b.ageMax}岁 · ${(b.themes||[]).join("、")}</div>
+          ${b.awards?`<div style="font-size:12px;color:var(--brownL);margin-bottom:4px">🏆 ${b.awards}</div>`:""}
+          <div style="font-size:11px;color:var(--brownP)">🛒 ${b.buy}</div>
+        </div>
       </div>
-      <div style="font-size:11px;color:var(--brownP);margin-bottom:8px">${b.author} · ${b.ageMin}–${b.ageMax}岁 · ${(b.themes||[]).join("、")}</div>
-      <div style="font-size:13px;color:var(--inkL);margin-bottom:6px;line-height:1.7">${b.desc}</div>
-      ${b.awards?`<div style="font-size:12px;color:var(--brownL)">🏆 ${b.awards}</div>`:""}
-      <div style="font-size:11px;color:var(--brownP);margin-top:4px">🛒 ${b.buy}</div>
+      <div style="font-size:13px;color:var(--inkL);line-height:1.7">${b.desc}</div>
     </div>`;
   });
   if (missing.length) {
