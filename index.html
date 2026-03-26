@@ -66,9 +66,90 @@ textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 12px; 
 .lookup-item { padding: 16px 18px; margin-bottom: 12px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--cream); border-left: 4px solid var(--sage); }
 .lookup-not-found { padding: 14px 18px; border-radius: 14px; border-left: 4px solid var(--brownP); background: var(--cream); }
 #form-section, #results-section { display: none; }
+/* Navbar */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,246,240,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0; }
+.navbar-inner { max-width: 680px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 52px; }
+.navbar-logo { font-family: Georgia,serif; font-size: 15px; font-weight: 700; color: var(--brown); cursor: pointer; }
+.navbar-links { display: flex; gap: 4px; }
+.nav-btn { background: transparent; border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: var(--brownL); cursor: pointer; font-family: inherit; transition: all 0.2s; white-space: nowrap; }
+.nav-btn:hover { background: var(--peachL); color: var(--brown); }
+.nav-btn.active { background: var(--brown); color: var(--warm); }
+body { padding-top: 52px; }
+/* Book action buttons */
+.book-actions { position: absolute; top: 14px; right: 14px; display: flex; gap: 6px; z-index: 5; }
+.action-btn { border: 1.5px solid var(--border); background: var(--cream); border-radius: 50px; padding: 4px 10px; font-size: 11px; color: var(--brownL); cursor: pointer; font-family: inherit; transition: all 0.2s; white-space: nowrap; }
+.action-btn:hover { border-color: var(--brownP); }
+.action-btn.active-fav { background: #fff0e8; border-color: var(--peach); color: var(--rose); }
+.action-btn.active-own { background: #e8f0e4; border-color: var(--sage); color: var(--sage); }
+.action-btn.active-want { background: var(--goldBg); border-color: var(--gold); color: var(--gold); }
+/* 书库 - bookshelf */
+.bookshelf { background: #3d2b1a; border-radius: 16px; padding: 20px 16px 24px; margin-bottom: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.shelf-label { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 2px; margin-bottom: 12px; }
+.shelf-row { background: #5c3d2e; border-radius: 8px; padding: 12px 8px 0; display: flex; gap: 4px; flex-wrap: wrap; min-height: 100px; box-shadow: inset 0 -6px 0 rgba(0,0,0,0.3); }
+.spine-book { width: 36px; height: 88px; border-radius: 4px 2px 2px 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 6px rgba(0,0,0,0.3); transition: transform 0.2s; flex-shrink: 0; }
+.spine-book:hover { transform: translateY(-6px); }
+.spine-text { writing-mode: vertical-rl; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.9); letter-spacing: 1px; line-height: 1; text-align: center; padding: 4px 2px; overflow: hidden; max-height: 80px; }
+.shelf-empty { color: rgba(255,255,255,0.3); font-size: 13px; text-align: center; padding: 20px; width: 100%; }
+/* 收藏 - library grid */
+.library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+.library-card { background: var(--warm); border-radius: 14px; overflow: hidden; border: 1.5px solid var(--border); box-shadow: 0 2px 12px rgba(92,61,46,0.08); cursor: pointer; transition: transform 0.2s; }
+.library-card:hover { transform: translateY(-3px); }
+.library-card-cover { height: 100px; overflow: hidden; }
+.library-card-cover img { width: 100%; height: 100%; object-fit: cover; }
+.library-card-body { padding: 10px; }
+.library-card-title { font-family: Georgia,serif; font-size: 12px; font-weight: 700; color: var(--brown); line-height: 1.3; margin-bottom: 4px; }
+.library-card-meta { font-size: 10px; color: var(--brownP); }
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: flex-end; }
+.modal-overlay.open { display: flex; }
+.modal-sheet { background: var(--warm); border-radius: 24px 24px 0 0; padding: 24px; width: 100%; max-width: 680px; margin: 0 auto; max-height: 80vh; overflow-y: auto; }
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
 </style>
 </head>
 <body>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="navbar-logo" onclick="showPage('home')">📖 绘本小屋</div>
+    <div class="navbar-links">
+      <button class="nav-btn active" id="nav-home" onclick="showPage('home')">首页</button>
+      <button class="nav-btn" id="nav-shelf" onclick="showPage('shelf')">📚 书库</button>
+      <button class="nav-btn" id="nav-fav" onclick="showPage('fav')">🔖 收藏</button>
+    </div>
+  </div>
+</nav>
+
+<!-- 我的书库页 -->
+<div id="page-shelf" style="display:none;position:fixed;top:52px;left:0;right:0;bottom:0;overflow-y:auto;z-index:50;background:var(--cream)">
+  <div class="container" style="padding-top:20px">
+    <div style="font-family:Georgia,serif;font-size:20px;font-weight:700;color:var(--brown);margin-bottom:6px">📚 我的书库</div>
+    <p style="font-size:13px;color:var(--brownP);margin-bottom:24px">你拥有的和想买的绘本</p>
+    <div style="font-size:12px;font-weight:600;color:var(--brown);margin-bottom:12px;letter-spacing:1px">✓ 已拥有</div>
+    <div id="shelf-owned-list" style="margin-bottom:32px"></div>
+    <div style="font-size:12px;font-weight:600;color:var(--brown);margin-bottom:12px;letter-spacing:1px">🛒 想购买</div>
+    <div id="shelf-want-list"></div>
+  </div>
+</div>
+
+<!-- 我的收藏页 -->
+<div id="page-fav" style="display:none;position:fixed;top:52px;left:0;right:0;bottom:0;overflow-y:auto;z-index:50;background:var(--cream)">
+  <div class="container" style="padding-top:20px">
+    <div style="font-family:Georgia,serif;font-size:20px;font-weight:700;color:var(--brown);margin-bottom:6px">🔖 我的收藏</div>
+    <p style="font-size:13px;color:var(--brownP);margin-bottom:24px">你收藏的好绘本</p>
+    <div class="library-grid" id="fav-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--brownL);font-size:14px">还没有收藏绘本，去推荐页点击🔖收藏吧</div>
+    </div>
+  </div>
+</div>
+
+<!-- 书籍详情弹窗 -->
+<div class="modal-overlay" id="book-modal" onclick="closeModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
 <div class="header">
   <div style="font-size:26px;letter-spacing:8px;color:var(--brownP);margin-bottom:10px">📖 ✦ 🌿</div>
   <h1>绘本小屋</h1>
@@ -95,13 +176,20 @@ textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 12px; 
       </div>
       <div class="mode-example">比如「孩子不爱刷牙」「总是发脾气打人」「不想去幼儿园」</div>
     </div>
+    <div class="mode-card" onclick="setMode('create')" style="background:linear-gradient(135deg,#fdf6ee,#f5ede0);border-color:var(--peachL)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+        <span style="font-size:32px">✨</span>
+        <div><div class="mode-title">生成专属绘本</div><div class="mode-desc">为你的宝贝量身定制一本独一无二的绘本</div></div>
+      </div>
+      <div class="mode-example">输入孩子名字、困惑或故事主题，AI帮你创作一本专属故事</div>
+    </div>
 
     <!-- 书名查询 -->
     <div class="lookup-card" style="margin-top:32px">
       <div class="step-label">新功能 ✦</div>
-      <div style="font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--brown);margin-bottom:8px">🔍 输入书名，快速了解这本书</div>
-      <p style="font-size:12px;color:var(--brownP);margin-bottom:16px;line-height:1.7">在小红书看到书单？把书名输进来，一次查多本，用逗号或换行分隔</p>
-      <textarea id="lookup-input" rows="4" placeholder="例如：&#10;好饿的毛毛虫&#10;野兽国&#10;我的情绪小怪兽"></textarea>
+      <div style="font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--brown);margin-bottom:8px">🔍 搜索书名或关键词</div>
+      <p style="font-size:12px;color:var(--brownP);margin-bottom:16px;line-height:1.7">输入书名直接查，或者输入关键词比如「不爱刷牙」「入园焦虑」「情绪管理」找相关绘本</p>
+      <textarea id="lookup-input" rows="4" placeholder="书名：好饿的毛毛虫&#10;关键词：不爱刷牙、入园焦虑、情绪管理…"></textarea>
       <div style="text-align:center;margin-top:14px">
         <button class="submit-btn" style="padding:12px 36px;font-size:14px" onclick="doLookup()">✦ 查一查 ✦</button>
       </div>
@@ -143,6 +231,66 @@ textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 12px; 
     <div style="text-align:center;margin-top:16px"><button class="submit-btn" onclick="submitConcern()">✦ 帮我找绘本 ✦</button></div>
   </div>
 
+  <!-- 生成专属绘本 -->
+  <div id="create-section" style="display:none">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <button class="back-btn" onclick="goBack()">←</button>
+      <div style="font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--brown)">✨ 生成专属绘本</div>
+    </div>
+    <div class="card">
+      <div class="step-label">STEP 01</div>
+      <div class="step-q" style="margin-bottom:10px">主角叫什么名字？</div>
+      <input id="hero-name" type="text" placeholder="比如：小宝、妞妞、Leo…" maxlength="10"
+        style="width:100%;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;color:var(--ink);background:var(--cream);outline:none">
+    </div>
+    <div class="card">
+      <div class="step-label">STEP 02</div>
+      <div class="step-q" style="margin-bottom:10px">故事主题或育儿困惑</div>
+      <p style="font-size:12px;color:var(--brownP);margin-bottom:14px;line-height:1.7">写下你想让故事帮助解决的问题，或者任何你想要的故事主题</p>
+      <textarea id="create-concern" rows="3" placeholder="比如「不爱刷牙」「总是发脾气」「喜欢恐龙的冒险故事」…"></textarea>
+    </div>
+    <div class="card">
+      <div class="step-label">STEP 03</div>
+      <div class="step-q">画风偏好</div>
+      <div class="opts" id="create-style-opts"></div>
+    </div>
+    <div class="card">
+      <div class="step-label">STEP 04</div>
+      <div class="step-q">绘本语言</div>
+      <div class="opts" id="create-lang-opts"></div>
+    </div>
+    <div id="create-age-card" class="card">
+      <div class="step-label">STEP 05</div>
+      <div class="step-q" id="create-level-q">孩子年龄？（决定故事难易程度）</div>
+      <div class="opts" id="create-level-opts"></div>
+    </div>
+    <div class="error-box" id="error-create"></div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="submit-btn" onclick="submitCreate()">✨ 开始生成绘本 ✨</button>
+    </div>
+  </div>
+
+  <!-- 绘本阅读页 -->
+  <div id="book-reader" style="display:none">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px">
+      <button class="back-btn" onclick="closeReader()">←</button>
+      <div style="font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--brown)" id="book-title-display"></div>
+    </div>
+    <!-- 页面进度 -->
+    <div style="display:flex;justify-content:center;gap:6px;margin-bottom:20px" id="page-dots"></div>
+    <!-- 绘本内容 -->
+    <div id="book-pages"></div>
+    <!-- 翻页控制 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px">
+      <button id="prev-btn" onclick="prevPage()" style="background:transparent;border:1.5px solid var(--border);border-radius:50px;padding:10px 24px;font-size:14px;color:var(--brownL);cursor:pointer">← 上一页</button>
+      <span id="page-indicator" style="font-size:12px;color:var(--brownP)"></span>
+      <button id="next-btn" onclick="nextPage()" style="background:var(--brown);border:none;border-radius:50px;padding:10px 24px;font-size:14px;color:var(--warm);cursor:pointer">下一页 →</button>
+    </div>
+    <div style="text-align:center;margin-top:24px">
+      <button class="restart-btn" onclick="restart()" style="font-size:12px;padding:10px 28px">↩ 回到首页</button>
+    </div>
+  </div>
+
   <!-- 结果页 -->
   <div id="results-section" style="display:none">
     <div style="text-align:center;margin-bottom:30px">
@@ -157,8 +305,8 @@ textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 12px; 
       <div style="font-size:28px;margin-bottom:12px">✨</div>
       <div style="font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--brown);margin-bottom:10px;line-height:1.5">没找到完全合适的？</div>
       <p style="font-size:13px;color:var(--brownL);line-height:1.8;margin-bottom:20px">每个孩子的情况都是独一无二的<br>让我们为你的宝贝专属定制一本绘本</p>
-      <button style="background:var(--brown);color:var(--warm);border:none;border-radius:50px;padding:14px 36px;font-size:14px;font-family:Georgia,serif;font-weight:600;letter-spacing:1px;cursor:pointer;opacity:0.6">
-        🎨 生成专属绘本（即将上线）
+      <button onclick="openCreateWithConcern(document.getElementById('concern-input').value)" style="background:var(--brown);color:var(--warm);border:none;border-radius:50px;padding:14px 36px;font-size:14px;font-family:Georgia,serif;font-weight:600;letter-spacing:1px;cursor:pointer;box-shadow:0 6px 24px rgba(92,61,46,0.25)">
+        🎨 生成专属绘本
       </button>
     </div>
   </div>
@@ -543,6 +691,12 @@ let SEL = { age: null, themes: [], style: null, interactive: null, reading: "两
 let currentMode = null;
 
 document.getElementById("book-count").textContent = BOOKS.length;
+// Build title lookup map
+const TITLE_MAP = {};
+BOOKS.forEach(b => {
+  const id = 'book_' + b.title.replace(/[^a-zA-Z0-9]/g,'_');
+  TITLE_MAP[id] = b.title;
+});
 document.getElementById("book-count2").textContent = BOOKS.length;
 
 function hashColor(title) {
@@ -630,12 +784,15 @@ function scoreBook(book, concern) {
 
 function recommend(concern) {
   const themes = SEL.themes.includes("都可以") ? [] : SEL.themes;
+  const states = getStates();
   return BOOKS.map(b=>({b,s:scoreBook(b,concern)}))
     .filter(({b,s}) => {
       if (s<=0) return false;
       if (SEL.lang==="中文" && b.lang==="英文") return false;
       if (SEL.lang==="英文" && b.lang!=="英文") return false;
       if (themes.length>0 && !themes.some(t=>(b.themes||[]).includes(t))) return false;
+      // 已拥有的书不出现在推荐结果里
+      if (states[b.title] && states[b.title].own) return false;
       return true;
     })
     .sort((a,b)=>b.s-a.s).slice(0,5).map(({b})=>b);
@@ -651,17 +808,23 @@ function placeholder(book) {
 function coverHTML(book) {
   if (book.cover) {
     const ph = placeholder(book);
-    return `<div style="position:relative;width:82px;flex-shrink:0;height:112px">
-      <img src="${book.cover}" alt="${book.title}" 
-        style="width:82px;height:112px;border-radius:10px;object-fit:cover;display:block;box-shadow:4px 5px 16px rgba(92,61,46,0.2);position:absolute;top:0;left:0;z-index:2" 
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div style="display:none;position:absolute;top:0;left:0;z-index:1">${ph}</div>
-    </div>`;
+    const id = 'img' + Math.random().toString(36).slice(2);
+    setTimeout(() => {
+      const img = document.getElementById(id);
+      if (img) {
+        img.onerror = function() {
+          this.style.display = 'none';
+          if (this.nextSibling) this.nextSibling.style.display = 'flex';
+        };
+      }
+    }, 0);
+    return '<div style="position:relative;width:82px;flex-shrink:0;height:112px"><img id="' + id + '" src="' + book.cover + '" style="width:82px;height:112px;border-radius:10px;object-fit:cover;display:block;box-shadow:4px 5px 16px rgba(92,61,46,0.2)"><div style="display:none">' + ph + '</div></div>';
   }
   return placeholder(book);
 }
 
 function bookCardHTML(book, i) {
+  const bookId = 'book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_');
   const rankColors = ["#5c3d2e","#8b6355","#c4a882"];
   const rankLabels = ["🥇 最推荐","🥈 第2名","🥉 第"+(i+1)+"名"];
   const themes = (book.themes||[]).map(t=>`<span class="tag tag-theme">${t}</span>`).join("");
@@ -683,6 +846,11 @@ function bookCardHTML(book, i) {
       <div class="meta-item"><span class="meta-icon">🛒</span><div><div class="meta-label">购买渠道</div><div class="meta-val">${book.buy||""}</div></div></div>
       <div class="meta-item"><span class="meta-icon">🏆</span><div><div class="meta-label">权威背书</div><div class="meta-val">${book.awards||"暂无"}</div></div></div>
     </div>
+    <div class="book-actions">
+      <button class="action-btn" data-type="fav" data-bookid="${bookId}" onclick="handleActionClick(this,event)">🔖 <span>收藏</span></button>
+      <button class="action-btn" data-type="own" data-bookid="${bookId}" onclick="handleActionClick(this,event)">📚 <span>已拥有</span></button>
+      <button class="action-btn" data-type="want" data-bookid="${bookId}" onclick="handleActionClick(this,event)">🛒 <span>想购买</span></button>
+    </div>
   </div>`;
 }
 
@@ -695,6 +863,8 @@ function showResults(books, showDiy) {
   document.getElementById("diy-section").style.display = showDiy ? "block" : "none";
   document.getElementById("results-section").style.display = "block";
   window.scrollTo({top:0,behavior:"smooth"});
+  // Init action buttons state
+  setTimeout(() => initBookActions(books), 50);
 }
 
 function submitBrowse() {
@@ -724,21 +894,47 @@ function restart() {
 
 function doLookup() {
   const input = document.getElementById("lookup-input").value;
-  const titles = input.split(/[，,\n]+/).map(s=>s.trim()).filter(Boolean);
+  const queries = input.split(/[，,\n]+/).map(s=>s.trim()).filter(Boolean);
   const found = [], missing = [];
-  titles.forEach(title => {
-    const book = BOOKS.find(b => b.title.includes(title) || title.includes(b.title));
-    if (book) found.push(book); else missing.push(title);
+  const addedTitles = new Set();
+
+  queries.forEach(query => {
+    // First try exact/partial title match
+    const byTitle = BOOKS.filter(b => b.title.includes(query) || query.includes(b.title));
+    if (byTitle.length > 0) {
+      byTitle.forEach(b => { if (!addedTitles.has(b.title)) { found.push({book:b, matchType:'title', query}); addedTitles.add(b.title); } });
+      return;
+    }
+    // Then try keyword match on tags, themes, desc
+    const byKeyword = BOOKS.filter(b =>
+      (b.tags||[]).some(t => t.includes(query) || query.includes(t)) ||
+      (b.themes||[]).some(t => t.includes(query) || query.includes(t)) ||
+      (b.desc||"").includes(query) ||
+      (b.awards||"").includes(query)
+    ).slice(0, 5); // limit to 5 per keyword
+    if (byKeyword.length > 0) {
+      byKeyword.forEach(b => { if (!addedTitles.has(b.title)) { found.push({book:b, matchType:'keyword', query}); addedTitles.add(b.title); } });
+    } else {
+      missing.push(query);
+    }
   });
+  // Group by query for keyword results
   let html = "";
-  found.forEach(b => {
+  let lastQuery = null;
+  found.forEach(({book:b, matchType, query}) => {
+    if (matchType === 'keyword' && query !== lastQuery) {
+      html += `<div style="font-size:11px;color:var(--brownP);margin:16px 0 8px;letter-spacing:1px">「${query}」相关绘本</div>`;
+      lastQuery = query;
+    } else if (matchType === 'title') {
+      lastQuery = null;
+    }
     html += `<div class="lookup-item">
       <div style="display:flex;gap:14px;margin-bottom:10px">
         ${coverHTML(b)}
         <div style="flex:1;min-width:0">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
             <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;color:var(--brown)">${b.title}</div>
-            <span style="font-size:10px;padding:3px 10px;border-radius:50px;background:#e8f0e4;color:var(--sage);font-weight:500;flex-shrink:0;margin-left:8px">✓ 收录</span>
+            <span style="font-size:10px;padding:3px 10px;border-radius:50px;background:${matchType==='keyword'?'#e8f0e4':'#e8f0e4'};color:var(--sage);font-weight:500;flex-shrink:0;margin-left:8px">${matchType==='keyword'?'🔖 相关':'✓ 收录'}</span>
           </div>
           <div style="font-size:11px;color:var(--brownP);margin-bottom:8px">${b.author} · ${b.ageMin}–${b.ageMax}岁 · ${(b.themes||[]).join("、")}</div>
           ${b.awards?`<div style="font-size:12px;color:var(--brownL);margin-bottom:4px">🏆 ${b.awards}</div>`:""}
@@ -752,6 +948,624 @@ function doLookup() {
     html += `<div class="lookup-not-found"><div style="font-size:13px;color:var(--brownL);margin-bottom:6px">以下书目暂未收录，后续持续更新 📚</div>${missing.map(t=>`<div style="font-size:12px;color:var(--brownP);margin-bottom:2px">· ${t}</div>`).join("")}</div>`;
   }
   document.getElementById("lookup-result").innerHTML = html;
+}
+
+// ── 生成绘本相关 ────────────────────────────────────
+const CREATE_STYLES = [
+  {e:"🎨",l:"水彩温暖",v:"水彩温暖"},
+  {e:"✏️",l:"简笔卡通",v:"简笔卡通"},
+  {e:"🌸",l:"日系治愈",v:"日系治愈"},
+  {e:"◻️",l:"北欧简约",v:"北欧简约"},
+];
+const CREATE_LANGS = [
+  {e:"🇨🇳",l:"中文",v:"zh"},
+  {e:"🇬🇧",l:"英文",v:"en"},
+];
+const ZH_LEVELS = [
+  {e:"🐣",l:"0–2岁（超简单）",v:"0-2岁"},
+  {e:"🐥",l:"2–4岁（简单）",v:"2-4岁"},
+  {e:"🦁",l:"4–6岁（适中）",v:"4-6岁"},
+];
+const EN_LEVELS = [
+  {e:"🌱",l:"启蒙级",v:"启蒙"},
+  {e:"📗",l:"初级",v:"初级"},
+  {e:"📘",l:"中级",v:"中级"},
+];
+
+let createSel = { style: null, lang: null, level: null };
+let currentBookPages = [];
+let currentPage = 0;
+
+function initCreateOpts() {
+  renderOpts("create-style-opts", CREATE_STYLES, "createStyle");
+  renderOpts("create-lang-opts", CREATE_LANGS, "createLang");
+  renderOpts("create-level-opts", ZH_LEVELS, "createLevel");
+}
+
+// Override renderOpts for create selects
+const origRenderOpts = renderOpts;
+function renderOpts(id, opts, key, multi=false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = "";
+  opts.forEach(o => {
+    const btn = document.createElement("button");
+    btn.className = "opt-btn";
+    btn.innerHTML = `<span>${o.e}</span>${o.l}`;
+    btn.onclick = () => {
+      if (key === "createStyle") {
+        createSel.style = o.v;
+        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      } else if (key === "createLang") {
+        createSel.lang = o.v;
+        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        // Switch level options
+        const levelOpts = document.getElementById("create-level-opts");
+        const levelQ = document.getElementById("create-level-q");
+        createSel.level = null;
+        if (o.v === "zh") {
+          levelQ.textContent = "孩子年龄？（决定故事难易程度）";
+          renderOpts("create-level-opts", ZH_LEVELS, "createLevel");
+        } else {
+          levelQ.textContent = "英文水平？（决定故事难易程度）";
+          renderOpts("create-level-opts", EN_LEVELS, "createLevel");
+        }
+      } else if (key === "createLevel") {
+        createSel.level = o.v;
+        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      } else if (multi) {
+        if (o.v === "都可以") {
+          SEL[key] = SEL[key].includes("都可以") ? [] : ["都可以"];
+        } else {
+          const without = SEL[key].filter(x => x !== "都可以");
+          SEL[key] = without.includes(o.v) ? without.filter(x => x !== o.v) : [...without, o.v];
+        }
+        el.querySelectorAll(".opt-btn").forEach((b,i) => b.classList.toggle("selected", SEL[key].includes(opts[i].v)));
+      } else {
+        SEL[key] = o.v;
+        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      }
+    };
+    el.appendChild(btn);
+  });
+}
+
+function submitCreate() {
+  const name = document.getElementById("hero-name").value.trim() || "小宝";
+  const concern = document.getElementById("create-concern").value.trim();
+  if (!concern) return showError("error-create", "💭 请填写故事主题或育儿困惑");
+  if (!createSel.style) return showError("error-create", "🎨 请选择画风");
+  if (!createSel.lang) return showError("error-create", "🌏 请选择语言");
+  if (!createSel.level) return showError("error-create", "📖 请选择难度");
+  generateBook(name, concern, createSel.style, createSel.lang, createSel.level);
+}
+
+function generateBook(name, concern, style, lang, level) {
+  // Show loading
+  document.getElementById("create-section").style.display = "none";
+  document.getElementById("book-reader").style.display = "block";
+  document.getElementById("book-title-display").textContent = `${name}的专属绘本`;
+  document.getElementById("book-pages").innerHTML = `
+    <div style="text-align:center;padding:60px 20px">
+      <div style="font-size:40px;margin-bottom:20px;animation:spin 2s linear infinite;display:inline-block">✨</div>
+      <div style="font-family:Georgia,serif;font-size:16px;color:var(--brown);margin-bottom:8px">正在为${name}创作专属绘本…</div>
+      <div style="font-size:13px;color:var(--brownP)">AI正在构思故事，约需20秒</div>
+    </div>
+    <style>@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>`;
+  document.getElementById("page-dots").innerHTML = "";
+  document.getElementById("page-indicator").textContent = "";
+  document.getElementById("prev-btn").style.display = "none";
+  document.getElementById("next-btn").style.display = "none";
+
+  // Mock data - replaced with DeepSeek API later
+  setTimeout(function() {
+    var n = name;
+    var isEn = lang === "en";
+    var mockPages = isEn ? [
+      { scene: "A cozy bedroom. " + n + " sits on the bed, refusing to brush teeth.", text: n + " did not want to brush teeth. It takes too long!" },
+      { scene: "Tiny tooth fairies appear, dancing around " + n + ".", text: "We protect your teeth! But we need your help!" },
+      { scene: n + " looks surprised, mouth wide open.", text: "What can I do? asked " + n + ". Just brush us clean!" },
+      { scene: n + " picks up the toothbrush, smiling.", text: n + " brushed up, down, and all around. The fairies cheered!" },
+      { scene: "Clean sparkling teeth shine bright. " + n + " smiles in the mirror.", text: "Thank you! said the fairies. See you tomorrow night!" },
+      { scene: n + " sleeps peacefully, dreaming of tooth fairies.", text: "From that night on, " + n + " always brushed before bed. Sweet dreams!" }
+    ] : [
+      { scene: "温馨的卧室里，夜灯亮着。" + n + "坐在床上，旁边放着牙刷和牙膏，一脸不情愿。", text: "每天晚上，" + n + "最不喜欢做的事就是刷牙。\n为什么要刷牙呀？好麻烦！" + n + "嘟起了嘴。" },
+      { scene: "牙刷突然发光，跳出一个戴白帽子的小精灵，手里拿着小扫帚。", text: "突然，牙刷里跳出一个小精灵！\n你好！我是牙齿卫士，专门保护小朋友的牙齿！" },
+      { scene: n + "张开嘴巴，里面有城堡和花园，牙齿卫士在里面巡逻。", text: "你的嘴巴里住着好多小怪兽！卫士说。\n" + n + "吓了一跳：那怎么办？" },
+      { scene: n + "认真地刷牙，牙齿卫士在旁边加油打气，小怪兽们纷纷逃跑。", text: "只要你认真刷牙，它们就会逃跑！\n" + n + "拿起牙刷，刷刷刷！" },
+      { scene: "干净亮白的牙齿闪闪发光，牙齿卫士开心地竖起大拇指。", text: "太棒了！卫士鼓掌。\n" + n + "对着镜子笑了，牙齿白白的，亮亮的。" },
+      { scene: n + "开心地躺在床上，闭上眼睛，嘴角挂着微笑。", text: "从那以后，" + n + "每天晚上都会认真刷牙。\n因为" + n + "知道，牙齿卫士在等着和自己一起战斗！\n\n晚安，" + n + "。" }
+    ];
+    showBook(n + "的专属绘本", mockPages);
+  }, 2000);
+}
+
+function showBook(title, pages) {
+  currentBookPages = pages;
+  currentPage = 0;
+  document.getElementById("book-title-display").textContent = title;
+  document.getElementById("prev-btn").style.display = "";
+  document.getElementById("next-btn").style.display = "";
+  renderPage();
+}
+
+function renderPage() {
+  const page = currentBookPages[currentPage];
+  const total = currentBookPages.length;
+  
+  // Page dots
+  document.getElementById("page-dots").innerHTML = currentBookPages.map((_, i) =>
+    `<div style="width:${i===currentPage?20:8}px;height:8px;border-radius:4px;background:${i===currentPage?'var(--brown)':'var(--border)'};transition:all 0.3s"></div>`
+  ).join("");
+  
+  document.getElementById("page-indicator").textContent = `第 ${currentPage+1} 页 / 共 ${total} 页`;
+  document.getElementById("prev-btn").style.opacity = currentPage === 0 ? "0.3" : "1";
+  document.getElementById("next-btn").textContent = currentPage === total-1 ? "✓ 读完了" : "下一页 →";
+
+  document.getElementById("book-pages").innerHTML = `
+    <div style="background:var(--warm);border-radius:20px;overflow:hidden;border:1.5px solid var(--border);box-shadow:0 4px 20px rgba(92,61,46,0.1)">
+      <!-- 画面描述区 -->
+      <div style="background:linear-gradient(135deg,#f5ede0,#ede0cc);padding:28px 26px;min-height:160px;display:flex;align-items:center;justify-content:center;border-bottom:1.5px solid var(--border)">
+        <div style="text-align:center">
+          <div style="font-size:32px;margin-bottom:12px">${getSceneEmoji(currentPage)}</div>
+          <p style="font-size:13px;color:var(--brownL);line-height:1.8;font-style:italic;max-width:400px;margin:0 auto">🎨 ${page.scene}</p>
+        </div>
+      </div>
+      <!-- 故事文字区 -->
+      <div style="padding:26px">
+        <p style="font-family:Georgia,serif;font-size:16px;color:var(--ink);line-height:2;white-space:pre-line">${page.text}</p>
+      </div>
+      <!-- 页码 -->
+      <div style="text-align:right;padding:0 20px 16px;font-size:11px;color:var(--brownP)">第 ${currentPage+1} 页</div>
+    </div>`;
+}
+
+function getSceneEmoji(page) {
+  const emojis = ["🌙","✨","😮","🦷","😊","💫"];
+  return emojis[page % emojis.length];
+}
+
+function prevPage() {
+  if (currentPage > 0) { currentPage--; renderPage(); window.scrollTo({top:0,behavior:"smooth"}); }
+}
+
+function nextPage() {
+  if (currentPage < currentBookPages.length - 1) {
+    currentPage++; renderPage(); window.scrollTo({top:0,behavior:"smooth"});
+  } else {
+    restart();
+  }
+}
+
+function closeReader() {
+  document.getElementById("book-reader").style.display = "none";
+  document.getElementById("create-section").style.display = "block";
+}
+
+// Update setMode to handle create
+const origSetMode = setMode;
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById("mode-section").style.display = "none";
+  document.getElementById("browse-section").style.display = "none";
+  document.getElementById("concern-section").style.display = "none";
+  document.getElementById("create-section").style.display = "none";
+  document.getElementById("results-section").style.display = "none";
+  document.getElementById("book-reader").style.display = "none";
+
+  if (mode === "browse") {
+    document.getElementById("browse-section").style.display = "block";
+    SEL = { age: null, themes: [], style: null, interactive: null, reading: "两者都有", lang: "全部" };
+    renderOpts("age-opts-b", AGE_OPTS, "age");
+    renderOpts("theme-opts", THEME_OPTS, "themes", true);
+    renderOpts("style-opts", STYLE_OPTS, "style");
+    renderOpts("inter-opts", INTER_OPTS, "interactive");
+    renderOpts("reading-opts", READ_OPTS, "reading");
+    renderOpts("lang-opts", LANG_OPTS, "lang");
+    const langBtns = document.querySelectorAll("#lang-opts .opt-btn");
+    if (langBtns[2]) { langBtns[2].classList.add("selected"); SEL.lang = "全部"; }
+  } else if (mode === "concern") {
+    document.getElementById("concern-section").style.display = "block";
+    SEL = { age: null, themes: [], style: null, interactive: null, reading: "两者都有", lang: "全部" };
+    renderOpts("age-opts-c", AGE_OPTS, "age");
+  } else if (mode === "create") {
+    document.getElementById("create-section").style.display = "block";
+    createSel = { style: null, lang: null, level: null };
+    initCreateOpts();
+  }
+}
+
+function goBack() {
+  document.getElementById("browse-section").style.display = "none";
+  document.getElementById("concern-section").style.display = "none";
+  document.getElementById("create-section").style.display = "none";
+  document.getElementById("book-reader").style.display = "none";
+  document.getElementById("mode-section").style.display = "block";
+  currentMode = null;
+}
+
+// Update restart
+function restart() {
+  currentMode = null;
+  document.getElementById("results-section").style.display = "none";
+  document.getElementById("book-reader").style.display = "none";
+  document.getElementById("mode-section").style.display = "block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// Update DIY button in results to jump to create mode with concern pre-filled
+function openCreateWithConcern(concern) {
+  setMode("create");
+  setTimeout(() => {
+    document.getElementById("create-concern").value = concern;
+  }, 100);
+}
+
+function copyTitle(title) {
+  navigator.clipboard.writeText(title).then(function() {
+    // Find and update button text
+    var btns = document.querySelectorAll("button");
+    btns.forEach(function(btn) {
+      if (btn.textContent.includes("复制书名") && btn.onclick && btn.onclick.toString().includes(title.replace(/'/g,"\\'"))) {
+        btn.textContent = "✓ 已复制：" + title;
+        btn.style.background = "#e8f0e4";
+        btn.style.borderColor = "var(--sage)";
+        btn.style.color = "var(--sage)";
+        setTimeout(function() {
+          btn.textContent = "📋 复制书名去搜索购买";
+          btn.style.background = "var(--cream)";
+          btn.style.borderColor = "var(--border)";
+          btn.style.color = "var(--brownL)";
+        }, 2000);
+      }
+    });
+  }).catch(function() {
+    // Fallback
+    var el = document.createElement("textarea");
+    el.value = title;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    alert("已复制：" + title);
+  });
+}
+
+// ── 书库与收藏状态管理 ────────────────────────────────────
+const STORAGE_KEY = 'picbook_states';
+
+function getStates() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } 
+  catch(e) { return {}; }
+}
+
+function saveStates(states) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(states));
+}
+
+function getBookState(title, type) {
+  const states = getStates();
+  return states[title] && states[title][type];
+}
+
+function toggleBookState(bookId, type, title, e) {
+  if (e) e.stopPropagation();
+  const states = getStates();
+  if (!states[title]) states[title] = {};
+  
+  // Toggle
+  const current = states[title][type];
+  // If turning on own/want, turn off the other
+  if (type === 'own' && !current) states[title].want = false;
+  if (type === 'want' && !current) states[title].own = false;
+  states[title][type] = !current;
+  saveStates(states);
+  
+  // Update all buttons for this book (card + modal)
+  updateActionBtn(bookId, type, title);
+  // Also update if bookId format differs
+  document.querySelectorAll('[id^="btn-' + type + '-"]').forEach(btn => {
+    if (btn.id.includes(title.slice(0,8).replace(/[^a-zA-Z0-9]/g,'_'))) {
+      const bId = btn.id.replace('btn-' + type + '-', '');
+      updateActionBtn(bId, type, title);
+    }
+  });
+  // Show toast
+  const msgs = {fav: current?'已取消收藏':'已收藏 🔖', own: current?'已移除':'标记为已拥有 📚', want: current?'已移除':'加入想购买 🛒'};
+  showToast(msgs[type]);
+}
+
+function updateActionBtn(bookId, type, title) {
+  const btn = document.getElementById('btn-' + type + '-' + bookId);
+  if (!btn) return;
+  const active = getBookState(title, type);
+  const labels = {fav:['收藏','已收藏'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
+  const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
+  btn.className = 'action-btn' + (active ? ' ' + classes[type] : '');
+  btn.querySelector('span').textContent = active ? labels[type][1] : labels[type][0];
+}
+
+
+function handleActionClick(btn, e) {
+  if (e) e.stopPropagation();
+  const type = btn.dataset.type;
+  const bookId = btn.dataset.bookid;
+  const title = TITLE_MAP[bookId] || bookId;
+  const states = getStates();
+  if (!states[title]) states[title] = {};
+  if (type === 'own' && !states[title].own) states[title].want = false;
+  if (type === 'want' && !states[title].want) states[title].own = false;
+  states[title][type] = !states[title][type];
+  saveStates(states);
+  // Update all buttons for this book
+  document.querySelectorAll('[data-bookid="' + bookId + '"]').forEach(b => {
+    const t = b.dataset.type;
+    const active = states[title][t];
+    const labels = {fav:['收藏','已收藏'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
+    const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
+    b.className = 'action-btn' + (active ? ' ' + classes[t] : '');
+    b.querySelector('span').textContent = active ? labels[t][1] : labels[t][0];
+  });
+  const msgs = {fav: states[title].fav?'已收藏 🔖':'取消收藏', own: states[title].own?'已拥有 📚':'已移除', want: states[title].want?'加入想购买 🛒':'已移除'};
+  showToast(msgs[type]);
+}
+
+function initBookActions(books) {
+  const states = getStates();
+  (books||[]).forEach(book => {
+    const bId = 'book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_');
+    document.querySelectorAll('[data-bookid="' + bId + '"]').forEach(btn => {
+      const type = btn.dataset.type;
+      const active = states[book.title]?.[type];
+      const labels = {fav:['收藏','已收藏'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
+      const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
+      btn.className = 'action-btn' + (active ? ' ' + classes[type] : '');
+      btn.querySelector('span').textContent = active ? labels[type][1] : labels[type][0];
+    });
+  });
+}
+
+
+function showToast(msg) {
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--brown);color:var(--warm);padding:10px 20px;border-radius:50px;font-size:13px;z-index:300;transition:opacity 0.3s;pointer-events:none';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.style.opacity = '0', 2000);
+}
+
+// ── 页面导航 ────────────────────────────────────
+const HOME_SECTIONS = ['mode-section','browse-section','concern-section','create-section','results-section','book-reader'];
+
+function showPage(page) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-' + page)?.classList.add('active');
+  document.getElementById('page-shelf').style.display = 'none';
+  document.getElementById('page-fav').style.display = 'none';
+  if (page === 'shelf') {
+    const ps = document.getElementById('page-shelf');
+    ps.style.display = 'block';
+    ps.scrollTop = 0;
+    setTimeout(() => {
+      const list = document.getElementById('shelf-owned-list');
+    }, 200);
+    setTimeout(renderShelf, 50);
+  } else if (page === 'fav') {
+    document.getElementById('page-fav').style.display = 'block';
+    setTimeout(renderFav, 50);
+  }
+}
+
+// ── 书架渲染 ────────────────────────────────────
+const SPINE_COLORS = [
+  '#c0392b','#e67e22','#f39c12','#27ae60','#16a085',
+  '#2980b9','#8e44ad','#2c3e50','#d35400','#1abc9c',
+  '#6c5ce7','#e84393','#00b894','#fdcb6e','#e17055'
+];
+
+function getSpineColor(title) {
+  const h = Array.from(title).reduce((a,c)=>a+c.charCodeAt(0),0);
+  return SPINE_COLORS[h % SPINE_COLORS.length];
+}
+
+function renderShelf() {
+  const states = getStates();
+  const owned = BOOKS.filter(b => states[b.title] && states[b.title].own);
+  const wanted = BOOKS.filter(b => states[b.title] && states[b.title].want);
+  const ownedEl = document.getElementById('shelf-owned-list');
+  const wantedEl = document.getElementById('shelf-want-list');
+  // Direct test
+  renderShelfList('shelf-owned-list', owned, '还没有绘本，去推荐页标记「已拥有」吧 📚');
+  renderShelfList('shelf-want-list', wanted, '还没有绘本，去推荐页标记「想购买」吧 🛒');
+}
+
+function renderShelfList(containerId, books, emptyMsg) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = '';
+  if (books.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--brownP);font-size:13px;background:var(--warm);border-radius:16px;border:1.5px dashed var(--border)">' + emptyMsg + '</div>';
+    return;
+  }
+  const grid = document.createElement('div');
+  grid.className = 'library-grid';
+  books.forEach(book => {
+    const p = hashColor(book.title);
+    const card = document.createElement('div');
+    card.className = 'library-card';
+    card.style.position = 'relative';
+    card.onclick = () => showBookModal(book.title);
+    // Cover
+    const coverDiv = document.createElement('div');
+    coverDiv.className = 'library-card-cover';
+    const makePh = () => {
+      const ph = document.createElement('div');
+      ph.style.cssText = 'width:100%;height:100%;background:' + p.bg + ';display:flex;align-items:center;justify-content:center';
+      const sp = document.createElement('span');
+      sp.style.cssText = 'font-size:28px;color:' + p.ac + ';font-family:Georgia,serif;font-weight:700';
+      sp.textContent = Array.from(book.title)[0];
+      ph.appendChild(sp);
+      return ph;
+    };
+    if (book.cover) {
+      const img = document.createElement('img');
+      img.src = book.cover;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+      img.onerror = function() { this.replaceWith(makePh()); };
+      coverDiv.appendChild(img);
+    } else {
+      coverDiv.appendChild(makePh());
+    }
+    card.appendChild(coverDiv);
+    // Body
+    const body = document.createElement('div');
+    body.className = 'library-card-body';
+    body.innerHTML = '<div class="library-card-title">' + book.title + '</div>' +
+      '<div class="library-card-meta">' + book.ageMin + '–' + book.ageMax + '岁 · ' + (book.themes||[])[0] + '</div>';
+    card.appendChild(body);
+    // Remove btn
+    const rm = document.createElement('button');
+    rm.textContent = '×';
+    rm.style.cssText = 'position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.8);border:none;border-radius:50%;width:22px;height:22px;font-size:14px;cursor:pointer;color:var(--brownP);line-height:1;padding:0';
+    rm.onclick = (e) => { e.stopPropagation(); removeFromShelf('book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_')); };
+    card.appendChild(rm);
+    grid.appendChild(card);
+  });
+  el.appendChild(grid);
+}
+
+
+function removeFromShelf(bookId) {
+  const title = TITLE_MAP[bookId];
+  if (!title) return;
+  const states = getStates();
+  if (states[title]) { states[title].own = false; states[title].want = false; }
+  saveStates(states);
+  renderShelf();
+  showToast('已移除');
+}
+
+// ── 收藏渲染 ────────────────────────────────────
+function renderFav() {
+  const states = getStates();
+  const favBooks = BOOKS.filter(b => states[b.title] && states[b.title].fav);
+  const grid = document.getElementById('fav-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  if (favBooks.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--brownL);font-size:14px">还没有收藏绘本，去推荐页点击🔖收藏吧</div>';
+    return;
+  }
+  favBooks.forEach(book => {
+    const p = hashColor(book.title);
+    const card = document.createElement('div');
+    card.className = 'library-card';
+    card.onclick = () => showBookModal(book.title);
+    const coverDiv = document.createElement('div');
+    coverDiv.className = 'library-card-cover';
+    const makePh = () => {
+      const ph = document.createElement('div');
+      ph.style.cssText = 'width:100%;height:100%;background:' + p.bg + ';display:flex;align-items:center;justify-content:center';
+      const sp = document.createElement('span');
+      sp.style.cssText = 'font-size:28px;color:' + p.ac + ';font-family:Georgia,serif;font-weight:700';
+      sp.textContent = Array.from(book.title)[0];
+      ph.appendChild(sp);
+      return ph;
+    };
+    if (book.cover) {
+      const img = document.createElement('img');
+      img.src = book.cover;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+      img.onerror = function() { this.replaceWith(makePh()); };
+      coverDiv.appendChild(img);
+    } else {
+      coverDiv.appendChild(makePh());
+    }
+    card.appendChild(coverDiv);
+    const body = document.createElement('div');
+    body.className = 'library-card-body';
+    body.innerHTML = '<div class="library-card-title">' + book.title + '</div><div class="library-card-meta">' + book.ageMin + '–' + book.ageMax + '岁 · ' + (book.themes||[])[0] + '</div>';
+    card.appendChild(body);
+    grid.appendChild(card);
+  });
+}
+
+
+// ── 书籍详情弹窗 ────────────────────────────────────
+function showBookModal(title) {
+  const book = BOOKS.find(b => b.title === title);
+  if (!book) return;
+  const bookId = 'book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_');
+  const p = hashColor(book.title);
+  
+  // Build modal content using DOM
+  const mc = document.getElementById('modal-content');
+  mc.innerHTML = '';
+  
+  // Top section
+  const top = document.createElement('div');
+  top.style.cssText = 'display:flex;gap:16px;margin-bottom:16px';
+  top.innerHTML = coverHTML(book) +
+    '<div style="flex:1"><div style="font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--brown);margin-bottom:4px">' + book.title + '</div>' +
+    '<div style="font-size:12px;color:var(--brownP);margin-bottom:8px">' + (book.author||'') + ' · ' + book.ageMin + '–' + book.ageMax + '岁</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px">' + (book.themes||[]).map(t=>'<span style="font-size:11px;padding:3px 10px;border-radius:50px;background:#e8f0e4;color:var(--sage)">' + t + '</span>').join('') + '</div></div>';
+  mc.appendChild(top);
+  
+  // Description
+  const desc = document.createElement('p');
+  desc.style.cssText = 'font-size:14px;color:var(--inkL);line-height:1.8;margin-bottom:16px';
+  desc.textContent = book.desc || '';
+  mc.appendChild(desc);
+  
+  // Action buttons
+  const btns = document.createElement('div');
+  btns.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap';
+  ['fav','own','want'].forEach(type => {
+    const btn = document.createElement('button');
+    btn.className = 'action-btn';
+    btn.id = 'modal-btn-' + type + '-' + bookId;
+    const icons = {fav:'🔖',own:'📚',want:'🛒'};
+    const labels = {fav:'收藏',own:'已拥有',want:'想购买'};
+    btn.innerHTML = icons[type] + ' <span>' + labels[type] + '</span>';
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      toggleBookState(bookId, type, book.title, e);
+      updateModalBtns(bookId, book.title);
+    };
+    btns.appendChild(btn);
+  });
+  mc.appendChild(btns);
+  
+  updateModalBtns(bookId, book.title);
+  document.getElementById('book-modal').classList.add('open');
+}
+
+function updateModalBtns(bookId, title) {
+  ['fav','own','want'].forEach(type => {
+    const btn = document.getElementById('modal-btn-' + type + '-' + bookId);
+    if (!btn) return;
+    const active = getBookState(title, type);
+    const labels = {fav:['收藏','已收藏 ✓'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
+    const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
+    btn.className = 'action-btn' + (active ? ' ' + classes[type] : '');
+    btn.querySelector('span').textContent = active ? labels[type][1] : labels[type][0];
+  });
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('book-modal')) {
+    document.getElementById('book-modal').classList.remove('open');
+  }
 }
 </script>
 </body>
