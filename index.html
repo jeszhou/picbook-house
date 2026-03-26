@@ -691,11 +691,10 @@ let SEL = { age: null, themes: [], style: null, interactive: null, reading: "两
 let currentMode = null;
 
 document.getElementById("book-count").textContent = BOOKS.length;
-// Build title lookup map
+// Build title lookup map using index
 const TITLE_MAP = {};
-BOOKS.forEach(b => {
-  const id = 'book_' + b.title.replace(/[^a-zA-Z0-9]/g,'_');
-  TITLE_MAP[id] = b.title;
+BOOKS.forEach((b, i) => {
+  TITLE_MAP['book_' + i] = b.title;
 });
 document.getElementById("book-count2").textContent = BOOKS.length;
 
@@ -824,7 +823,8 @@ function coverHTML(book) {
 }
 
 function bookCardHTML(book, i) {
-  const bookId = 'book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_');
+  const bookIdx = BOOKS.findIndex(b => b.title === book.title);
+  const bookId = 'book_' + bookIdx;
   const rankColors = ["#5c3d2e","#8b6355","#c4a882"];
   const rankLabels = ["🥇 最推荐","🥈 第2名","🥉 第"+(i+1)+"名"];
   const themes = (book.themes||[]).map(t=>`<span class="tag tag-theme">${t}</span>`).join("");
@@ -1317,7 +1317,8 @@ function handleActionClick(btn, e) {
 function initBookActions(books) {
   const states = getStates();
   (books||[]).forEach(book => {
-    const bId = 'book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_');
+    const bIdx2 = BOOKS.findIndex(b => b.title === book.title);
+    const bId = 'book_' + bIdx2;
     document.querySelectorAll('[data-bookid="' + bId + '"]').forEach(btn => {
       const type = btn.dataset.type;
       const active = states[book.title]?.[type];
@@ -1437,7 +1438,8 @@ function renderShelfList(containerId, books, emptyMsg) {
     const rm = document.createElement('button');
     rm.textContent = '×';
     rm.style.cssText = 'position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.8);border:none;border-radius:50%;width:22px;height:22px;font-size:14px;cursor:pointer;color:var(--brownP);line-height:1;padding:0';
-    rm.onclick = (e) => { e.stopPropagation(); removeFromShelf('book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_')); };
+    const bIdx = BOOKS.findIndex(b => b.title === book.title);
+    rm.onclick = (e) => { e.stopPropagation(); removeFromShelf('book_' + bIdx); };
     card.appendChild(rm);
     grid.appendChild(card);
   });
@@ -1505,7 +1507,8 @@ function renderFav() {
 function showBookModal(title) {
   const book = BOOKS.find(b => b.title === title);
   if (!book) return;
-  const bookId = 'book_' + book.title.replace(/[^a-zA-Z0-9]/g,'_');
+  const bookIdx = BOOKS.findIndex(b => b.title === book.title);
+  const bookId = 'book_' + bookIdx;
   const p = hashColor(book.title);
   
   // Build modal content using DOM
