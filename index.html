@@ -205,11 +205,9 @@ body { padding-top: 52px; }
       <div style="font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--brown)">📚 按需选绘本</div>
     </div>
     <div class="card"><div class="step-label">STEP 01</div><div class="step-q">宝贝现在几岁？</div><div class="opts" id="age-opts-b"></div></div>
-    <div class="card"><div class="step-label">STEP 02</div><div class="step-q" style="margin-bottom:6px">想要什么主题？</div><div class="step-hint">可多选</div><div class="opts" id="theme-opts"></div></div>
-    <div class="card"><div class="step-label">STEP 03</div><div class="step-q">喜欢什么画风？</div><div class="opts" id="style-opts"></div></div>
-    <div class="card"><div class="step-label">STEP 04</div><div class="step-q">对互动性有要求吗？</div><div class="opts" id="inter-opts"></div></div>
-    <div class="card"><div class="step-label">STEP 05</div><div class="step-q">主要的阅读方式？</div><div class="opts" id="reading-opts"></div></div>
-    <div class="card"><div class="step-label">STEP 06</div><div class="step-q" style="margin-bottom:6px">中文还是英文绘本？</div><div class="step-hint">英文原版适合有英语启蒙需求的家庭</div><div class="opts" id="lang-opts"></div></div>
+    <div class="card"><div class="step-label">STEP 02</div><div class="step-q" style="margin-bottom:6px">孩子喜欢什么主题？</div><div class="step-hint">可多选，选你感兴趣的方向</div><div class="opts" id="topic-opts"></div></div>
+    <div class="card"><div class="step-label">STEP 03</div><div class="step-q" style="margin-bottom:6px">你希望绘本帮到孩子什么？</div><div class="step-hint">可多选，针对孩子的具体需求</div><div class="opts" id="func-opts"></div></div>
+    <div class="card"><div class="step-label">STEP 04</div><div class="step-q" style="margin-bottom:6px">中文还是英文绘本？</div><div class="step-hint">英文原版适合有英语启蒙需求的家庭</div><div class="opts" id="lang-opts"></div></div>
     <div class="error-box" id="error-browse"></div>
     <div style="text-align:center;margin-top:16px"><button class="submit-btn" onclick="submitBrowse()">✦ 帮我找绘本 ✦</button></div>
   </div>
@@ -957,19 +955,520 @@ const BOOKS = [
   { title:"山洞小猎人", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["想象力冒险","传统文化"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"原始山洞里的小猎人的冒险故事，原始生活和自然探索，是历史文化和冒险精神的读本。", tags:["冒险","历史","传统文化","自然"] },
   { title:"飞行员紫罗兰", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["独立自主","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"女飞行员紫罗兰的天空冒险，打破性别限制的勇气，是独立自主和梦想追求的好绘本。", tags:["独立","飞行","女孩","梦想"] },
   { title:"飞鼠传奇系列", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["想象力冒险","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"飞鼠的传奇冒险系列，友谊和勇气，是桥梁书过渡的好选择，孩子自主阅读的入门。", tags:["冒险","友谊","桥梁书","系列"] },
+
+  // ── 安森妈妈5岁+书单（新增部分）──
+  { title:"三国演义", lang:"中文", author:"狐狸家", ageMin:5, ageMax:9, themes:["传统文化","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"中国原创精品绘本", buy:"京东、当当", desc:"狐狸家出品的三国演义绘本版，将经典名著用孩子能理解的方式重新演绎，画面精美，是传统文化启蒙的精品读本。", tags:["传统文化","历史","三国","经典"] },
+  { title:"山海经", lang:"中文", author:"狐狸家", ageMin:5, ageMax:9, themes:["传统文化","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"中国原创精品绘本", buy:"京东、当当", desc:"狐狸家出品的山海经图鉴，将古老的神话志怪故事用精美插图重现，是中国神话文化启蒙的精品读本。", tags:["传统文化","神话","山海经","经典"] },
+  { title:"肯依动物三部曲", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["自然动物","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"非洲草原动物史诗，壮阔的自然叙事，是动物科普和生命教育的宏大读本。", tags:["动物","非洲","自然","史诗"] },
+  { title:"给孩子讲的中国故事", lang:"中文", author:"多位", ageMin:4, ageMax:8, themes:["传统文化"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"精选中国传统故事绘本化，成语故事民间传说，是传统文化启蒙的系统读本。", tags:["传统文化","故事","中国","经典"] },
+  { title:"世界上最勇敢的老鼠", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["独立自主","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小老鼠的勇气冒险，面对比自己大的挑战，是勇气主题和独立自主的经典冒险读本。", tags:["勇气","冒险","独立","动物"] },
+  { title:"世界上最聪明的老鼠", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["独立自主","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小老鼠用智慧解决问题，创意思维和机智，是智慧启蒙和独立思考的好读本。", tags:["智慧","冒险","创意","动物"] },
+  { title:"芭芭雅嘎奶奶", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["传统文化","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"俄罗斯经典民间故事", buy:"京东、当当", desc:"俄罗斯经典民间故事，神秘的女巫芭芭雅嘎，是了解俄罗斯文化和民间传说的重要读本。", tags:["传统文化","俄罗斯","民间故事","奇幻"] },
+  { title:"仙女花开", lang:"中文", author:"多位", ageMin:4, ageMax:8, themes:["传统文化","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国风奇幻绘本，充满东方美学，仙女与花朵的奇幻故事，是中国传统文化和美学启蒙的精品读本。", tags:["传统文化","中国风","奇幻","艺术"] },
+  { title:"方便面是怎样发明的", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["科学探索","传统文化"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"方便面发明历史故事，从失败到成功的坚持，是发明创造和历史文化的趣味读本。", tags:["发明","历史","坚持","创造"] },
+  { title:"了不起的奋斗者", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"世界名人传记系列，科学家艺术家探险家，用孩子能读懂的方式讲伟人故事，励志传记启蒙。", tags:["传记","励志","名人","品格"] },
+  { title:"世界名人传记励志成长绘本", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"世界名人传记绘本系列，居里夫人爱因斯坦等伟人的成长故事，是励志教育的好读本。", tags:["传记","励志","名人","历史"] },
+  { title:"名人来了", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["传统文化","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"历史名人启蒙读本，用有趣方式介绍古今中外著名人物，是人文历史和品格教育的好读本。", tags:["历史","名人","传记","文化"] },
+  { title:"苹果树上的死神", lang:"中译", author:"弗尔夫冈·霍尔拜因", ageMin:5, ageMax:9, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"德国生命教育经典", buy:"京东、当当", desc:"死神来带走苹果树，祖父用故事帮孙子理解死亡，是生命教育和告别主题的德国经典绘本。", tags:["生命教育","死亡","祖孙情感","德国绘本"] },
+  { title:"再见了艾玛奶奶", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["亲子情感"], style:"写实摄影", interactive:"普通绘本", reading:["亲子共读"], awards:"日本生命教育经典", buy:"京东、当当", desc:"摄影绘本，艾玛奶奶知道自己将离世，用相机记录最后的日子，是日本最动人的生命教育读本。", tags:["生命教育","离别","摄影","日本绘本"] },
+  { title:"永远的艾达", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"关于失去和记忆的温暖故事，艾达离开了但记忆永远留在心中，生命教育的温柔读本。", tags:["生命教育","记忆","离别","温暖"] },
+  { title:"苏丹的犀角", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["自然动物","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"世界上最后一头白犀牛苏丹的故事，濒危动物保护，是生命教育和环保意识的感人读本。", tags:["环保","动物","濒危","生命教育"] },
+  { title:"荷花和丹顶鹤", lang:"中文", author:"多位", ageMin:4, ageMax:8, themes:["自然动物","传统文化"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创生态保护绘本，丹顶鹤的生存与保护，是自然生态和中国文化的温暖结合。", tags:["生态","动物","传统文化","中国"] },
+  { title:"敌人", lang:"中译", author:"达维德·卡利", ageMin:5, ageMax:9, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"两个士兵在战场上的故事，反思战争与和平，是关于和平与人性的深度启蒙读本。", tags:["战争","和平","思考","品格"] },
+  { title:"战争来的那一天", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"从孩子视角讲战争的影响，温柔而深刻，是和平教育和同理心培养的重要读本。", tags:["战争","和平","同理心","品格"] },
+  { title:"成为真正的男孩", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"男孩成长自主阅读读本，生活反馈型，帮助男孩建立正确的性别认知和品格，自主阅读效果好。", tags:["男孩","成长","独立","品格"] },
+  { title:"成为真正的女孩", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"女孩成长自主阅读读本，生活反馈型，帮助女孩建立自信和独立人格，自主阅读效果好。", tags:["女孩","成长","独立","品格"] },
+  { title:"小饼干的大道理", lang:"中译", author:"多位", ageMin:4, ageMax:7, themes:["独立自主","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"用小饼干讲生活大道理，简单温暖，是生活哲学和品格养成的亲切读本。", tags:["哲学","品格","生活","温暖"] },
+  { title:"这就是物理", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["科学探索","数学思维"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"物理概念系统读本，力学热学光学电磁学全面覆盖，是物理科学的系统启蒙读本。", tags:["物理","科学","系统","STEAM"] },
+  { title:"铁是魔法师", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"金属材料科学绘本，铁的发现和应用，从钢铁到现代工业，是材料科学的趣味读本。", tags:["科学","材料","金属","历史"] },
+  { title:"STEAM科学小怪物化学", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["科学探索","数学思维"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"STEAM视角的化学启蒙，元素物质变化反应，用小怪物角色讲化学知识，有趣又系统。", tags:["化学","STEAM","科学","元素"] },
+  { title:"阳光的故事", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["科学探索","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"光与能量的科学绘本，太阳能量从哪里来，光合作用食物链，是能量科学的诗意启蒙读本。", tags:["光","能量","科学","自然"] },
+  { title:"上山种下一棵树", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["自然动物","科学探索"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"种树的故事，植物生长和生态修复，是环保意识和自然科学的温暖读本。", tags:["植物","环保","自然","科学"] },
+  { title:"神奇校车手工益智版", lang:"中译", author:"乔安娜·柯尔", ageMin:4, ageMax:8, themes:["科学探索"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读"], awards:"美国最受欢迎科普系列", buy:"京东、当当", desc:"神奇校车的互动手工版，在动手制作中学习科学，是神奇校车系列的趣味延伸。", tags:["科学","手工","互动","STEAM"] },
+  { title:"地球上的爆笑生活", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["科学探索","自然动物"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"地球上各种生物的爆笑生活方式，科学趣味并重，让孩子在大笑中了解生物多样性。", tags:["生物","自然","幽默","科学"] },
+  { title:"思维导图魔法课", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["数学思维","专注力"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"思维导图入门，教孩子用图形整理思路，培养系统思维和学习方法，是学习工具启蒙的好读本。", tags:["思维导图","逻辑","学习方法","思维"] },
+  { title:"STEAM科学创造营科学实践", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["科学探索","数学思维"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"动手实践的科学创造营，各种科学实验和工程项目，培养孩子的动手能力和科学思维。", tags:["科学","实验","STEAM","动手"] },
+  { title:"超级黏液手工书", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["科学探索"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"化学手工实践书，制作各种黏液和史莱姆，在动手玩耍中学习化学原理，孩子超爱。", tags:["化学","手工","实验","科学"] },
+  { title:"八音的秘密", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["艺术启蒙"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"音乐乐器启蒙绘本，八大类乐器的声音和故事，是音乐教育和艺术启蒙的有趣读本。", tags:["音乐","乐器","艺术","启蒙"] },
+  { title:"神奇果果", lang:"中译", author:"多位", ageMin:5, ageMax:8, themes:["想象力冒险","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"奇幻冒险桥梁书，神奇果果的力量，是自主阅读过渡期的好桥梁书。", tags:["奇幻","冒险","桥梁书","自主阅读"] },
+  { title:"怪物旅馆", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["想象力冒险","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"怪物们开的旅馆，奇幻冒险系列桥梁书，是孩子自主阅读的好选择。", tags:["怪物","奇幻","冒险","桥梁书"] },
+  { title:"冒险王扎西", lang:"中文", author:"多位", ageMin:5, ageMax:9, themes:["想象力冒险","传统文化"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"中国原创推荐", buy:"京东、当当", desc:"藏族文化背景的冒险故事，带孩子了解藏族风情，是中国少数民族文化和冒险精神的好读本。", tags:["冒险","传统文化","藏族","中国"] },
+  { title:"太空猫的大冒险", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["科学探索","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"科幻漫画风格桥梁书，猫咪宇航员的太空冒险，科学知识融入有趣漫画，是科幻启蒙的好读本。", tags:["太空","科幻","漫画","自主阅读"] },
+  { title:"神探狗狗", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["专注力","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"推理侦探漫画，狗狗侦探破案，推理思维和专注力同步训练，是孩子自主阅读的好漫画桥梁书。", tags:["推理","漫画","自主阅读","专注力"] },
+  { title:"大头兵", lang:"中译", author:"多位", ageMin:5, ageMax:9, themes:["想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"幽默军旅漫画，大头兵的爆笑日常，充满幽默感，是孩子自主阅读的有趣漫画选择。", tags:["幽默","漫画","军旅","自主阅读"] },
+  // ── 安森妈妈2-3岁书单（新增部分）──
+  { title:"摘星星的孩子", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["亲子情感","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"孩子摘星星的奇幻故事，充满温暖的亲子情感，是睡前情感启蒙的温柔读本。", tags:["亲子情感","星星","想象力","温暖"] },
+  { title:"小熊和小兔系列", lang:"中译", author:"多位", ageMin:1, ageMax:4, themes:["友谊社交","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小熊和小兔的温暖友谊系列，低幼情感启蒙的好读本，画面可爱，语言简单。", tags:["友谊","情绪","低幼","温暖"] },
+  { title:"泡泡和皮皮", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["友谊社交","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"低幼认知和友谊绘本，简单温暖的日常故事，是低幼宝宝的好伴侣。", tags:["友谊","认知","低幼","温暖"] },
+  { title:"卡蜜儿", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["情绪管理","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"法国畅销低幼绘本", buy:"京东、当当", desc:"法国温暖低幼绘本，卡蜜儿的日常生活，是情感启蒙和友谊的好读本。", tags:["情绪","友谊","法国绘本","低幼"] },
+  { title:"比一比看谁最快", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["自然动物","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种动物速度比较，在比较中认识动物特性，是认知启蒙和数学思维的好低幼读本。", tags:["动物","比较","认知","速度"] },
+  { title:"咄咯咄咯蜗牛", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"蜗牛慢慢爬的节奏绘本，拟声词丰富，节奏感强，是低幼语言启蒙的好读本。", tags:["蜗牛","拟声词","节奏","低幼"] },
+  { title:"就差一点儿啦", lang:"中译", author:"多位", ageMin:2, ageMax:4, themes:["独立自主","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"就差一点点儿就成功了，培养孩子的坚持精神和耐心，是低幼励志启蒙的好读本。", tags:["坚持","耐心","独立","低幼"] },
+  { title:"小象的陷阱", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["自然动物","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小象掉进陷阱，动物朋友们来帮忙，合作和友谊，是低幼情感启蒙的温暖读本。", tags:["友谊","合作","动物","低幼"] },
+  { title:"长大以后", lang:"中文", author:"东方娃娃", ageMin:2, ageMax:5, themes:["独立自主","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"东方娃娃出品，长大以后想做什么，职业启蒙和梦想培养，是中国原创低幼绘本的好读本。", tags:["职业","梦想","成长","认知"] },
+  { title:"嗳嗳嗳", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"低幼互动绘本，各种动作和声音，是低幼语言启蒙和亲子互动的趣味读本。", tags:["互动","语言","低幼","认知"] },
+  { title:"诺一的神秘客人", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["想象力冒险","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"诺一的神秘客人来访，充满想象力的友谊故事，是中国原创低幼绘本的好读本。", tags:["友谊","想象力","低幼","中国"] },
+  { title:"泥猴泥猴", lang:"中文", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创低幼绘本，泥猴的可爱故事，拟声词和认知启蒙，是低幼亲子共读的好读本。", tags:["低幼","认知","语言","中国"] },
+  { title:"亲亲祖父母", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"和祖父母之间的温暖故事，有姥姥版和奶奶版，培养孩子与老人的情感，是亲子情感启蒙好书。", tags:["祖孙情感","亲子情感","家庭","温暖"] },
+  { title:"小猫当当", lang:"中文", author:"多位", ageMin:2, ageMax:4, themes:["生活习惯","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"小猫当当的日常故事，生活习惯启蒙，是中国原创低幼绘本的日常认知好读本。", tags:["生活习惯","认知","低幼","中国"] },
+  { title:"嘁哩咔哒", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"日本低幼绘本，各种声音的拟声词，节奏朗朗上口，是低幼语言启蒙的趣味读本。", tags:["拟声词","语言","低幼","日本绘本"] },
+  { title:"快小慢和慢小快", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["认知启蒙","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"快和慢的对比认知，接受不同节奏，是低幼认知启蒙和性格培养的温暖读本。", tags:["认知","节奏","接受","低幼"] },
+  { title:"小猪威比情绪绘本", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小猪威比的情绪故事系列，各种情绪的认知和管理，是低幼情绪启蒙的经典系列。", tags:["情绪","情绪管理","低幼","动物"] },
+  { title:"爸爸的爱很大不痛", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"爸爸的爱很大很暖，孩子受伤了爸爸的安慰，是亲子情感和父爱表达的温暖读本。", tags:["爸爸","亲子情感","安慰","温暖"] },
+  { title:"你会哭吗", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"接纳哭泣情绪，哭是正常的，帮助孩子理解和接受自己的情绪，是情绪管理的温暖启蒙。", tags:["情绪","哭泣","接纳","低幼"] },
+  { title:"动物列车开来了", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","交通工具"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"动物坐火车来了，认识动物和交通工具，节奏感强，是低幼认知启蒙的双料好书。", tags:["动物","交通工具","低幼","认知"] },
+  { title:"慢悠悠的压路车", lang:"中译", author:"多位", ageMin:1, ageMax:4, themes:["交通工具","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"压路车慢慢压路的故事，认识工程车，节奏缓慢有趣，是低幼交通工具启蒙的好读本。", tags:["交通工具","工程","低幼","认知"] },
+  { title:"红绿灯眨眨眼", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"红绿灯交通规则绘本，用可爱的红绿灯讲交通安全，是低幼交通安全启蒙的好读本。", tags:["交通工具","规则","安全","低幼"] },
+  { title:"德国交通工具大书", lang:"中译", author:"多位", ageMin:2, ageMax:6, themes:["交通工具","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"德国畅销交通工具书", buy:"京东、当当", desc:"德国出品的精美交通工具大书，各种交通工具详细图解，是交通工具科普的高品质读本。", tags:["交通工具","德国","科学","认知"] },
+  { title:"摩天大楼起起起", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"摩天大楼是怎么建成的，建筑工程科普，各种工程车辆的协作，是工程认知的趣味读本。", tags:["建筑","工程","交通工具","科学"] },
+  { title:"唤堵车了", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创交通绘本，城市堵车的有趣故事，认识各种车辆，偏男孩，是本土交通认知好读本。", tags:["交通工具","城市","男孩","认知"] },
+  { title:"好厉害工地上的车", lang:"中译", author:"多位", ageMin:1, ageMax:4, themes:["交通工具","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"工地上的工程车辆，挖掘机吊车推土机，偏男孩，是低幼工程车认知的经典读本。", tags:["交通工具","工程","男孩","低幼"] },
+  { title:"好厉害小麦吉", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小麦吉是一辆小火车，帮助各种动物朋友，交通工具和友谊结合，偏男孩，温暖故事。", tags:["交通工具","友谊","男孩","温暖"] },
+  { title:"叽叽呱呱自然科普绘本", lang:"中译", author:"多位", ageMin:2, ageMax:6, themes:["自然动物","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"自然科普系列，各种动植物的有趣知识，叽叽呱呱的活泼风格，是自然启蒙的好读本。", tags:["自然","动物","科学","认知"] },
+  { title:"小笨熊幼儿启蒙认知", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"幼儿启蒙认知系列，形状颜色数字动物，是低幼认知全面启蒙的基础读本。", tags:["认知","低幼","启蒙","基础"] },
+  { title:"我会长大的铃木精选认知绘本", lang:"中译", author:"铃木出版社", ageMin:1, ageMax:3, themes:["认知启蒙","生活习惯"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"日本铃木出版社经典", buy:"京东、当当", desc:"铃木出版社精选认知绘本，低幼成长认知，是日本低幼绘本中的经典系列。", tags:["认知","成长","低幼","日本绘本"] },
+  { title:"法国大奖幼儿思维训练玩具书", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["数学思维","专注力"], style:"细节丰富", interactive:"益智游戏", reading:["亲子共读"], awards:"法国教育大奖", buy:"京东、当当", desc:"法国获奖思维训练玩具书，各种思维游戏和认知训练，是低幼智力开发的好工具书。", tags:["思维","益智","法国","游戏"] },
+  { title:"魔块游戏", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["数学思维","专注力"], style:"简洁明快", interactive:"益智游戏", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"积木块游戏绘本，各种形状组合，是低幼空间思维和数学启蒙的好游戏书。", tags:["益智","形状","思维","游戏"] },
+  { title:"幼儿启智互动纸板书", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"低幼互动纸板书，翻翻推推各种互动设计，培养低幼宝宝的认知和手眼协调。", tags:["互动","认知","低幼","纸板书"] },
+  { title:"动物村翻翻书", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"动物村的翻翻书，各种动物住在哪里，翻开发现惊喜，是低幼动物认知的趣味读本。", tags:["动物","翻翻书","认知","低幼"] },
+  { title:"小玻系列翻翻书", lang:"中译", author:"埃里克·希尔", ageMin:0, ageMax:2, themes:["自然动物","认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"英国经典低幼翻翻书", buy:"京东、当当", desc:"小玻是一只小狗，经典低幼翻翻书系列，认识藏在哪里的玩意，是最经典的低幼翻翻书之一。", tags:["动物","翻翻书","低幼","经典"] },
+  { title:"水木妙想创意绘本", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["艺术启蒙","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创创意绘本，水和木的奇妙想象，是艺术启蒙和创意培养的国产好绘本。", tags:["创意","艺术","想象力","中国"] },
+  { title:"小走和小米的纸上魔法系列", lang:"中文", author:"多位", ageMin:3, ageMax:6, themes:["艺术启蒙","数学思维"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"纸上魔法的创意绘本，折纸剪纸等创意手工融入故事，是艺术和思维双启蒙的好读本。", tags:["创意","手工","艺术","思维"] },
+  { title:"熊猫体操", lang:"中文", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","生活习惯"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"熊猫做体操的动作绘本，跟着熊猫一起运动，是低幼肢体发展和运动启蒙的好读本。", tags:["运动","肢体","低幼","中国"] },
+  { title:"手指嗷", lang:"中译", author:"多位", ageMin:0, ageMax:2, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"手指游戏互动绘本，跟着书一起做手指动作，是亲子互动和低幼感官启蒙的好玩读本。", tags:["互动","手指","低幼","游戏"] },
+  { title:"快米和我一起做", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","生活习惯"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"跟着快米一起做各种动作，是亲子互动和低幼肢体协调的好读本。", tags:["互动","动作","低幼","认知"] },
+  { title:"呀又跑了", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"东西又跑掉了，追着各种跑掉的东西，充满节奏感和游戏性，是低幼认知启蒙好书。", tags:["认知","游戏","低幼","日本绘本"] },
+  { title:"夏美变变变", lang:"中译", author:"多位", ageMin:2, ageMax:4, themes:["想象力冒险","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"夏美变成各种动物，想象力丰富，是认知和创意想象的好低幼读本。", tags:["想象力","动物","认知","低幼"] },
+  { title:"我的好习惯养成推拉书", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["生活习惯"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"推拉互动习惯养成书，洗手刷牙整理等日常习惯，是生活习惯养成的实用工具书。", tags:["生活习惯","互动","推拉书","工具书"] },
+  { title:"小超人儿童语言启蒙绘本", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["语言表达"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"儿童语言启蒙系列，词汇量扩展和语言表达训练，是低幼语言能力培养的实用读本。", tags:["语言","启蒙","词汇","低幼"] },
+  { title:"铃木绘本0-3岁宝宝音乐启蒙绘本", lang:"中译", author:"铃木出版社", ageMin:0, ageMax:3, themes:["语言表达","艺术启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"日本铃木出版社经典", buy:"京东、当当", desc:"铃木出版社音乐启蒙系列，通过儿歌和节奏培养低幼音乐感，是低幼音乐启蒙的经典读本。", tags:["音乐","语言","低幼","日本绘本"] },
+  { title:"一条聪明的鱼", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"聪明的鱼靠智慧解决问题，是培养孩子独立思考和创意解决问题的好绘本。", tags:["智慧","鱼","独立","创意"] },
+  { title:"一只狐狸", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"一只狐狸的故事，充满想象力，是低幼动物主题的温暖绘本。", tags:["动物","狐狸","想象力","温暖"] },
+  { title:"野猫军团", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["友谊社交","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"野猫军团的冒险故事，团队友谊和合作，是友谊主题和冒险精神的好绘本。", tags:["友谊","冒险","团队","动物"] },
+  { title:"家有小怪物", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["情绪管理","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"家里来了小怪物，其实就是孩子发脾气时的样子，是情绪管理和亲子理解的温暖读本。", tags:["情绪","发脾气","亲子情感","理解"] },
+  { title:"小洋葱大作战", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["生活习惯","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小洋葱不想被吃掉的故事，蔬菜拟人化，是挑食孩子接受蔬菜的趣味启蒙读本。", tags:["蔬菜","挑食","生活习惯","幽默"] },
+  { title:"茄子先生的帽子", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["认知启蒙","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"茄子先生找帽子的故事，各种颜色和形状的认知，充满想象力，是低幼认知启蒙好书。", tags:["认知","颜色","想象力","低幼"] },
+  { title:"好饿好饿的鱼", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","自然动物"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"好饿的鱼吃掉各种东西，认知和幽默结合，是低幼宝宝的趣味认知读本。", tags:["鱼","认知","低幼","幽默"] },
+  { title:"胖猫戴夫", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"胖胖的猫咪戴夫的温暖故事，接受自己的身体，是身体认知和自我接纳的好绘本。", tags:["动物","接受","自我认同","温暖"] },
+  { title:"可怜的小鲨鱼", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["情绪管理","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小鲨鱼其实很可怜，从不同角度看问题，培养同理心和换位思考。", tags:["同理心","动物","海洋","情绪"] },
+  { title:"大个子圣诞老人和小个子圣诞老人", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["友谊社交","传统文化"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"大圣诞老人和小圣诞老人的友谊故事，接受差异的温暖绘本，是节日和友谊的好读本。", tags:["友谊","圣诞","节日","差异"] },
+  { title:"超级虫子超级强", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小虫子也很厉害，每个生命都有自己的超能力，培养孩子对小生命的尊重和自信。", tags:["昆虫","自信","自然","独立"] },
+  { title:"没关系呀", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["情绪管理","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"没关系呀，失败了没关系再来，是孩子面对挫折的温暖鼓励，是情绪管理和韧性培养的好书。", tags:["挫折","鼓励","情绪","成长"] },
+  { title:"你好理发店", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["生活习惯","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"第一次去理发店，帮孩子克服对剪头发的恐惧，是生活习惯和日常认知的温暖读本。", tags:["理发","生活习惯","认知","低幼"] },
+  { title:"嘿超人兔遇上了大麻烦", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["独立自主","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"超人兔遇到大麻烦，勇气和解决问题，是低幼勇气启蒙和冒险精神的好读本。", tags:["勇气","冒险","独立","幽默"] },
+  { title:"谁的牙齿", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"猜猜这是谁的牙齿，各种动物的牙齿特征，认知启蒙同时充满趣味，是低幼科普好读本。", tags:["动物","认知","牙齿","低幼"] },
+  { title:"是你吃了狒狒吗", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["自然动物","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"搞笑的推理绘本，谁把狒狒吃掉了，充满幽默的动物故事，孩子笑停不下来。", tags:["幽默","动物","推理","爆笑"] },
+  { title:"我可不怕打针", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["生活习惯","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"克服打针恐惧的绘本，帮孩子理解打针是保护自己，是医疗启蒙和勇气培养的好读本。", tags:["打针","医院","恐惧","勇气"] },
+  { title:"奶奶买炸酥肉", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["亲子情感","传统文化"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"奶奶和孙子一起买炸酥肉的温情故事，祖孙情感和中国日常生活，是本土文化的温暖读本。", tags:["祖孙情感","传统文化","亲子情感","中国"] },
+  { title:"鼠小弟爱数学第一辑", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["数学思维","自然动物"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"鼠小弟系列数学启蒙，数数比大小形状，用可爱的鼠小弟讲数学，是低幼数学启蒙的好读本。", tags:["数学","数字","低幼","动物"] },
+  { title:"精灵鼠科学童话绘本", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["科学探索","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"精灵鼠的科学童话，把科学知识融入奇幻故事，是低幼科学启蒙的趣味读本。", tags:["科学","童话","想象力","低幼"] },
+  { title:"这是什么呀幼儿认知小百科", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"写实摄影", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"幼儿认知小百科，各种事物的认知，真实摄影图片，是低幼认知全面启蒙的基础读本。", tags:["认知","百科","低幼","职业"] },
+  { title:"幼儿科普启蒙", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["科学探索","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"低幼科普启蒙系列，自然动物植物各种科普知识，是低幼科学认知的基础读本。", tags:["科普","认知","低幼","自然"] },
+  { title:"铃木守婴儿探索图鉴", lang:"中译", author:"铃木守", ageMin:0, ageMax:2, themes:["自然动物","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"日本铃木守经典", buy:"京东、当当", desc:"铃木守为婴儿创作的探索图鉴，精细描绘自然世界，是新生儿至2岁视觉和认知启蒙的经典。", tags:["自然","认知","低幼","铃木守"] },
+  { title:"好吃的旅行车", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["交通工具","生活习惯"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"旅行车送美食的故事，交通工具和食物认知结合，节奏欢快，是低幼认知启蒙好读本。", tags:["交通工具","食物","认知","低幼"] },
+  { title:"玩具船去航行", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["交通工具","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"玩具船的航行故事，偏男孩，是低幼交通工具启蒙的好读本。", tags:["交通工具","船","男孩","低幼"] },
+  { title:"小企鹅观察力培养绘本", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["专注力","认知启蒙"], style:"细节丰富", interactive:"益智游戏", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小企鹅逛百货商店和玩游乐园，找找看游戏培养观察力，是专注力训练的好益智读本。", tags:["观察力","专注力","找一找","游戏"] },
+  { title:"我的第一套头脑体操书", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["数学思维","专注力"], style:"细节丰富", interactive:"益智游戏", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"头脑体操益智系列，偏男孩，各种思维游戏和逻辑训练，是低幼智力开发的好工具书。", tags:["益智","思维","男孩","逻辑"] },
+  { title:"福禄贝尔绘本语言表达成长版", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["语言表达"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"福禄贝尔出版社经典", buy:"京东、当当", desc:"福禄贝尔出版社的语言表达培养读本，成长版，帮助孩子提升语言表达能力，是语言启蒙进阶读本。", tags:["语言","表达","成长","启蒙"] },
+  // 3岁+新增
+  { title:"漏", lang:"中文", author:"多位", ageMin:3, ageMax:6, themes:["传统文化","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国民间故事改编，漏是什么让老虎和强盗都害怕，充满幽默的传统故事绘本。", tags:["传统文化","民间故事","幽默","中国"] },
+  { title:"胡萝卜怪", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["情绪管理","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"胡萝卜变成怪物吓坏了小动物，充满幽默，是蔬菜认知和想象力的趣味读本。", tags:["幽默","蔬菜","动物","想象力"] },
+  { title:"内裤怪", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["生活习惯","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"内裤变成怪物的爆笑故事，孩子最爱，是生活习惯启蒙的幽默读本。", tags:["幽默","生活习惯","爆笑","想象力"] },
+  { title:"棉花糖和大怪兽", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["情绪管理","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"棉花糖和大怪兽的友谊故事，克服对未知的恐惧，是友谊和情绪管理的温暖读本。", tags:["友谊","恐惧","情绪","温暖"] },
+  { title:"红豆冰的传说", lang:"中文", author:"多位", ageMin:3, ageMax:7, themes:["传统文化","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"台湾金鼎奖", buy:"京东、当当", desc:"台湾原创绘本，红豆冰的奇幻传说，中国南方饮食文化和奇幻故事结合，是温暖的文化读本。", tags:["传统文化","台湾","奇幻","食物"] },
+  { title:"朋友的传说", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["友谊社交","传统文化"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"关于友谊的传说，跨越种族和差异的友情，是友谊主题的深度读本。", tags:["友谊","传说","差异","品格"] },
+  { title:"30000个西瓜逃跑了", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["想象力冒险","数学思维"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"三万个西瓜滚出来的爆笑故事，夸张幽默，数字和想象力同步启蒙，孩子超爱。", tags:["幽默","数字","想象力","爆笑"] },
+  { title:"脑袋上的池塘", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"头上长了一个池塘，奇幻想象力绘本，动物和自然场景充满创意，视觉效果惊艳。", tags:["想象力","自然","奇幻","创意"] },
+  { title:"香蕉爷爷香蕉奶奶", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["认知启蒙","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"香蕉爷爷和香蕉奶奶的温情故事，祖孙情感和食物认知，是亲子情感的温暖读本。", tags:["祖孙情感","食物","亲子情感","低幼"] },
+  { title:"提多坐火车", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["交通工具","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"提多第一次坐火车的故事，偏男孩，认识火车和出行礼仪，是交通工具和生活习惯的好读本。", tags:["交通工具","火车","男孩","生活习惯"] },
+  { title:"欢迎乘车", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种交通工具邀请乘车，认识不同交通工具和公共礼仪，是交通工具认知的趣味读本。", tags:["交通工具","认知","礼仪","低幼"] },
+  { title:"糖果乐园大冒险", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"无字书，糖果乐园里的奇幻冒险，让孩子自己编故事，是想象力和语言表达的好无字书。", tags:["无字书","想象力","冒险","糖果"] },
+  { title:"小鸡布莱兹和蛋糕城堡", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["友谊社交","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小鸡布莱兹的蛋糕城堡冒险，友谊和合作，是低幼友谊主题的温暖读本。", tags:["友谊","冒险","食物","动物"] },
+  { title:"奇思妙想面包店", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["想象力冒险","艺术启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"面包店里的奇思妙想，创意食物故事，充满想象力，是艺术和创意的美食启蒙读本。", tags:["面包","创意","想象力","艺术"] },
+  { title:"西瓜游泳场", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["自然动物","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销绘本", buy:"京东、当当", desc:"在西瓜里游泳的奇妙想象，是夏日主题的趣味低幼读本，充满童趣。", tags:["夏天","想象力","西瓜","低幼"] },
+  { title:"移动的黑色小岛", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"神秘的黑色小岛原来是一头大鲸鱼，奇幻视觉体验，是海洋和想象力的惊喜读本。", tags:["海洋","鲸鱼","想象力","奇幻"] },
+  { title:"意外的晚餐", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","幽默"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"晚餐出了意外，各种搞笑连锁反应，充满幽默，是低幼幽默启蒙的好读本。", tags:["幽默","食物","意外","爆笑"] },
+  { title:"这里没有兔子", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"偏偏说没有兔子，找一找的游戏绘本，培养观察力和幽默感，是低幼趣味读本。", tags:["找一找","兔子","幽默","观察力"] },
+  { title:"出来呀出来呀", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种东西从哪里出来，期待和惊喜，是低幼认知启蒙和好奇心培养的趣味读本。", tags:["认知","好奇心","惊喜","低幼"] },
+  { title:"生蛋快乐", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种鸟类和动物的蛋，生命诞生的故事，是自然科学和生命教育的趣味低幼读本。", tags:["动物","蛋","自然","生命"] },
+  { title:"蚯蚓阿俊", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"蚯蚓阿俊的日记，从蚯蚓视角看世界，幽默可爱，是自然科学和独特视角的好读本。", tags:["蚯蚓","自然","幽默","视角"] },
+  { title:"蚯蚓救援队员", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"蚯蚓加入救援队，助人和勇气，是自然科学和品格教育的温暖续集。", tags:["蚯蚓","友谊","勇气","自然"] },
+  { title:"小鼹鼠和蝉宝宝", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["自然动物","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小鼹鼠和蝉宝宝的友谊，不同种类的生命成为朋友，是自然科学和友谊的温暖读本。", tags:["动物","友谊","自然","温暖"] },
+  { title:"吉布的小汽车", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"吉布和他的小汽车的温暖故事，孩子和玩具车的感情，是低幼亲子情感的温暖读本。", tags:["交通工具","玩具","亲子情感","低幼"] },
+  { title:"非洲有没有小熊", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["自然动物","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"带着问题去寻找非洲的小熊，探索不同地区的动物，是地理认知和好奇心培养的好读本。", tags:["动物","地理","非洲","探索"] },
+  { title:"在一个漆黑漆黑的夜晚", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["情绪管理","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"漆黑的夜晚的故事，帮助孩子克服对黑暗的恐惧，节奏感强，是情绪管理的温暖读本。", tags:["黑暗","恐惧","情绪","夜晚"] },
+  { title:"我把妈妈变成了鳄鱼", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["情绪管理","亲子情感"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"孩子发脾气把妈妈变成鳄鱼，幽默又温暖，是情绪管理和亲子关系的有趣读本。", tags:["情绪","亲子情感","幽默","发脾气"] },
+  { title:"11只猫", lang:"中译", author:"馬場のぼる", ageMin:3, ageMax:7, themes:["友谊社交","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"日本经典绘本", buy:"京东、当当", desc:"11只猫的系列冒险，团队合作与各种意外，充满幽默，是日本的经典友谊冒险读本。", tags:["动物","友谊","冒险","幽默"] },
+  { title:"兔老大", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["友谊社交","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"兔老大领导朋友们的故事，领导力和责任感，是友谊和独立自主的好读本。", tags:["友谊","领导力","责任感","动物"] },
+  { title:"忙碌的车轮子", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种车轮子忙碌工作，偏男孩，认识工程车辆，节奏欢快，是交通工具启蒙的好读本。", tags:["交通工具","工程","男孩","认知"] },
+  { title:"小红火车大冒险", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小红火车的冒险故事，偏男孩，帮助各种动物朋友，是交通工具和友谊的温暖读本。", tags:["交通工具","火车","男孩","冒险"] },
+  { title:"好厉害小车迷系列", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小车迷点读版，各种车辆详细介绍，点读互动，偏男孩，是交通工具认知的互动读本。", tags:["交通工具","点读","男孩","认知"] },
+  { title:"鼹鼠的故事绘本版", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"捷克经典动画改编", buy:"京东、当当", desc:"捷克经典动画鼹鼠的故事绘本版，温暖幽默，是几代人共同的童年记忆，友谊经典。", tags:["动物","友谊","经典","捷克"] },
+  { title:"伴我长大经典童话", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["传统文化","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"经典童话合集", buy:"京东、当当", desc:"世界经典童话精选合集，格林童话安徒生等，是童话文化启蒙的经典合集读本。", tags:["童话","经典","传统文化","想象力"] },
+  { title:"小兔丝丝", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["情绪管理","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小兔丝丝的温暖故事，适合女孩，情感细腻，是友谊和情绪启蒙的好女孩绘本。", tags:["友谊","女孩","情绪","温暖"] },
+  { title:"小手套大成长", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["亲子情感","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小手套见证孩子成长，温暖的成长记录，是亲子情感和成长认知的好读本。", tags:["成长","亲子情感","温暖","认知"] },
+  { title:"搞笑的骨头", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["科学探索","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"骨骼的搞笑故事，人体骨骼科普，画面吸引孩子，是人体科学启蒙的趣味读本。", tags:["骨骼","人体","科学","幽默"] },
+  { title:"前进吧小不点儿", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["独立自主","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小不点儿的成长故事，面对挑战勇往直前，是勇气和独立自主的好启蒙读本。", tags:["勇气","成长","独立","温暖"] },
+  { title:"和爸爸一起做模型", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["亲子情感","科学探索"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"和爸爸一起制作模型的温暖亲子故事，动手能力和亲子情感结合，是父子共读的好绘本。", tags:["爸爸","亲子情感","手工","动手"] },
+  { title:"聪明的小海狸", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["科学探索","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小海狸用智慧建造水坝，工程思维和解决问题，是自然科学和独立思考的好读本。", tags:["动物","工程","智慧","自然"] },
+  { title:"妈妈你会永远爱我吗", lang:"中译", author:"芭芭拉·乔斯", ageMin:2, ageMax:6, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国畅销亲子绘本", buy:"京东、当当", desc:"无论我做什么你都爱我吗，无条件的爱，是亲子情感和安全感建立的经典美国绘本。", tags:["亲子情感","爱","安全感","妈妈"] },
+  { title:"异想天开的小屁孩", lang:"中译", author:"多位", ageMin:4, ageMax:7, themes:["想象力冒险","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"脑洞大开的小孩子的故事，充满天马行空的想象，是想象力启蒙的有趣读本。", tags:["想象力","幽默","创意","冒险"] },
+  { title:"kiki猫成长记", lang:"中文", author:"多位", ageMin:3, ageMax:6, themes:["认知启蒙","科学探索"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创科普读本，kiki猫带领探索科学世界，是本土科学启蒙的好绘本。", tags:["科学","认知","中国","低幼"] },
+  { title:"我是一只猫", lang:"中译", author:"夏目漱石", ageMin:5, ageMax:9, themes:["自然动物","艺术启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"日本文学名著改编", buy:"京东、当当", desc:"夏目漱石名著儿童绘本版，从猫的视角看人类世界，是文学启蒙和视角教育的好读本。", tags:["文学","动物","视角","日本"] },
+  { title:"香蕉从哪里来", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["科学探索","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"追溯香蕉的来源，从种植到餐桌，是食物科学和地理认知的好读本。", tags:["食物","科学","地理","认知"] },
+  { title:"霉菌", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"霉菌的科学故事，微生物世界，是微生物科学启蒙的好读本，结合现实生活。", tags:["微生物","科学","霉菌","生活"] },
+  { title:"来和病毒大作战", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["科学探索","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"帮孩子了解病毒和免疫系统，用拟人化方式讲健康知识，是健康教育的好读本。", tags:["病毒","健康","科学","生活习惯"] },
+  { title:"我喜欢的身体绘本", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["科学探索","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"接受和喜欢自己的身体，身体认知和自我认同，是低幼身体教育和自我接纳的好读本。", tags:["身体","自我认同","接受","健康"] },
+  { title:"我们的手超厉害", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["科学探索","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"手的神奇能力，各种手的动作和功能，培养孩子对自己身体的认知和欣赏。", tags:["身体","手","认知","科学"] },
+  { title:"小威向前冲", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["科学探索"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"精子小威的旅程，生命诞生的绘本，是性教育启蒙的温和读本，帮孩子了解生命起源。", tags:["生命","科学","生命教育","诞生"] },
+  { title:"响屁蔫屁", lang:"中译", author:"多位", ageMin:2, ageMax:6, themes:["科学探索","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"放屁的科学，各种屁的声音和形态，孩子超爱，是身体科学的幽默启蒙读本。", tags:["科学","身体","幽默","低幼"] },
+  { title:"揭秘太空尤斯伯恩", lang:"中译", author:"尤斯伯恩", ageMin:3, ageMax:7, themes:["科学探索"], style:"细节丰富", interactive:"翻翻书", reading:["亲子共读"], awards:"尤斯伯恩经典系列", buy:"京东、当当", desc:"尤斯伯恩低幼版太空翻翻书，宇宙探索启蒙，是低幼太空认知的经典翻翻书读本。", tags:["太空","翻翻书","科学","低幼"] },
+  { title:"电梯来了", lang:"中译", author:"多位", ageMin:3, ageMax:6, themes:["科学探索","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"电梯的工作原理，各种奇怪的乘客，是物理启蒙和日常科学认知的趣味读本。", tags:["物理","电梯","科学","认知"] },
+  { title:"用逻辑力撬动地球", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["数学思维","专注力"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"逻辑思维训练读本，用故事讲逻辑，是数学思维和批判性思维的系统培养读本。", tags:["逻辑","数学","思维","批判性思维"] },
+  { title:"深见春夫超超想象力图画书", lang:"中译", author:"深见春夫", ageMin:3, ageMax:7, themes:["艺术启蒙","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销创意绘本", buy:"京东、当当", desc:"日本知名绘本作家深见春夫的超级想象力系列，画面奇特新颖，是艺术创意的视觉盛宴。", tags:["想象力","艺术","视觉","日本绘本"] },
+  { title:"睁大你的眼睛", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["专注力","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"观察力挑战读本，找出画面中的细节，是专注力和观察力培养的趣味游戏书。", tags:["观察力","专注力","找一找","游戏"] },
+  { title:"美丽的错误", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["艺术启蒙","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"错误也可以很美丽，用创意把错误变成艺术，是艺术思维和接受不完美的启蒙读本。", tags:["艺术","错误","创意","接受"] },
+  { title:"梦想行动派", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"梦想不只是想，还要行动！激励孩子勇敢追求梦想，是职业启蒙和梦想培养的好读本。", tags:["梦想","职业","行动","独立"] },
+  { title:"第一套儿童教养书", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["独立自主","生活习惯"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"综合性儿童教养系列，品格习惯礼仪全面覆盖，是性格养成和行为规范的系统读本。", tags:["品格","教养","生活习惯","系统"] },
+
+  // ── 安森妈妈2-3岁书单（新增部分）──
+  // 经典故事
+  { title:"不是箱子", lang:"中译", author:"安东尼·布朗", ageMin:2, ageMax:5, themes:["想象力冒险","艺术启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"京东、当当", desc:"一个纸箱子可以变成任何东西，充满想象力的互动绘本，鼓励孩子用创意看待日常物品，想象力启蒙经典。", tags:["想象力","创意","纸箱","低幼"] },
+  { title:"不是棍子", lang:"中译", author:"安东尼·布朗", ageMin:2, ageMax:5, themes:["想象力冒险","艺术启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"一根棍子可以变成任何东西，是不是箱子的姐妹篇，用简单的棍子展示无限创意想象力。", tags:["想象力","创意","棍子","低幼"] },
+  { title:"汽车嘟嘟嘟", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["交通工具","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种汽车嘟嘟嘟开来，低幼交通工具认知，节奏欢快，拟声词丰富，是男宝宝最爱的低幼读本。", tags:["交通工具","认知","低幼","拟声词"] },
+  { title:"是谁嗯嗯在我头上", lang:"中译", author:"维尔纳·霍尔茨瓦特", ageMin:2, ageMax:5, themes:["自然动物","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"德国儿童文学奖", buy:"京东、当当", desc:"小鼹鼠出门就被便便砸中，走遍全村找元凶，德国幽默经典绘本，孩子笑到停不下来。", tags:["幽默","动物","便便","低幼"] },
+  { title:"小老鼠啊呜", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","自然动物"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小老鼠啊呜一口吃掉各种东西，认知和幽默结合，低幼宝宝的趣味认知读本。", tags:["动物","认知","幽默","低幼"] },
+  { title:"超能恐龙队", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["想象力冒险","交通工具"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"恐龙和工程车结合的超能战队，偏男孩，充满冒险和想象力，是男宝宝最喜欢的主题绘本。", tags:["恐龙","交通工具","男孩","冒险"] },
+  { title:"詹同精选集动物园", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["自然动物","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"精选动物园故事合集，各种动物的生动介绍，是低幼动物认知的趣味读本。", tags:["动物","认知","合集","低幼"] },
+  // 生活习惯 & 情绪
+  { title:"歪歪兔行为习惯系列互动图画书", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["生活习惯","情绪管理"], style:"手绘温暖", interactive:"机关互动书", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创互动图画书，歪歪兔系列行为习惯培养，翻翻互动，是低幼习惯养成的实用读本。", tags:["生活习惯","互动","中国","低幼"] },
+  { title:"这是谁的自行车", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["认知启蒙","交通工具"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"找到自行车的主人，认知和推理游戏结合，是低幼认知启蒙的趣味读本。", tags:["认知","自行车","交通工具","低幼"] },
+  // 科普 交通
+  { title:"好多好多的交通工具", lang:"中译", author:"多位", ageMin:1, ageMax:4, themes:["交通工具","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种各样的交通工具大集合，飞机火车汽车船，是低幼交通工具全面认知的好读本。", tags:["交通工具","认知","综合","低幼"] },
+  { title:"左右", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["认知启蒙","数学思维"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"认识左右方向，帮助孩子建立空间方向感，是低幼方向认知的基础启蒙读本。", tags:["认知","方向","左右","低幼"] },
+  { title:"尤斯伯恩颜色的奥秘", lang:"中译", author:"尤斯伯恩", ageMin:2, ageMax:5, themes:["艺术启蒙","科学探索"], style:"细节丰富", interactive:"翻翻书", reading:["亲子共读"], awards:"尤斯伯恩经典系列", buy:"京东、当当", desc:"颜色是如何产生的，翻翻书探索颜色的奥秘，是艺术启蒙和科学认知的精彩结合。", tags:["颜色","艺术","科学","低幼"] },
+  // 海洋专题
+  { title:"尤斯伯恩偷偷看里面海边", lang:"中译", author:"尤斯伯恩", ageMin:2, ageMax:5, themes:["自然动物","科学探索"], style:"细节丰富", interactive:"翻翻书", reading:["亲子共读"], awards:"尤斯伯恩经典系列", buy:"京东、当当", desc:"翻开看海边藏着什么，螃蟹贝壳海星，是低幼海洋认知的趣味翻翻书读本。", tags:["海洋","海边","翻翻书","低幼"] },
+  { title:"尤斯伯恩偷偷看里面海洋", lang:"中译", author:"尤斯伯恩", ageMin:2, ageMax:6, themes:["自然动物","科学探索"], style:"细节丰富", interactive:"翻翻书", reading:["亲子共读"], awards:"尤斯伯恩经典系列", buy:"京东、当当", desc:"翻开看海洋深处的秘密，各种海洋生物，是海洋科普的趣味翻翻书读本。", tags:["海洋","海洋生物","翻翻书","低幼"] },
+  { title:"乐乐趣揭秘小世界海洋", lang:"中译", author:"多位", ageMin:2, ageMax:6, themes:["自然动物","科学探索"], style:"细节丰富", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"乐乐趣出品的海洋揭秘翻翻书，精美图解各种海洋生物，是海洋科普的经典翻翻书。", tags:["海洋","翻翻书","科学","认知"] },
+  { title:"乐乐趣揭秘海洋", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","科学探索"], style:"细节丰富", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"乐乐趣出品的海洋科普翻翻书，海洋生物生态全面揭秘，是海洋科学启蒙的进阶读本。", tags:["海洋","翻翻书","科学","生态"] },
+  { title:"小眼睛看大世界翻翻书揭秘海洋", lang:"中译", author:"多位", ageMin:1, ageMax:4, themes:["自然动物","认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"低幼版海洋翻翻书，认识各种海洋动物，翻开有惊喜，是低幼海洋认知的入门读本。", tags:["海洋","翻翻书","低幼","认知"] },
+  // 益智
+  { title:"触感启智玩具书", lang:"中译", author:"多位", ageMin:0, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"触感材质玩具书，不同触感材料刺激感官发育，是低幼感官启蒙的好工具书。", tags:["触感","感官","低幼","启蒙"] },
+  { title:"0岁宝宝游戏绘本", lang:"中译", author:"多位", ageMin:0, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"专为0岁宝宝设计的游戏绘本，黑白高对比图案刺激视觉，是婴儿视觉启蒙的好工具书。", tags:["视觉","感官","婴儿","启蒙"] },
+  { title:"熊猫圈圈认知纸板书", lang:"中文", author:"多位", ageMin:0, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创低幼认知纸板书，圈圈形状认知，是婴幼儿形状和颜色认知的好读本。", tags:["认知","纸板书","低幼","中国"] },
+  { title:"宝贝熊益智互动书第二辑", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"宝贝熊系列益智互动书第二辑，各种认知互动游戏，是低幼益智启蒙的好工具书。", tags:["益智","互动","低幼","认知"] },
+  { title:"米津祐介礼盒版经典洞洞翻翻纸板书", lang:"中译", author:"米津祐介", ageMin:0, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"日本绘本大师米津祐介经典低幼洞洞翻翻书，视觉刺激和认知启蒙，是婴幼儿的经典读本。", tags:["低幼","翻翻书","洞洞书","婴儿"] },
+  { title:"翻一翻", lang:"中文", author:"读库出品", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"读库精品", buy:"京东、当当", desc:"读库出品的精品翻翻认知书，精细印刷，内容扎实，是低幼认知翻翻书中的高品质选择。", tags:["翻翻书","认知","低幼","读库"] },
+  { title:"福禄贝尔绘本小小版", lang:"中译", author:"多位", ageMin:0, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"福禄贝尔出版社经典", buy:"京东、当当", desc:"福禄贝尔出版社低幼小小版绘本，简洁可爱，是0-2岁婴幼儿的基础认知启蒙好读本。", tags:["认知","低幼","婴儿","启蒙"] },
+  { title:"我的想象力训练书", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["艺术启蒙","想象力冒险"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"训练想象力的互动创意书，半幅图案让孩子自己完成，培养创意思维和艺术感知。", tags:["想象力","创意","艺术","互动"] },
+  { title:"大手小手玩游戏", lang:"中译", author:"多位", ageMin:0, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"大手和小手一起玩的亲子互动游戏书，促进亲子情感和低幼感官发育，是亲子互动的好工具书。", tags:["亲子互动","低幼","感官","游戏"] },
+  // 语言
+  { title:"蝴蝶豌豆花", lang:"中文", author:"多位", ageMin:2, ageMax:5, themes:["语言表达","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"中国原创童谣绘本，蝴蝶和豌豆花的故事充满诗意，是中文语感和自然认知的好读本。", tags:["童谣","语言","自然","中国"] },
+  // 2.5岁+
+  { title:"我能自己睡系列晚安绘本", lang:"中译", author:"多位", ageMin:2, ageMax:5, themes:["生活习惯","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"帮助孩子学会独自入睡，睡前习惯养成系列，是分房睡启蒙和睡前仪式的好读本。", tags:["睡眠","独立","生活习惯","低幼"] },
+  { title:"铃木绘本第4辑", lang:"中译", author:"铃木出版社", ageMin:2, ageMax:5, themes:["认知启蒙","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"日本铃木出版社经典", buy:"京东、当当", desc:"铃木出版社精选绘本第4辑，温暖的日常故事，是低幼情感和认知启蒙的好系列读本。", tags:["认知","日本绘本","低幼","温暖"] },
+  // 3岁+
+  { title:"我救了一只大王乌贼", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"救助大王乌贼的奇遇，海洋动物知识和冒险精神结合，是自然科学和冒险的好读本。", tags:["海洋","乌贼","冒险","自然"] },
+  { title:"跟着蚱蜢机器人去探险", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["科学探索","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"蚱蜢机器人带领探险，科技和自然探索结合，是STEAM思维和冒险精神的好读本。", tags:["机器人","探险","STEAM","科学"] },
+  { title:"恐龙大陆", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["自然动物","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"恐龙世界的宏大画面，各种恐龙的生动描绘，是恐龙科普和冒险想象的视觉盛宴。", tags:["恐龙","自然","科学","冒险"] },
+  { title:"受伤的暴龙", lang:"中译", author:"宫西达也", ageMin:3, ageMax:7, themes:["自然动物","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销绘本", buy:"京东、当当", desc:"宫西达也恐龙系列，受伤的暴龙被对方照顾，温暖的友情和互助，是生命情感的好绘本。", tags:["恐龙","友谊","温暖","日本绘本"] },
+  { title:"屁屁侦探", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["专注力","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"日本畅销推理绘本", buy:"京东、当当", desc:"屁屁侦探用鼻子破案，幽默推理故事，培养孩子的逻辑思维，是自主阅读的好推理绘本。", tags:["推理","幽默","逻辑","自主阅读"] },
+  { title:"一家好认真好认真的餐厅", lang:"中译", author:"多位", ageMin:4, ageMax:8, themes:["认知启蒙","生活习惯"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"一家非常认真的餐厅，认真做好每一件事，是责任感和职业认知的好绘本。", tags:["职业","责任感","认真","品格"] },
+  // 3岁+ 科普
+  { title:"dk机械运转的秘密", lang:"中译", author:"DK出版社", ageMin:4, ageMax:8, themes:["科学探索","数学思维"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"DK经典科普", buy:"京东、当当", desc:"DK出品的机械运转原理图解，齿轮杠杆滑轮等机械知识，是物理启蒙的精品读本。", tags:["机械","物理","DK","科学"] },
+  // 3岁+ 益智
+  { title:"奇哥蹦蹦", lang:"中译", author:"多位", ageMin:3, ageMax:7, themes:["科学探索","数学思维"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"奇哥蹦蹦探索物理原理，力学和动力学的趣味启蒙，是物理科学和探索精神的好读本。", tags:["物理","科学","探索","益智"] },
+
+  // ── 安森妈妈0-18月龄书单（新增部分）──
+  { title:"宝宝手册认知书", lang:"中译", author:"多位", ageMin:0, ageMax:1, themes:["认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"11个月以上宝宝的基础认知手册，手部抓握和图片认知同步发展，可单本挑选适合的主题。", tags:["认知","手部","婴儿","低幼"] },
+  { title:"宝宝喜欢的玩具书", lang:"中译", author:"多位", ageMin:0, ageMax:1, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"简单机械机构的玩具书，拉、推、翻各种互动，锻炼宝宝手眼协调，是低幼感官启蒙的好玩具书。", tags:["玩具","机械","婴儿","互动"] },
+  { title:"阿福去散步", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小狗阿福去散步，认识周围环境，是低幼户外认知和自然启蒙的好读本。", tags:["动物","认知","户外","低幼"] },
+  { title:"噗汤噗擦一擦", lang:"中译", author:"多位", ageMin:1, ageMax:2, themes:["生活习惯","认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"洗澡游戏互动绘本，擦洗各种身体部位，生活习惯和身体认知同步启蒙，是低幼洗澡仪式的好书。", tags:["洗澡","身体","生活习惯","低幼"] },
+  { title:"小手手出来了", lang:"中译", author:"多位", ageMin:1, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小手手藏哪里又出来了，感知互动绘本，培养宝宝手部意识和认知，是低幼感官启蒙的好书。", tags:["手","互动","认知","婴儿"] },
+  { title:"小鞋子走一走", lang:"中译", author:"多位", ageMin:1, ageMax:2, themes:["认知启蒙","生活习惯"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"小鞋子的认知绘本，学走路阶段的宝宝认识脚和鞋子，是低幼身体认知和生活习惯的好书。", tags:["鞋子","走路","认知","低幼"] },
+  { title:"大大的小小的", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","数学思维"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"大和小的对比认知，各种大小事物的比较，是低幼空间认知和数学思维的基础启蒙读本。", tags:["认知","大小","比较","低幼"] },
+  { title:"创意大师米津祐介双语洞洞书", lang:"中译", author:"米津祐介", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"米津祐介创作的双语洞洞书，透过圆洞看故事，中英双语认知，是低幼双语启蒙的好读本。", tags:["洞洞书","双语","认知","低幼"] },
+  { title:"不见了不见了", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"东西藏起来不见了系列，客体永久性认知游戏，是低幼认知发展的重要启蒙翻翻书。", tags:["认知","藏猫猫","翻翻书","低幼"] },
+  { title:"我听到酸黄瓜", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种食物的声音和味道，感官认知启蒙，味觉听觉视觉同步发展，是低幼综合感官的好读本。", tags:["感官","食物","认知","低幼"] },
+  { title:"雨天的动物园", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"雨天去动物园的温暖故事，认识动物和天气，是低幼动物认知和自然启蒙的好读本。", tags:["动物","雨天","认知","低幼"] },
+  { title:"条纹条纹发现啦", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","艺术启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"各种条纹图案的认知，视觉刺激和图案认知同步，是低幼视觉启蒙和艺术感知的好读本。", tags:["视觉","图案","认知","低幼"] },
+  { title:"你好", lang:"中文", author:"魔法象", ageMin:1, ageMax:3, themes:["语言表达","社交启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"魔法象出品", buy:"京东、当当", desc:"魔法象出品的低幼情感绘本，学习打招呼和社交礼貌，是低幼社交启蒙的温暖读本。", tags:["社交","礼貌","语言","低幼"] },
+  { title:"宝贝晚安", lang:"中文", author:"魔法象", ageMin:1, ageMax:3, themes:["生活习惯","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"魔法象出品", buy:"京东、当当", desc:"魔法象出品的睡前绘本，温暖的晚安仪式，是建立睡前习惯和亲子情感的好读本。", tags:["睡前","生活习惯","亲子情感","低幼"] },
+  { title:"谢谢", lang:"中文", author:"魔法象", ageMin:1, ageMax:3, themes:["语言表达","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"魔法象出品", buy:"京东、当当", desc:"魔法象出品，学会说谢谢，礼貌启蒙，是低幼社交礼仪和语言表达的温暖启蒙读本。", tags:["礼貌","语言","低幼","生活习惯"] },
+  { title:"我爱吃", lang:"中文", author:"魔法象", ageMin:1, ageMax:3, themes:["认知启蒙","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"魔法象出品", buy:"京东、当当", desc:"魔法象出品，认识各种食物，养成好好吃饭的习惯，是低幼食物认知和生活习惯的温暖读本。", tags:["食物","认知","生活习惯","低幼"] },
+  { title:"宝宝趣味认知绘本", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"低幼趣味认知系列，颜色形状数字动物全面覆盖，是低幼认知启蒙的基础读本。", tags:["认知","颜色","形状","低幼"] },
+  { title:"婴儿数学玩具书", lang:"中译", author:"多位", ageMin:1, ageMax:2, themes:["数学思维","认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"17-22个月龄适用，数字认知和基础数学概念，是婴幼儿数学启蒙的好玩具书。", tags:["数学","数字","婴儿","认知"] },
+  { title:"这是谁的衣服", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","自然动物"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"猜猜这是谁的衣服翻翻书，认识动物特征，是低幼认知和逻辑思维的好趣味读本。", tags:["认知","动物","翻翻书","低幼"] },
+  { title:"小巧手游戏绘本", lang:"中译", author:"多位", ageMin:1, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"锻炼小手精细动作的游戏绘本，偏男孩，拉推翻各种设计，促进手眼协调和精细动作发展。", tags:["精细动作","游戏","婴儿","男孩"] },
+  { title:"熊在哪儿", lang:"中文", author:"绘本花园", ageMin:1, ageMax:3, themes:["认知启蒙"], style:"手绘温暖", interactive:"翻翻书", reading:["亲子共读"], awards:"绘本花园出品", buy:"京东、当当", desc:"绘本花园出品，找找熊藏在哪里的翻翻书，客体永久性认知和观察力培养，是低幼认知好书。", tags:["找一找","认知","翻翻书","低幼"] },
+  { title:"撅嘴巴的大头鱼", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"撅着嘴巴的大头鱼，生动的海洋生物认知，是低幼宝宝的趣味海洋认知读本。", tags:["鱼","海洋","认知","低幼"] },
+  { title:"视觉启蒙左右脑创意认知", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","艺术启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"左右脑创意认知启蒙，视觉刺激和认知训练结合，是低幼全脑开发的好认知读本。", tags:["视觉","认知","创意","低幼"] },
+  { title:"像什么", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"这个像什么的认知游戏，培养联想思维和类比认知，是低幼认知和想象力启蒙的好读本。", tags:["认知","联想","想象力","低幼"] },
+  { title:"婴儿创意连连翻", lang:"中译", author:"多位", ageMin:1, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"创意连连看翻翻书，连接相关的图案，是低幼逻辑认知和手眼协调的好游戏书。", tags:["认知","连连看","婴儿","游戏"] },
+  { title:"翻开这本小小的书", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"翻开看里面的小世界，渐进翻页设计，是低幼认知和好奇心培养的好翻翻书。", tags:["翻翻书","认知","好奇心","低幼"] },
+  { title:"手指唤", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"手指游戏绘本，用手指感知和触摸互动，是低幼手部感官和语言启蒙的好读本。", tags:["手指","触感","互动","低幼"] },
+  { title:"0-3岁感官互动绘本", lang:"中译", author:"多位", ageMin:0, ageMax:3, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"0-3岁感官全面互动绘本，视觉触觉听觉同步刺激，是低幼感官发育的综合启蒙读本。", tags:["感官","互动","低幼","启蒙"] },
+  { title:"冰激凌是谁吃的", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","自然动物"], style:"手绘温暖", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"猜猜冰激凌是哪个动物吃的，认知推理游戏，是低幼认知和动物特征的趣味翻翻书。", tags:["认知","动物","翻翻书","低幼"] },
+  { title:"蓝星人绘本大苹果", lang:"中文", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"中国原创推荐", buy:"京东、当当", desc:"蓝星人系列，大苹果的温暖故事，是中国原创低幼情感和认知启蒙的好读本。", tags:["认知","友谊","低幼","中国"] },
+  { title:"儿童语言学习绘本", lang:"中文", author:"多位", ageMin:1, ageMax:3, themes:["语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"专为低幼设计的语言学习绘本，词汇扩展和语言表达训练，是低幼语言能力培养的实用读本。", tags:["语言","词汇","低幼","启蒙"] },
+  { title:"全景创意磁力贴轱辘轱辘小汽车", lang:"中文", author:"多位", ageMin:1, ageMax:3, themes:["交通工具","认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"磁力贴玩法认识各种小汽车，粘贴游戏和交通工具认知结合，是低幼动手能力和认知的好玩具书。", tags:["交通工具","磁力贴","认知","低幼"] },
+  { title:"汽车科普认知绘本", lang:"中译", author:"多位", ageMin:1, ageMax:4, themes:["交通工具","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"汽车科普认知系列，各种车辆详细介绍，偏男孩，是低幼交通工具科普的系统读本。", tags:["交通工具","汽车","男孩","认知"] },
+  { title:"是你呀小宝贝", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"妈妈找寻宝宝的温暖绘本，亲子情感启蒙，建立安全感，是低幼亲子情感的好读本。", tags:["亲子情感","安全感","妈妈","低幼"] },
+  { title:"乖宝宝睡觉觉", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["生活习惯","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"乖宝宝睡觉的温暖睡前绘本，是帮助宝宝建立睡前仪式和生活习惯的温柔读本。", tags:["睡前","生活习惯","低幼","温暖"] },
+  { title:"宝贝快到我的怀里来", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"妈妈张开双臂等宝宝来抱的温情故事，建立亲子依恋关系，是低幼情感安全感的好读本。", tags:["亲子情感","拥抱","安全感","低幼"] },
+  { title:"要跟着来哦", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"跟着大家走的故事，认识跟随和方向，是低幼安全意识和认知启蒙的好读本。", tags:["认知","安全","跟随","低幼"] },
+  { title:"泥板泥板", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"泥板互动绘本，各种有趣的涂抹和触感体验，是低幼感官认知和语言启蒙的好读本。", tags:["触感","感官","互动","低幼"] },
+  { title:"我的后面是谁呢", lang:"中译", author:"多位", ageMin:1, ageMax:3, themes:["自然动物","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"日本畅销低幼绘本", buy:"京东、当当", desc:"猜猜我后面是谁，遮住一部分猜动物，是低幼观察力和动物认知的好游戏读本。", tags:["动物","猜猜看","认知","低幼"] },
+  { title:"好厉害工地的车", lang:"中译", author:"多位", ageMin:1, ageMax:4, themes:["交通工具","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"京东、当当", desc:"工地上厉害的工程车辆，挖掘机吊车推土机，偏男孩，是低幼工程车认知的好读本。", tags:["交通工具","工程","男孩","低幼"] },
+
+  // ── 英文原版 经典 & trending ──
+  // 0-2岁 英文经典
+  { title:"Where's Spot?", lang:"英文", author:"Eric Hill", ageMin:0, ageMax:2, themes:["自然动物","认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"英国经典低幼绘本", buy:"亚马逊、京东", desc:"小狗斯波特藏哪里了，翻翻找一找，是英文低幼翻翻书的经典之作，语言极简单。", tags:["英文","动物","翻翻书","低幼"] },
+  { title:"Goodnight Moon", lang:"英文", author:"Margaret Wise Brown", ageMin:0, ageMax:3, themes:["生活习惯","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国最受欢迎睡前绘本", buy:"亚马逊、京东", desc:"美国最经典睡前绘本，温柔和月亮说晚安，语言优美，是英文睡前仪式的必备经典。", tags:["英文","睡前","经典","低幼"] },
+  { title:"Pat the Bunny", lang:"英文", author:"Dorothy Kunhardt", ageMin:0, ageMax:1, themes:["认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"美国最畅销婴儿互动书", buy:"亚马逊、京东", desc:"美国史上最畅销婴儿互动书之一，摸摸兔子、照镜子等触感互动，适合出生即可开始。", tags:["英文","触感","婴儿","经典"] },
+  { title:"Peek-a-Who?", lang:"英文", author:"Nina Laden", ageMin:0, ageMax:2, themes:["认知启蒙"], style:"简洁明快", interactive:"翻翻书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"亚马逊、京东", desc:"Peek-a-boo游戏绘本，藏猫猫版本，最后一页是镜子，是婴儿互动和认知启蒙的好读本。", tags:["英文","藏猫猫","婴儿","互动"] },
+  { title:"First 100 Words", lang:"英文", author:"Roger Priddy", ageMin:0, ageMax:2, themes:["认知启蒙","语言表达"], style:"写实摄影", interactive:"普通绘本", reading:["亲子共读"], awards:"英文词汇启蒙畅销书", buy:"亚马逊、京东", desc:"Roger Priddy出品的第一百个词汇书，真实摄影图片，是婴幼儿英文词汇启蒙的经典工具书。", tags:["英文","词汇","认知","婴儿"] },
+  // 1-3岁 英文经典
+  { title:"The Snowy Day", lang:"英文", author:"Ezra Jack Keats", ageMin:1, ageMax:4, themes:["自然动物","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克金奖", buy:"亚马逊、京东", desc:"凯迪克金奖，小彼得在雪地里玩耍，是英文低幼的经典情感读本，简洁温暖。", tags:["英文","雪天","凯迪克","经典"] },
+  { title:"Chicka Chicka Boom Boom", lang:"英文", author:"Bill Martin Jr", ageMin:1, ageMax:4, themes:["语言表达","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"美国最受欢迎字母书", buy:"亚马逊、京东", desc:"字母爬椰子树的韵律读本，节奏感极强，是英文字母启蒙的经典必读，孩子超爱。", tags:["英文","字母","韵律","经典"] },
+  { title:"If You Give a Mouse a Cookie", lang:"英文", author:"Laura Numeroff", ageMin:2, ageMax:5, themes:["想象力冒险","逻辑思维"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国图书馆协会推荐", buy:"亚马逊、京东", desc:"如果你给老鼠一块饼干，连锁反应的幽默故事，逻辑和因果思维启蒙，是英文经典必读。", tags:["英文","逻辑","幽默","经典"] },
+  { title:"Don't Let the Pigeon Drive the Bus", lang:"英文", author:"Mo Willems", ageMin:2, ageMax:6, themes:["情绪管理","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"不让鸽子开巴士，孩子和书本互动，幽默又有情绪管理，Mo Willems经典，是英文必读绘本。", tags:["英文","幽默","情绪","凯迪克"] },
+  { title:"The Pigeon Finds a Hot Dog", lang:"英文", author:"Mo Willems", ageMin:2, ageMax:6, themes:["情绪管理","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"鸽子找到热狗的故事，分享和欲望的幽默处理，Mo Willems系列人气最高之一。", tags:["英文","幽默","分享","情绪"] },
+  { title:"Dragons Love Tacos", lang:"英文", author:"Adam Rubin", ageMin:2, ageMax:6, themes:["想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"美国畅销绘本", buy:"亚马逊、京东", desc:"龙超爱吃玉米饼，幽默爆笑，孩子和家长都爱，是近年美国最畅销的英文绘本之一。", tags:["英文","幽默","龙","趣味"] },
+  { title:"The Day the Crayons Quit", lang:"英文", author:"Drew Daywalt", ageMin:3, ageMax:6, themes:["艺术启蒙","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜#1", buy:"亚马逊、京东", desc:"蜡笔们罢工了，各有各的委屈，幽默温暖，是近年最trending的英文绘本之一，获得广泛好评。", tags:["英文","艺术","幽默","情绪"] },
+  { title:"The Bad Guys", lang:"英文", author:"Aaron Blabey", ageMin:4, ageMax:8, themes:["友谊社交","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"澳大利亚畅销儿童书系列", buy:"亚马逊、京东", desc:"坏蛋联盟其实是好人，幽默漫画风格，是近年最火的英文桥梁书系列，孩子停不下来。", tags:["英文","幽默","桥梁书","冒险"] },
+  { title:"I Want My Hat Back", lang:"英文", author:"Jon Klassen", ageMin:2, ageMax:5, themes:["想象力冒险","自然动物"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"熊找帽子，结局出乎意料，Jon Klassen的极简风格和幽默，凯迪克荣誉奖。", tags:["英文","幽默","动物","凯迪克"] },
+  { title:"We Are in a Book", lang:"英文", author:"Mo Willems", ageMin:3, ageMax:7, themes:["语言表达","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"小猪和大象发现自己在一本书里，元叙事风格，是孩子最爱的英文系列之一。", tags:["英文","幽默","阅读","桥梁书"] },
+  { title:"Press Here", lang:"英文", author:"Hervé Tullet", ageMin:1, ageMax:5, themes:["艺术启蒙","认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"法国畅销创意绘本", buy:"亚马逊、京东", desc:"按这里会发生什么，互动创意绘本，孩子以为自己真的控制了书，是创意艺术启蒙的好书。", tags:["英文","互动","艺术","创意"] },
+  { title:"Llama Llama Red Pajama", lang:"英文", author:"Anna Dewdney", ageMin:1, ageMax:4, themes:["亲子情感","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国畅销睡前绘本", buy:"亚马逊、京东", desc:"羊驼宝宝等妈妈的分离焦虑故事，韵律感极强，是英文睡前和情绪管理的热门读本。", tags:["英文","亲子情感","睡前","韵律"] },
+  { title:"How Do Dinosaurs Say Good Night", lang:"英文", author:"Jane Yolen", ageMin:1, ageMax:4, themes:["生活习惯","自然动物"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"美国畅销睡前系列", buy:"亚马逊、京东", desc:"恐龙如何说晚安，幽默对比孩子的行为，英文睡前仪式和行为习惯的热门读本。", tags:["英文","恐龙","睡前","幽默"] },
+  { title:"Corduroy", lang:"英文", author:"Don Freeman", ageMin:2, ageMax:5, themes:["亲子情感","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国图书馆协会推荐经典", buy:"亚马逊、京东", desc:"小熊科杜罗伊找纽扣的故事，友爱和接受自己，美国英文经典必读，温暖动人。", tags:["英文","友谊","情感","经典"] },
+  { title:"Where the Wild Things Are", lang:"英文", author:"Maurice Sendak", ageMin:3, ageMax:7, themes:["情绪管理","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克金奖", buy:"亚马逊、京东", desc:"野兽国，凯迪克金奖经典，麦克斯进入想象世界发泄情绪，是情绪管理的英文经典之作。", tags:["英文","情绪","凯迪克","经典"] },
+  { title:"The Giving Tree", lang:"英文", author:"Shel Silverstein", ageMin:3, ageMax:7, themes:["亲子情感","生命教育"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"美国经典绘本", buy:"亚马逊、京东", desc:"爱心树，关于给予和爱的经典故事，是英文亲子情感和生命教育的经典必读。", tags:["英文","爱","给予","经典"] },
+  { title:"Green Eggs and Ham", lang:"英文", author:"Dr. Seuss", ageMin:3, ageMax:6, themes:["语言表达","生活习惯"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"美国畅销儿童书", buy:"亚马逊、京东", desc:"绿鸡蛋和火腿，苏斯博士韵律经典，鼓励孩子尝试新食物，是英语启蒙和挑食主题的好书。", tags:["英文","Dr.Seuss","韵律","挑食"] },
+  { title:"Oh the Places You'll Go", lang:"英文", author:"Dr. Seuss", ageMin:4, ageMax:8, themes:["独立自主","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"苏斯博士的人生旅程启蒙，鼓励孩子勇敢探索未来，是送礼和毕业季的经典英文绘本。", tags:["英文","Dr.Seuss","成长","励志"] },
+  // 近年trending
+  { title:"The Most Magnificent Thing", lang:"英文", author:"Ashley Spires", ageMin:3, ageMax:7, themes:["独立自主","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国图书馆协会推荐", buy:"亚马逊、京东", desc:"小女孩要做最了不起的东西，面对失败还是坚持，是成长型思维和情绪管理的好英文读本。", tags:["英文","坚持","情绪","成长型思维"] },
+  { title:"Have You Filled a Bucket Today", lang:"英文", author:"Carol McCloud", ageMin:3, ageMax:7, themes:["情绪管理","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国学校常用品格教育绘本", buy:"亚马逊、京东", desc:"每个人都有一个情感水桶，善意的行为让水桶满溢，是品格教育和正向行为的热门英文绘本。", tags:["英文","品格","情绪","友善"] },
+  { title:"Beautiful Oops", lang:"英文", author:"Barney Saltzberg", ageMin:2, ageMax:6, themes:["艺术启蒙","独立自主"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读"], awards:"妈妈圈热议", buy:"亚马逊、京东", desc:"错误也可以变成美丽的东西，互动创意绘本，将失误变成艺术，鼓励孩子接受不完美。", tags:["英文","艺术","创意","错误"] },
+  { title:"The Book with No Pictures", lang:"英文", author:"B.J. Novak", ageMin:3, ageMax:6, themes:["语言表达","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜#1", buy:"亚马逊、京东", desc:"没有图的书，但大人必须大声读出所有荒唐的文字，是孩子最爱的互动英文绘本之一。", tags:["英文","幽默","互动","语言"] },
+  { title:"Rosie Revere Engineer", lang:"英文", author:"Andrea Beaty", ageMin:4, ageMax:8, themes:["独立自主","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"小工程师罗西不怕失败的故事，女孩STEM启蒙，是近年最受欢迎的英文女孩励志绘本。", tags:["英文","女孩","工程","独立"] },
+  { title:"Ada Twist Scientist", lang:"英文", author:"Andrea Beaty", ageMin:4, ageMax:8, themes:["科学探索","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"小科学家Ada的好奇心故事，女孩科学启蒙，Netflix改编成动画，是STEM和女孩成长的好书。", tags:["英文","科学","女孩","STEM"] },
+  { title:"The Invisible String", lang:"英文", author:"Patrice Karst", ageMin:3, ageMax:7, themes:["亲子情感","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国分离焦虑经典读本", buy:"亚马逊、京东", desc:"连接爱的人的隐形线，处理分离焦虑和失去，是亲子情感和情绪支持的热门英文绘本。", tags:["英文","亲子情感","分离焦虑","爱"] },
+  { title:"Enemy Pie", lang:"英文", author:"Derek Munson", ageMin:4, ageMax:8, themes:["友谊社交","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"美国图书馆协会推荐", buy:"亚马逊、京东", desc:"用馅饼化解敌意的故事，交朋友和化解冲突，是友谊和同理心的热门英文绘本。", tags:["英文","友谊","同理心","冲突"] },
+  { title:"My Father's Dragon", lang:"英文", author:"Ruth Stiles Gannett", ageMin:4, ageMax:8, themes:["想象力冒险","自然动物"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽伯瑞荣誉奖", buy:"亚马逊、京东", desc:"爸爸的龙，经典冒险桥梁章节书，Netflix改编成动画，是孩子从绘本过渡自主阅读的好选择。", tags:["英文","冒险","龙","桥梁书"] },
+  { title:"Owl at Home", lang:"英文", author:"Arnold Lobel", ageMin:3, ageMax:6, themes:["情绪管理","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"美国图书馆协会推荐", buy:"亚马逊、京东", desc:"猫头鹰在家里的五个小故事，温暖细腻，是英文自主阅读过渡的经典初章节书。", tags:["英文","动物","桥梁书","温暖"] },
+  { title:"Last Stop on Market Street", lang:"英文", author:"Matt de la Peña", ageMin:3, ageMax:6, themes:["认知启蒙","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克金奖+纽伯瑞奖", buy:"亚马逊、京东", desc:"市场街最后一站，祖孙坐公交车的故事，关于感恩和多元视角，凯迪克金奖+纽伯瑞奖双奖。", tags:["英文","祖孙情感","凯迪克","多元"] },
+  { title:"Each Kindness", lang:"英文", author:"Jacqueline Woodson", ageMin:4, ageMax:8, themes:["友谊社交","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Sibert荣誉奖", buy:"亚马逊、京东", desc:"每一个善意，关于后悔没有接纳别人，同理心和善意的力量，是情感教育的深度英文读本。", tags:["英文","善意","同理心","品格"] },
+  { title:"Wemberly Worried", lang:"英文", author:"Kevin Henkes", ageMin:3, ageMax:6, themes:["情绪管理","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"妈妈圈热议", buy:"亚马逊、京东", desc:"总是担心的小老鼠温布利，处理焦虑和入园恐惧，是英文入园焦虑的热门读本。", tags:["英文","焦虑","入园","情绪"] },
+  { title:"The Dot", lang:"英文", author:"Peter H. Reynolds", ageMin:3, ageMax:7, themes:["艺术启蒙","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"全球畅销英文创意绘本", buy:"亚马逊、京东", desc:"点点，从一个点开始创作的故事，鼓励孩子勇于尝试，是艺术启蒙和自信心的热门英文读本。", tags:["英文","艺术","自信","创意"] },
+  { title:"A Little Spot of Emotion Series", lang:"英文", author:"Diane Alber", ageMin:2, ageMax:6, themes:["情绪管理"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销情绪绘本", buy:"亚马逊、京东", desc:"情绪小怪兽的英文版，情绪贴纸和认知系列，是近年最trending的英文情绪教育绘本系列。", tags:["英文","情绪","情绪管理","trending"] },
+  { title:"Jabari Jumps", lang:"英文", author:"Gaia Cornwall", ageMin:3, ageMax:6, themes:["独立自主","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Ezra Jack Keats荣誉奖", buy:"亚马逊", desc:"Jabari要跳进水里，克服恐惧的故事，是英文勇气和独立自主的近年热门读本。", tags:["英文","勇气","恐惧","独立"] },
+  { title:"The Rabbit Listened", lang:"英文", author:"Cori Doerrfeld", ageMin:2, ageMax:6, themes:["情绪管理","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销情绪绘本", buy:"亚马逊、京东", desc:"兔子只是倾听，不评判，是情绪支持和倾听的温柔启蒙，近年最受欢迎的英文情感绘本之一。", tags:["英文","情绪","倾听","友善"] },
+  { title:"What Do You Do With a Problem", lang:"英文", author:"Kobi Yamada", ageMin:4, ageMax:8, themes:["独立自主","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销英文绘本", buy:"亚马逊、京东", desc:"遇到问题怎么办，正向面对问题，是近年英文成长型思维的热门读本，配套系列书很受欢迎。", tags:["英文","成长型思维","问题","独立"] },
+  { title:"I Am Enough", lang:"英文", author:"Grace Byers", ageMin:3, ageMax:7, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"我已经足够好了，自我接纳和自爱，是英文自我认同和自信启蒙的近年热门读本。", tags:["英文","自我认同","自信","品格"] },
+  { title:"Dragons Love Tacos 2", lang:"英文", author:"Adam Rubin", ageMin:2, ageMax:6, themes:["想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"龙爱吃玉米饼续集，同样幽默爆笑，是第一部的热门续集。", tags:["英文","幽默","龙","续集"] },
+  { title:"Elephant and Piggie Series", lang:"英文", author:"Mo Willems", ageMin:4, ageMax:7, themes:["友谊社交","情绪管理"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"凯迪克荣誉奖3次", buy:"亚马逊、京东", desc:"大象和小猪的友谊系列，Mo Willems最经典系列，文字简单适合自主阅读，情绪和友谊主题丰富。", tags:["英文","友谊","情绪","桥梁书"] },
+  { title:"Diary of a Wimpy Kid", lang:"英文", author:"Jeff Kinney", ageMin:6, ageMax:10, themes:["独立自主","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球畅销系列书", buy:"亚马逊、京东", desc:"小屁孩日记，全球最畅销儿童系列书之一，是英文阅读的重要桥梁，孩子一读停不下来。", tags:["英文","幽默","日记","桥梁书"] },
+  { title:"The Very Busy Spider", lang:"英文", author:"Eric Carle", ageMin:0, ageMax:3, themes:["认知启蒙","专注力"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读"], awards:"英文低幼经典", buy:"亚马逊、京东", desc:"Eric Carle的忙碌蜘蛛，有凹凸触感，坚持做自己事的专注力启蒙，是低幼触感读本。", tags:["英文","Eric Carle","专注力","触感"] },
+  { title:"From Head to Toe", lang:"英文", author:"Eric Carle", ageMin:0, ageMax:3, themes:["认知启蒙","语言表达"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"英文启蒙经典", buy:"亚马逊、京东", desc:"各种动物的动作，结合英文儿歌和肢体动作，是英语启蒙结合运动的好读本。", tags:["英文","身体","动作","低幼"] },
+  { title:"Mix It Up", lang:"英文", author:"Hervé Tullet", ageMin:1, ageMax:5, themes:["艺术启蒙","认知启蒙"], style:"简洁明快", interactive:"机关互动书", reading:["亲子共读"], awards:"法国创意绘本", buy:"亚马逊、京东", desc:"颜色混合的互动创意绘本，按Press Here系列，颜色认知和艺术创意同步，孩子超爱。", tags:["英文","颜色","艺术","互动"] },
+  { title:"Gruffalo", lang:"英文", author:"Julia Donaldson", ageMin:2, ageMax:6, themes:["想象力冒险","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"英国史密斯图书奖", buy:"亚马逊、京东", desc:"小老鼠用虚构的怪兽保护自己，韵律感超强，是英国最受欢迎的英文绘本之一。", tags:["英文","幽默","勇气","韵律"] },
+  { title:"The Snail and the Whale", lang:"英文", author:"Julia Donaldson", ageMin:2, ageMax:6, themes:["自然动物","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"英国畅销绘本", buy:"亚马逊、京东", desc:"蜗牛和鲸鱼的友谊冒险，Julia Donaldson经典，韵律感强，是英文自然和友谊的好读本。", tags:["英文","友谊","海洋","韵律"] },
+  { title:"Room on the Broom", lang:"英文", author:"Julia Donaldson", ageMin:2, ageMax:6, themes:["友谊社交","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"英国畅销绘本", buy:"亚马逊、京东", desc:"扫帚上有没有地方，小巫婆收留了各种朋友，韵律感和友谊主题，Julia Donaldson又一经典。", tags:["英文","友谊","幽默","韵律"] },
+  { title:"Funny Bones", lang:"英文", author:"Allan Ahlberg", ageMin:2, ageMax:6, themes:["想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"英国畅销低幼绘本", buy:"亚马逊、京东", desc:"骨头爸爸骨头妈妈骨头狗，在黑暗中出来玩，幽默温暖，是英国经典低幼读本。", tags:["英文","骨头","幽默","低幼"] },
+  { title:"Guess How Much I Love You", lang:"英文", author:"Sam McBratney", ageMin:0, ageMax:4, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"英国经典情感绘本", buy:"亚马逊、京东", desc:"猜猜我有多爱你，兔子父子比拼爱有多大，是英文亲子情感的温暖经典，全球销量超两千万。", tags:["英文","亲子情感","爱","经典"] },
+
+  // ── 英文原版 经典 & 高分 (补充至1000本) ──
+
+  // Dr. Seuss 系列
+  { title:"The Cat in the Hat", lang:"英文", author:"Dr. Seuss", ageMin:3, ageMax:7, themes:["想象力冒险","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球销量超1亿册", buy:"亚马逊、京东", desc:"戴帽子的猫，苏斯博士最经典之作，韵律感极强，是英语入门阅读的必读启蒙书。", tags:["英文","Dr.Seuss","韵律","经典"] },
+  { title:"One Fish Two Fish Red Fish Blue Fish", lang:"英文", author:"Dr. Seuss", ageMin:2, ageMax:5, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"Dr.Seuss经典系列", buy:"亚马逊、京东", desc:"一条鱼两条鱼红鱼蓝鱼，简单重复的词汇和韵律，是英文颜色数字认知的经典启蒙读本。", tags:["英文","Dr.Seuss","颜色","低幼"] },
+  { title:"Hop on Pop", lang:"英文", author:"Dr. Seuss", ageMin:2, ageMax:5, themes:["语言表达","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"Dr.Seuss早读经典", buy:"亚马逊、京东", desc:"苏斯博士的早读经典，简单押韵词汇，是英语自主阅读的入门好书，Goodreads超25万评分。", tags:["英文","Dr.Seuss","押韵","早读"] },
+  { title:"How the Grinch Stole Christmas", lang:"英文", author:"Dr. Seuss", ageMin:3, ageMax:7, themes:["情绪管理","传统文化"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"全球畅销经典", buy:"亚马逊、京东", desc:"格林奇偷走圣诞节，关于圣诞精神和心灵转变，是英文节日经典，亚马逊评分4.9。", tags:["英文","圣诞","Dr.Seuss","经典"] },
+  { title:"Fox in Socks", lang:"英文", author:"Dr. Seuss", ageMin:3, ageMax:6, themes:["语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"Dr.Seuss经典系列", buy:"亚马逊", desc:"绕口令式的韵律绘本，大声朗读超级有趣，是英文发音和语感训练的好读本。", tags:["英文","Dr.Seuss","绕口令","韵律"] },
+
+  // Eric Carle 系列
+  { title:"The Very Lonely Firefly", lang:"英文", author:"Eric Carle", ageMin:1, ageMax:4, themes:["自然动物","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Eric Carle经典", buy:"亚马逊、京东", desc:"孤独的萤火虫寻找同伴，结尾有真正发光的插图，是友谊启蒙的Eric Carle经典温暖读本。", tags:["英文","Eric Carle","友谊","自然"] },
+  { title:"The Grouchy Ladybug", lang:"英文", author:"Eric Carle", ageMin:2, ageMax:5, themes:["情绪管理","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Eric Carle经典", buy:"亚马逊、京东", desc:"脾气暴躁的瓢虫，每小时遇到不同动物，是时间认知和情绪管理的好读本，Eric Carle经典。", tags:["英文","Eric Carle","时间","情绪"] },
+  { title:"Papa Please Get the Moon for Me", lang:"英文", author:"Eric Carle", ageMin:1, ageMax:4, themes:["亲子情感","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Eric Carle经典", buy:"亚马逊", desc:"爸爸去摘月亮，折页设计精彩，是亲子情感和想象力的好读本，Eric Carle经典之一。", tags:["英文","Eric Carle","亲子情感","月亮"] },
+
+  // Sandra Boynton 系列（全球最畅销低幼）
+  { title:"Moo Baa La La La", lang:"英文", author:"Sandra Boynton", ageMin:0, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"全球销量超百万", buy:"亚马逊、京东", desc:"动物叫声的韵律绘本，简单有趣，是低幼宝宝的语言启蒙经典，Sandra Boynton最受欢迎之一。", tags:["英文","动物","拟声词","低幼"] },
+  { title:"Hippos Go Berserk", lang:"英文", author:"Sandra Boynton", ageMin:0, ageMax:3, themes:["数学思维","认知启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"Sandra Boynton经典", buy:"亚马逊", desc:"河马派对，从1到9再回到1，是数字认知的有趣启蒙，Sandra Boynton的经典数学读本。", tags:["英文","数学","数字","低幼"] },
+  { title:"The Going to Bed Book", lang:"英文", author:"Sandra Boynton", ageMin:0, ageMax:3, themes:["生活习惯"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"全球畅销睡前经典", buy:"亚马逊、京东", desc:"动物们的睡前仪式，韵律欢快，是低幼睡前习惯养成的经典英文读本。", tags:["英文","睡前","生活习惯","低幼"] },
+  { title:"Barnyard Dance", lang:"英文", author:"Sandra Boynton", ageMin:0, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"全球销量超百万", buy:"亚马逊、京东", desc:"农场动物跳舞，节奏感极强，朗朗上口，是低幼英文语感启蒙的经典好书。", tags:["英文","动物","音乐","低幼"] },
+
+  // Kevin Henkes 系列
+  { title:"Chrysanthemum", lang:"英文", author:"Kevin Henkes", ageMin:3, ageMax:6, themes:["独立自主","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉", buy:"亚马逊、京东", desc:"小老鼠名字被嘲笑，接受自己名字的故事，是自我认同和校园霸凌启蒙的经典英文读本。", tags:["英文","自我认同","霸凌","校园"] },
+  { title:"Owen", lang:"英文", author:"Kevin Henkes", ageMin:3, ageMax:6, themes:["情绪管理","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"小老鼠和他的毯子，不舍得放弃安慰物，是成长过渡和安全感的经典英文读本。", tags:["英文","安全感","成长","Kevin Henkes"] },
+  { title:"Lilly's Purple Plastic Purse", lang:"英文", author:"Kevin Henkes", ageMin:3, ageMax:6, themes:["情绪管理","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分经典", buy:"亚马逊、京东", desc:"莉莉的紫色手提包，关于情绪和解解和好，是情绪管理和师生关系的经典英文读本。", tags:["英文","情绪","学校","Kevin Henkes"] },
+  { title:"Julius the Baby of the World", lang:"英文", author:"Kevin Henkes", ageMin:3, ageMax:6, themes:["亲子情感","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"新弟弟来了，小老鼠的嫉妒和接受，是二胎家庭情感处理的经典英文读本。", tags:["英文","二胎","嫉妒","亲子情感"] },
+
+  // Mo Willems 更多系列
+  { title:"Knuffle Bunny", lang:"英文", author:"Mo Willems", ageMin:2, ageMax:5, themes:["亲子情感","语言表达"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"Trixie的兔子玩具丢了，无法用语言表达的沮丧，是亲子情感和语言发展的凯迪克荣誉读本。", tags:["英文","亲子情感","语言","凯迪克"] },
+  { title:"That Is Not a Good Idea", lang:"英文", author:"Mo Willems", ageMin:2, ageMax:6, themes:["想象力冒险","语言表达"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Mo Willems经典", buy:"亚马逊", desc:"戏剧式叙事的幽默绘本，小鸡们不断警告，结局出人意料，是英文叙事创意的好读本。", tags:["英文","幽默","戏剧","叙事"] },
+  { title:"City Dog Country Frog", lang:"英文", author:"Mo Willems", ageMin:3, ageMax:7, themes:["友谊社交","亲子情感"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"城市狗和乡村青蛙的友谊，关于失去和怀念，是深情的生命教育英文读本。", tags:["英文","友谊","生命教育","感动"] },
+
+  // Jon Klassen 系列
+  { title:"This Is Not My Hat", lang:"英文", author:"Jon Klassen", ageMin:2, ageMax:6, themes:["想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克金奖", buy:"亚马逊、京东", desc:"小鱼偷了大鱼的帽子，图文形成幽默反差，凯迪克金奖，是英文幽默叙事的经典之作。", tags:["英文","幽默","凯迪克","动物"] },
+  { title:"We Found a Hat", lang:"英文", author:"Jon Klassen", ageMin:2, ageMax:6, themes:["友谊社交","情绪管理"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报最佳绘本", buy:"亚马逊", desc:"两只乌龟发现一顶帽子，关于欲望和友谊，Jon Klassen帽子三部曲完结篇，温暖感人。", tags:["英文","友谊","欲望","Jon Klassen"] },
+
+  // 高分经典必读
+  { title:"Are You My Mother", lang:"英文", author:"P.D. Eastman", ageMin:1, ageMax:4, themes:["亲子情感","自然动物"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球销量超千万", buy:"亚马逊、京东", desc:"小鸟出生找妈妈，问遍各种动物和机器，是亲子情感和英文早读的经典，Goodreads超25万评分。", tags:["英文","亲子情感","早读","经典"] },
+  { title:"Go Dog Go", lang:"英文", author:"P.D. Eastman", ageMin:1, ageMax:4, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"早读经典", buy:"亚马逊、京东", desc:"小狗们在各种地方，方向认知和早读，是英文入门阅读的经典好书，Netflix改编成系列。", tags:["英文","方向","早读","低幼"] },
+  { title:"The Runaway Bunny", lang:"英文", author:"Margaret Wise Brown", ageMin:1, ageMax:4, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"亲子情感英文经典", buy:"亚马逊、京东", desc:"逃家小兔，无论跑到哪里妈妈都会找到，是英文亲子情感和无条件爱的经典读本。", tags:["英文","亲子情感","妈妈","经典"] },
+  { title:"Harold and the Purple Crayon", lang:"英文", author:"Crockett Johnson", ageMin:3, ageMax:6, themes:["艺术启蒙","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"全球经典绘本", buy:"亚马逊、京东", desc:"哈罗德用紫色蜡笔画出自己的世界，是创意思维和艺术启蒙的英文经典，Goodreads超10万评分。", tags:["英文","创意","艺术","经典"] },
+  { title:"The Story of Ferdinand", lang:"英文", author:"Munro Leaf", ageMin:3, ageMax:7, themes:["独立自主","情绪管理"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"全球经典绘本", buy:"亚马逊", desc:"不想斗牛只想闻花的公牛费迪南，是做自己的经典英文读本，出版超80年仍畅销。", tags:["英文","自我认同","独立","经典"] },
+  { title:"Blueberries for Sal", lang:"英文", author:"Robert McCloskey", ageMin:2, ageMax:5, themes:["自然动物","亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊", desc:"小女孩和小熊妈妈都去摘蓝莓，两个宝宝跟错了妈，温暖幽默，凯迪克荣誉经典。", tags:["英文","亲子情感","自然","凯迪克"] },
+  { title:"Stellaluna", lang:"英文", author:"Janell Cannon", ageMin:3, ageMax:7, themes:["自然动物","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads超5万评分", buy:"亚马逊、京东", desc:"小蝙蝠被鸟妈妈养大，是自然科普和接受差异友谊的感人英文读本，Goodreads高分经典。", tags:["英文","蝙蝠","友谊","自然"] },
+  { title:"Mike Mulligan and His Steam Shovel", lang:"英文", author:"Virginia Lee Burton", ageMin:3, ageMax:7, themes:["独立自主","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"全球经典绘本", buy:"亚马逊", desc:"麦克·马利根和他的挖掘机，关于技术进步和坚持，是工程主题的经典英文读本，出版80年不衰。", tags:["英文","工程","坚持","经典"] },
+  { title:"Madeline", lang:"英文", author:"Ludwig Bemelmans", ageMin:3, ageMax:7, themes:["独立自主","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖经典", buy:"亚马逊、京东", desc:"住在巴黎的小女孩玛德琳，勇敢独立，是英文女孩励志和文化启蒙的经典读本，Goodreads高分。", tags:["英文","女孩","勇气","经典"] },
+  { title:"Curious George", lang:"英文", author:"H.A. Rey", ageMin:2, ageMax:6, themes:["想象力冒险","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"全球畅销经典系列", buy:"亚马逊、京东", desc:"好奇的小猴乔治的经典系列，好奇心和冒险精神，是英文经典必读，全球销量超3000万册。", tags:["英文","冒险","好奇心","经典"] },
+  { title:"Caps for Sale", lang:"英文", author:"Esphyr Slobodkina", ageMin:2, ageMax:5, themes:["认知启蒙","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"全球经典绘本", buy:"亚马逊", desc:"卖帽子的人帽子被猴子偷走，颜色认知和幽默故事，是英文经典低幼读本，Goodreads高分。", tags:["英文","颜色","幽默","经典"] },
+  { title:"Little Blue and Little Yellow", lang:"英文", author:"Leo Lionni", ageMin:2, ageMax:5, themes:["艺术启蒙","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"Leo Lionni经典", buy:"亚马逊", desc:"小蓝和小黄抱在一起变成绿色，颜色认知和友谊，是艺术启蒙的Leo Lionni经典读本。", tags:["英文","颜色","友谊","Leo Lionni"] },
+  { title:"Frederick", lang:"英文", author:"Leo Lionni", ageMin:3, ageMax:7, themes:["艺术启蒙","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"小老鼠弗雷德里克收集阳光和颜色，是艺术价值和独特性的英文经典读本，Leo Lionni代表作。", tags:["英文","艺术","创意","Leo Lionni"] },
+  { title:"Swimmy", lang:"英文", author:"Leo Lionni", ageMin:3, ageMax:7, themes:["友谊社交","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"小黑鱼斯威米带领小鱼们组成大鱼对抗危险，是团队合作的Leo Lionni经典，Goodreads高分。", tags:["英文","团队","友谊","Leo Lionni"] },
+  { title:"Inch by Inch", lang:"英文", author:"Leo Lionni", ageMin:3, ageMax:6, themes:["独立自主","自然动物"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊", desc:"用聪明才智生存的小虫，是独立思考和创意解决问题的Leo Lionni经典读本。", tags:["英文","智慧","自然","Leo Lionni"] },
+
+  // Pete the Cat 系列（近年最热门英文启蒙）
+  { title:"Pete the Cat I Love My White Shoes", lang:"英文", author:"Eric Litwin", ageMin:2, ageMax:6, themes:["情绪管理","语言表达"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"皮特猫的白鞋子变颜色，保持正面心态的故事，附有儿歌，是英文情绪和颜色启蒙的热门读本。", tags:["英文","情绪","颜色","儿歌"] },
+  { title:"Pete the Cat Rocking in My School Shoes", lang:"英文", author:"Eric Litwin", ageMin:3, ageMax:6, themes:["生活习惯","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销", buy:"亚马逊、京东", desc:"皮特猫的学校生活，帮助孩子对入园入学充满信心，是入学焦虑的英文热门读本。", tags:["英文","学校","入园","积极"] },
+
+  // Elephant and Piggie 更多
+  { title:"There Is a Bird on Your Head", lang:"英文", author:"Mo Willems", ageMin:3, ageMax:7, themes:["友谊社交","情绪管理"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"凯迪克荣誉奖", buy:"亚马逊", desc:"大象头上有鸟，幽默的友谊故事，凯迪克荣誉奖，是英文自主阅读的经典桥梁书。", tags:["英文","友谊","幽默","凯迪克"] },
+
+  // 自然科普类英文高分
+  { title:"National Geographic Kids Series", lang:"英文", author:"National Geographic", ageMin:4, ageMax:8, themes:["科学探索","自然动物"], style:"写实摄影", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"Amazon畅销科普系列", buy:"亚马逊、京东", desc:"美国国家地理儿童系列，真实摄影加专业科普文字，是英文科普启蒙的经典高分系列。", tags:["英文","科学","自然","科普"] },
+  { title:"Ology Series", lang:"英文", author:"多位", ageMin:5, ageMax:10, themes:["科学探索","想象力冒险"], style:"细节丰富", interactive:"机关互动书", reading:["亲子共读","孩子自主阅读"], awards:"Amazon高分系列", buy:"亚马逊、京东", desc:"龙类学、神话生物学等系列，充满精美插图和机关设计，是幻想科普的高分互动读本。", tags:["英文","奇幻","科学","机关书"] },
+  { title:"I Spy Series", lang:"英文", author:"Jean Marzollo", ageMin:3, ageMax:8, themes:["专注力","认知启蒙"], style:"写实摄影", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球经典找一找系列", buy:"亚马逊、京东", desc:"经典找一找游戏书系列，真实摄影场景中找隐藏物品，培养观察力和专注力，全球畅销系列。", tags:["英文","找一找","专注力","游戏"] },
+  { title:"Magic School Bus Series", lang:"英文", author:"Joanna Cole", ageMin:4, ageMax:8, themes:["科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球最畅销科普系列之一", buy:"亚马逊、京东", desc:"神奇校车英文原版系列，带孩子进入科学世界的经典冒险，Goodreads超高评分科普必读。", tags:["英文","科学","冒险","经典"] },
+
+  // 近年trending 2020-2024
+  { title:"The Tryout", lang:"英文", author:"Christina Soontornvat", ageMin:4, ageMax:8, themes:["独立自主","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon 2023编辑推荐", buy:"亚马逊", desc:"选拔赛上的紧张和勇气，关于努力和接受结果，是近年美国热门的运动主题英文绘本。", tags:["英文","运动","勇气","独立"] },
+  { title:"Those Shoes", lang:"英文", author:"Maribeth Boelts", ageMin:4, ageMax:7, themes:["独立自主","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"男孩渴望一双流行的鞋，关于欲望现实和善意，是情感和品格的高分英文读本。", tags:["英文","品格","善意","现实"] },
+  { title:"Hair Love", lang:"英文", author:"Matthew A. Cherry", ageMin:3, ageMax:7, themes:["亲子情感","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"奥斯卡最佳动画短片改编", buy:"亚马逊、京东", desc:"爸爸学给女儿梳头，是父女亲情和自我接纳的感人英文读本，由奥斯卡获奖短片改编。", tags:["英文","亲子情感","爸爸","自我认同"] },
+  { title:"What Lane", lang:"英文", author:"Tom Hubbard", ageMin:4, ageMax:8, themes:["独立自主","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊", desc:"关于身份认同和找到自己位置的故事，是近年多元文化的热门英文绘本。", tags:["英文","身份认同","多元","品格"] },
+  { title:"The World Needs More Purple People", lang:"英文", author:"Kristen Bell", ageMin:3, ageMax:7, themes:["友谊社交","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"克里斯汀·贝尔的绘本，做有特色的紫色人，是品格和多元包容的热门英文读本。", tags:["英文","品格","多元","积极"] },
+  { title:"I Love My Daddy Because", lang:"英文", author:"Laurel Porter-Gaylord", ageMin:0, ageMax:3, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销低幼", buy:"亚马逊", desc:"各种小动物和爸爸的温暖互动，是低幼亲子情感的温暖读本，亚马逊持续高销量。", tags:["英文","爸爸","亲子情感","低幼"] },
+  { title:"Stellaluna Board Book", lang:"英文", author:"Janell Cannon", ageMin:0, ageMax:2, themes:["自然动物","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"经典板书版", buy:"亚马逊", desc:"斯黛拉露娜的板书版，适合低幼宝宝，是自然科普和友谊的简化版经典读本。", tags:["英文","动物","低幼","自然"] },
+  { title:"Duck Duck Porcupine", lang:"英文", author:"Salina Yoon", ageMin:2, ageMax:5, themes:["友谊社交","情绪管理"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销友谊绘本", buy:"亚马逊", desc:"鸭子和豪猪的有趣友谊，幽默温暖，是低幼友谊启蒙的好英文读本。", tags:["英文","友谊","幽默","低幼"] },
+  { title:"Bear Has a Story to Tell", lang:"英文", author:"Philip C. Stead", ageMin:2, ageMax:5, themes:["友谊社交","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"熊要讲故事，但朋友们都在忙着准备冬天，温暖感人，是友谊和聆听的好英文读本。", tags:["英文","友谊","温暖","季节"] },
+  { title:"A Ball for Daisy", lang:"英文", author:"Chris Raschka", ageMin:0, ageMax:3, themes:["情绪管理","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克金奖", buy:"亚马逊", desc:"凯迪克金奖无字书，小狗戴西的球被弄破，是情绪和失去的温暖处理，适合低幼宝宝。", tags:["英文","无字书","情绪","凯迪克"] },
+
+  // 女孩STEM / 多元系列
+  { title:"Iggy Peck Architect", lang:"英文", author:"Andrea Beaty", ageMin:4, ageMax:8, themes:["科学探索","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"建筑师伊基的故事，Andrea Beaty STEM系列，是建筑和创意思维的好英文读本。", tags:["英文","建筑","STEM","创意"] },
+  { title:"Sofia Valdez Future Prez", lang:"英文", author:"Andrea Beaty", ageMin:4, ageMax:8, themes:["独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon编辑推荐", buy:"亚马逊", desc:"小索菲亚解决社区问题，是公民意识和女孩领导力的好英文读本，STEM系列新成员。", tags:["英文","领导力","女孩","社区"] },
+
+  // 经典格格不入/自我认同
+  { title:"Stand Tall Molly Lou Melon", lang:"英文", author:"Patty Lovell", ageMin:3, ageMax:7, themes:["独立自主","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon教师选书", buy:"亚马逊、京东", desc:"个子最小但最有自信的莫莉，无惧嘲笑，是自信心和反霸凌的英文热门读本。", tags:["英文","自信","霸凌","独立"] },
+  { title:"The Name Jar", lang:"英文", author:"Yangsook Choi", ageMin:4, ageMax:8, themes:["独立自主","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"韩国女孩不喜欢自己的名字，寻找身份认同，是文化多元和自我接受的高分英文读本。", tags:["英文","文化","身份认同","友谊"] },
+  { title:"Each Little Bird That Sings", lang:"英文", author:"Deborah Wiles", ageMin:5, ageMax:9, themes:["亲子情感","生命教育"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"关于失去和悲伤的温暖故事，南方文化背景，是生命教育和家庭情感的高分英文读本。", tags:["英文","生命教育","家庭","感动"] },
+
+  // 近年最trending (2021-2024)
+  { title:"Maybe", lang:"英文", author:"Kobi Yamada", ageMin:3, ageMax:7, themes:["独立自主","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销", buy:"亚马逊", desc:"也许你会改变世界，鼓励孩子的可能性，Kobi Yamada系列，是品格启蒙的热门英文读本。", tags:["英文","励志","可能性","品格"] },
+  { title:"What Do You Do With a Chance", lang:"英文", author:"Kobi Yamada", ageMin:3, ageMax:7, themes:["独立自主","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销", buy:"亚马逊", desc:"把握机会的故事，Kobi Yamada三部曲之一，是勇气和成长型思维的热门英文读本。", tags:["英文","机会","勇气","成长型思维"] },
+  { title:"The Adventures of Beekle the Unimaginary Friend", lang:"英文", author:"Dan Santat", ageMin:3, ageMax:7, themes:["友谊社交","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克金奖2015", buy:"亚马逊、京东", desc:"等待被想象的朋友Beekle，关于友谊和勇气，2015凯迪克金奖，是想象力和友谊的经典读本。", tags:["英文","友谊","想象力","凯迪克"] },
+  { title:"After the Fall", lang:"英文", author:"Dan Santat", ageMin:4, ageMax:8, themes:["独立自主","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖2018", buy:"亚马逊", desc:"蛋头先生从墙上掉落后克服恐惧的故事，是勇气和恢复力的凯迪克荣誉英文读本。", tags:["英文","勇气","恢复力","凯迪克"] },
+  { title:"What a Wonderful World", lang:"英文", author:"Bob Thiele", ageMin:2, ageMax:6, themes:["艺术启蒙","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊、京东", desc:"路易斯·阿姆斯特朗经典歌曲改编绘本，多彩世界的美好，是艺术和感恩教育的英文好书。", tags:["英文","音乐","艺术","感恩"] },
+  { title:"Dragons and Marshmallows", lang:"英文", author:"Asia Citro", ageMin:3, ageMax:7, themes:["科学探索","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊", desc:"Zoey和她的神奇生物朋友们，科学探索和奇幻结合，是女孩STEM和想象力的热门英文读本。", tags:["英文","科学","奇幻","女孩"] },
+  { title:"Interstellar Cinderella", lang:"英文", author:"Deborah Nourse Lattimore", ageMin:4, ageMax:7, themes:["独立自主","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊", desc:"太空版灰姑娘，会修飞船的灰姑娘，是女孩STEM和改编经典的有趣英文读本。", tags:["英文","女孩","STEM","科幻"] },
+  { title:"Not a Box", lang:"英文", author:"Antoinette Portis", ageMin:1, ageMax:5, themes:["想象力冒险","艺术启蒙"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊、京东", desc:"这不是一个箱子！充满想象力的创意绘本，是想象力和创意思维的高分英文读本。", tags:["英文","想象力","创意","低幼"] },
+  { title:"The Invisible ABCs", lang:"英文", author:"Pam Luttrell", ageMin:2, ageMax:5, themes:["语言表达","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"英文字母启蒙", buy:"亚马逊", desc:"隐藏字母找一找的认知绘本，是英文字母学习的好游戏读本。", tags:["英文","字母","找一找","认知"] },
+  { title:"My Big Feelings", lang:"英文", author:"Courtney Carbone", ageMin:2, ageMax:5, themes:["情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销情绪系列", buy:"亚马逊、京东", desc:"帮助孩子认识和处理各种情绪，是近年Amazon高销量的英文情绪管理系列读本。", tags:["英文","情绪","情绪管理","低幼"] },
+  { title:"Zen Shorts", lang:"英文", author:"Jon J. Muth", ageMin:4, ageMax:8, themes:["情绪管理","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"凯迪克荣誉奖", buy:"亚马逊", desc:"熊猫讲禅意小故事，东方智慧和西方叙事结合，凯迪克荣誉，是哲学启蒙的英文好书。", tags:["英文","禅意","哲学","品格"] },
+  { title:"Brave Irene", lang:"英文", author:"William Steig", ageMin:3, ageMax:7, themes:["独立自主","亲子情感"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"艾琳为妈妈在暴风雪中送礼服，是勇气和孝心的英文经典读本，William Steig代表作。", tags:["英文","勇气","亲子情感","冒险"] },
+  { title:"Charlotte's Web", lang:"英文", author:"E.B. White", ageMin:5, ageMax:9, themes:["友谊社交","生命教育"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球最佳儿童文学之一", buy:"亚马逊、京东", desc:"夏洛的网，蜘蛛夏洛为猪小弟的友谊故事，是生命教育和友谊的英文经典章节书必读。", tags:["英文","友谊","生命教育","经典"] },
+  { title:"Stuart Little", lang:"英文", author:"E.B. White", ageMin:5, ageMax:8, themes:["独立自主","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球经典儿童文学", buy:"亚马逊、京东", desc:"小老鼠斯图尔特的冒险，是独立精神和冒险的英文经典章节书，E.B. White名作。", tags:["英文","冒险","独立","经典"] },
+  { title:"The Phantom Tollbooth", lang:"英文", author:"Norton Juster", ageMin:6, ageMax:10, themes:["想象力冒险","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球经典儿童文学", buy:"亚马逊", desc:"无聊男孩进入神奇收费亭后的冒险，语言和数字的王国，是想象力和智识启蒙的英文经典。", tags:["英文","冒险","语言","经典"] },
+  { title:"A Cricket in Times Square", lang:"英文", author:"George Selden", ageMin:5, ageMax:9, themes:["友谊社交","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽伯瑞荣誉奖", buy:"亚马逊", desc:"时代广场的蟋蟀，各种小动物的友谊，是英文章节书的纽伯瑞荣誉经典读本。", tags:["英文","友谊","冒险","经典"] },
+  { title:"Frog and Toad Are Friends", lang:"英文", author:"Arnold Lobel", ageMin:3, ageMax:7, themes:["友谊社交","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"凯迪克荣誉奖", buy:"亚马逊、京东", desc:"青蛙和蟾蜍的经典友谊系列，温暖简单，是英文早读的必备经典，Goodreads超高评分。", tags:["英文","友谊","早读","凯迪克"] },
+  { title:"Amelia Bedelia", lang:"英文", author:"Peggy Parish", ageMin:4, ageMax:7, themes:["语言表达","想象力冒险"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球畅销英文系列", buy:"亚马逊", desc:"字面理解语言的有趣女佣，语言幽默和英文双关，是英语语言理解和幽默的经典读本。", tags:["英文","幽默","语言","经典"] },
+  { title:"Little Critter Series", lang:"英文", author:"Mercer Mayer", ageMin:2, ageMax:6, themes:["生活习惯","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"全球畅销系列", buy:"亚马逊、京东", desc:"小怪兽系列，日常生活和情绪管理，画面细节丰富充满幽默，是英文低幼的经典热门系列。", tags:["英文","生活习惯","情绪","低幼"] },
+  { title:"The Pigeon Wants a Puppy", lang:"英文", author:"Mo Willems", ageMin:2, ageMax:6, themes:["情绪管理","自然动物"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"Mo Willems经典", buy:"亚马逊", desc:"鸽子想要一只小狗，欲望和现实的幽默处理，是Mo Willems鸽子系列的热门续作。", tags:["英文","幽默","欲望","Mo Willems"] },
+  { title:"The Night Before Christmas", lang:"英文", author:"Clement Moore", ageMin:2, ageMax:7, themes:["传统文化","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"英文圣诞经典", buy:"亚马逊、京东", desc:"圣诞节前夕的经典诗歌绘本，全球最著名的圣诞故事之一，是英文节日文化的经典读本。", tags:["英文","圣诞","节日","经典"] },
+  { title:"Blaze and the Monster Machines", lang:"英文", author:"多位", ageMin:2, ageMax:5, themes:["交通工具","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Nickelodeon畅销系列", buy:"亚马逊、京东", desc:"闪电炫车队系列绘本，偏男孩，科学和工程概念融入故事，亚马逊高销量儿童读本。", tags:["英文","交通工具","男孩","科学"] },
+  { title:"Pinkalicious", lang:"英文", author:"Victoria Kann", ageMin:3, ageMax:6, themes:["艺术启蒙","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"粉红控女孩吃太多粉色食物变粉红，幽默有趣，是女孩艺术和颜色启蒙的热门英文读本。", tags:["英文","颜色","女孩","幽默"] },
+  { title:"The Berenstain Bears Series", lang:"英文", author:"Stan Berenstain", ageMin:3, ageMax:7, themes:["生活习惯","情绪管理"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"全球畅销系列超300册", buy:"亚马逊、京东", desc:"贝贝熊家族系列，日常生活和品格教育，是英文家庭阅读的经典系列，全球销量超3亿册。", tags:["英文","家庭","生活习惯","经典"] },
+  { title:"Fancy Nancy", lang:"英文", author:"Jane O'Connor", ageMin:3, ageMax:7, themes:["语言表达","艺术启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"爱打扮的南希用高级词汇说话，语言启蒙和自我表达，是近年英文女孩系列的热门读本。", tags:["英文","语言","女孩","自我表达"] },
+  { title:"Peppa Pig Story Collection", lang:"英文", author:"Neville Astley", ageMin:2, ageMax:5, themes:["生活习惯","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"全球最流行儿童IP", buy:"亚马逊、京东", desc:"小猪佩奇英文原版系列，简单日常故事，是全球最受欢迎的英文幼儿读本，英语启蒙必备。", tags:["英文","日常","生活习惯","低幼"] },
+  { title:"Bluey The Beach", lang:"英文", author:"Ludo Studio", ageMin:2, ageMax:5, themes:["亲子情感","生活习惯"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"全球最热门儿童动画改编", buy:"亚马逊、京东", desc:"布鲁伊英文绘本，海边一天，全球最热门儿童IP之一，是亲子情感的温暖读本。", tags:["英文","亲子情感","日常","trending"] },
+  { title:"Elephant and Piggie Like Reading Series", lang:"英文", author:"Mo Willems", ageMin:4, ageMax:7, themes:["语言表达","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"Amazon高分系列", buy:"亚马逊", desc:"大象和小猪阅读系列，推广阅读的桥梁书，Mo Willems新系列，是英文自主阅读的好选择。", tags:["英文","阅读","桥梁书","Mo Willems"] },
+  { title:"I Love You to the Moon and Back", lang:"英文", author:"Amelia Hepworth", ageMin:0, ageMax:4, themes:["亲子情感"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销亲子绘本", buy:"亚马逊、京东", desc:"我爱你到月亮再回来，小熊和熊爸爸的爱，是英文低幼亲子情感的热门畅销读本。", tags:["英文","亲子情感","爱","低幼"] },
+  { title:"Construction Site on Christmas Night", lang:"英文", author:"Sherri Duskey Rinker", ageMin:2, ageMax:5, themes:["交通工具","传统文化"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊", desc:"圣诞夜的工地好朋友，偏男孩，节日主题加工程车，是工地系列的热门圣诞版本。", tags:["英文","圣诞","交通工具","男孩"] },
+  { title:"Dragons Love Tacos and Friends", lang:"英文", author:"Adam Rubin", ageMin:2, ageMax:5, themes:["想象力冒险","自然动物"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊", desc:"龙的友谊版本，各种龙的生活，Adam Rubin系列扩展，是幽默英文绘本的好续作。", tags:["英文","幽默","龙","友谊"] },
+  { title:"The Bear Ate Your Sandwich", lang:"英文", author:"Julia Sarcone-Roach", ageMin:3, ageMax:7, themes:["想象力冒险","语言表达"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分", buy:"亚马逊", desc:"熊吃了你的三明治，不可靠的叙述者，结局出人意料，是叙事思维和幽默的英文好书。", tags:["英文","幽默","叙事","思维"] },
+  { title:"The True Story of the Three Little Pigs", lang:"英文", author:"Jon Scieszka", ageMin:4, ageMax:8, themes:["想象力冒险","语言表达"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Goodreads高分改编经典", buy:"亚马逊、京东", desc:"大灰狼版三只小猪，经典故事的颠覆叙事，是批判思维和叙事创意的高分英文读本。", tags:["英文","叙事","幽默","经典改编"] },
+  { title:"Mighty Machines Series", lang:"英文", author:"多位", ageMin:1, ageMax:4, themes:["交通工具","科学探索"], style:"写实摄影", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon畅销系列", buy:"亚马逊", desc:"真实摄影的工程机械系列，偏男孩，是交通工具启蒙的实物认知好系列读本。", tags:["英文","交通工具","摄影","低幼"] },
+  { title:"Big Red Barn", lang:"英文", author:"Margaret Wise Brown", ageMin:0, ageMax:3, themes:["自然动物","认知启蒙"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"经典农场绘本", buy:"亚马逊、京东", desc:"大红谷仓里的动物们，简单认知农场动物，是低幼自然认知的英文经典温暖读本。", tags:["英文","动物","农场","低幼"] },
+  { title:"The Very Impatient Caterpillar", lang:"英文", author:"Ross Burach", ageMin:3, ageMax:6, themes:["情绪管理","认知启蒙"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊", desc:"没有耐心的毛毛虫，幽默处理等待和耐心，是情绪管理和专注力的趣味英文读本。", tags:["英文","耐心","幽默","情绪"] },
+  { title:"Dragons Love Tacos Breakfast", lang:"英文", author:"Adam Rubin", ageMin:2, ageMax:5, themes:["生活习惯","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊", desc:"龙爱吃早餐，把早餐习惯变得有趣，Adam Rubin系列的轻松版本。", tags:["英文","生活习惯","幽默","低幼"] },
+  { title:"We're Going on a Bear Hunt", lang:"英文", author:"Michael Rosen", ageMin:1, ageMax:5, themes:["想象力冒险","语言表达"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"英国经典必读绘本", buy:"亚马逊、京东", desc:"我们去打猎熊，重复韵律的冒险故事，是英国最受欢迎的英文低幼读本之一，亲子互动极强。", tags:["英文","冒险","韵律","低幼"] },
+  { title:"Where Is the Green Sheep", lang:"英文", author:"Mem Fox", ageMin:0, ageMax:3, themes:["认知启蒙","语言表达"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读"], awards:"澳大利亚畅销绘本", buy:"亚马逊、京东", desc:"找找绿羊在哪里，各种颜色对比认知，Mem Fox经典，是低幼认知启蒙的好英文读本。", tags:["英文","颜色","找一找","低幼"] },
+  { title:"Time for Bed", lang:"英文", author:"Mem Fox", ageMin:0, ageMax:3, themes:["生活习惯","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"全球畅销睡前绘本", buy:"亚马逊、京东", desc:"各种动物妈妈哄宝宝睡觉，Mem Fox温暖韵律，是英文睡前仪式的经典畅销读本。", tags:["英文","睡前","动物","低幼"] },
+  { title:"Koala Lou", lang:"英文", author:"Mem Fox", ageMin:2, ageMax:5, themes:["亲子情感","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读"], awards:"澳大利亚经典绘本", buy:"亚马逊", desc:"小考拉参加比赛，妈妈的爱不因输赢改变，是亲子情感和接受失败的好英文读本。", tags:["英文","亲子情感","妈妈","澳大利亚"] },
+
+  { title:"The Tale of Peter Rabbit", lang:"英文", author:"Beatrix Potter", ageMin:2, ageMax:6, themes:["自然动物","生活习惯"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"全球销量超1亿册", buy:"亚马逊、京东", desc:"比得兔的故事，Beatrix Potter最经典之作，自然温暖，是英文经典文学的必读启蒙读本。", tags:["英文","动物","经典","Beatrix Potter"] },
+  { title:"Winnie-the-Pooh", lang:"英文", author:"A.A. Milne", ageMin:3, ageMax:7, themes:["友谊社交","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球经典儿童文学", buy:"亚马逊、京东", desc:"小熊维尼的经典故事，友谊和温暖，是英文经典文学的必读之作，全球销量超百年不衰。", tags:["英文","友谊","经典","经典文学"] },
+  { title:"The House at Pooh Corner", lang:"英文", author:"A.A. Milne", ageMin:4, ageMax:8, themes:["友谊社交","情绪管理"], style:"手绘温暖", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球经典儿童文学", buy:"亚马逊", desc:"小熊维尼第二册，百亩森林的温暖故事，是英文经典文学的必读续集。", tags:["英文","友谊","经典","维尼"] },
+  { title:"James and the Giant Peach", lang:"英文", author:"Roald Dahl", ageMin:5, ageMax:9, themes:["想象力冒险","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球经典儿童文学", buy:"亚马逊、京东", desc:"詹姆斯和大桃子，Roald Dahl经典冒险，想象力无边，是英文章节书的必读之作。", tags:["英文","冒险","Roald Dahl","经典"] },
+  { title:"Matilda", lang:"英文", author:"Roald Dahl", ageMin:5, ageMax:9, themes:["独立自主","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球经典儿童文学", buy:"亚马逊、京东", desc:"天才女孩玛蒂尔达，Roald Dahl的励志经典，是英文章节书的必读之作，电影和音乐剧改编。", tags:["英文","女孩","独立","Roald Dahl"] },
+  { title:"Charlie and the Chocolate Factory", lang:"英文", author:"Roald Dahl", ageMin:5, ageMax:9, themes:["想象力冒险","品格养成"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球最畅销儿童文学之一", buy:"亚马逊、京东", desc:"查理和巧克力工厂，Roald Dahl最受欢迎之作，奇幻冒险，是英文必读章节书经典。", tags:["英文","冒险","Roald Dahl","经典"] },
+  { title:"Horton Hears a Who", lang:"英文", author:"Dr. Seuss", ageMin:3, ageMax:7, themes:["独立自主","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Dr.Seuss经典", buy:"亚马逊、京东", desc:"霍顿听到微小世界的声音，是声音权利和保护弱小的英文经典读本，Dr. Seuss代表作。", tags:["英文","Dr.Seuss","品格","经典"] },
+  { title:"The Lorax", lang:"英文", author:"Dr. Seuss", ageMin:4, ageMax:8, themes:["科学探索","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"环保启蒙经典", buy:"亚马逊、京东", desc:"洛拉克斯保护环境的故事，是环保意识启蒙的英文经典，Dr. Seuss最具深意的作品之一。", tags:["英文","环保","Dr.Seuss","品格"] },
+  { title:"Horton Hatches the Egg", lang:"英文", author:"Dr. Seuss", ageMin:3, ageMax:7, themes:["独立自主","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Dr.Seuss经典", buy:"亚马逊", desc:"霍顿孵蛋，I meant what I said and I said what I meant，是责任感和诚信的英文经典读本。", tags:["英文","责任感","Dr.Seuss","诚信"] },
+  { title:"The Mixed Up Files of Mrs Basil E Frankweiler", lang:"英文", author:"E.L. Konigsburg", ageMin:6, ageMax:10, themes:["想象力冒险","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽伯瑞金奖", buy:"亚马逊", desc:"两个孩子逃到大都会博物馆住了起来，是冒险和艺术的纽伯瑞金奖英文经典章节书。", tags:["英文","冒险","艺术","纽伯瑞"] },
+  { title:"Where the Sidewalk Ends", lang:"英文", author:"Shel Silverstein", ageMin:4, ageMax:9, themes:["语言表达","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球畅销诗集", buy:"亚马逊、京东", desc:"Shel Silverstein的经典诗集，幽默荒诞充满想象力，是英文诗歌启蒙的必读经典。", tags:["英文","诗歌","幽默","经典"] },
+  { title:"A Light in the Attic", lang:"英文", author:"Shel Silverstein", ageMin:4, ageMax:9, themes:["语言表达","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["亲子共读","孩子自主阅读"], awards:"全球畅销诗集", buy:"亚马逊", desc:"阁楼里的光，Shel Silverstein另一部经典诗集，幽默温暖，是英文诗歌和语言的好读本。", tags:["英文","诗歌","幽默","Shel Silverstein"] },
+  { title:"Sideways Stories from Wayside School", lang:"英文", author:"Louis Sachar", ageMin:6, ageMax:9, themes:["友谊社交","想象力冒险"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球畅销章节书", buy:"亚马逊", desc:"歪歪学校的故事，每个班级的荒诞故事，是英文幽默章节书的热门之选。", tags:["英文","幽默","学校","冒险"] },
+  { title:"The Magic Tree House Series", lang:"英文", author:"Mary Pope Osborne", ageMin:5, ageMax:9, themes:["想象力冒险","科学探索"], style:"手绘温暖", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球最畅销儿童系列之一", buy:"亚马逊、京东", desc:"神奇树屋系列，穿越历史和时空的冒险，全球销量超1亿册，是英文自主阅读的必备经典系列。", tags:["英文","冒险","历史","桥梁书"] },
+  { title:"Ivy and Bean Series", lang:"英文", author:"Annie Barrows", ageMin:5, ageMax:8, themes:["友谊社交","独立自主"], style:"手绘温暖", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"Amazon高分系列", buy:"亚马逊", desc:"伊薇和豆豆的友谊系列，不同性格的好朋友，是英文女孩友谊和成长的热门章节书。", tags:["英文","友谊","女孩","桥梁书"] },
+  { title:"Junie B Jones Series", lang:"英文", author:"Barbara Park", ageMin:4, ageMax:8, themes:["独立自主","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球畅销儿童系列", buy:"亚马逊、京东", desc:"朱尼·琼斯系列，幽默直接的小女孩故事，是英文早期章节书的经典热门系列。", tags:["英文","幽默","女孩","桥梁书"] },
+  { title:"Captain Underpants Series", lang:"英文", author:"Dav Pilkey", ageMin:5, ageMax:9, themes:["想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球最畅销儿童系列之一", buy:"亚马逊、京东", desc:"内裤超人系列，是让不爱读书的孩子爱上阅读的英文神书，全球销量超2亿册。", tags:["英文","幽默","冒险","桥梁书"] },
+  { title:"Dog Man Series", lang:"英文", author:"Dav Pilkey", ageMin:5, ageMax:9, themes:["友谊社交","想象力冒险"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球最畅销系列2024", buy:"亚马逊、京东", desc:"狗狗侦探系列，Dav Pilkey的漫画书系列，是近年全球最热门的英文儿童读本之一。", tags:["英文","漫画","冒险","trending"] },
+  { title:"Big Nate Series", lang:"英文", author:"Lincoln Peirce", ageMin:6, ageMax:10, themes:["独立自主","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"大内特系列，漫画章节书，幽默校园故事，是英文自主阅读的热门桥梁书系列。", tags:["英文","幽默","学校","漫画"] },
+  { title:"Hilo Series", lang:"英文", author:"Judd Winick", ageMin:5, ageMax:9, themes:["友谊社交","科学探索"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽约时报畅销榜", buy:"亚马逊", desc:"机器人来地球的科幻冒险系列，是近年最受欢迎的英文漫画章节书之一，Amazon高分。", tags:["英文","科幻","漫画","冒险"] },
+  { title:"The One and Only Ivan", lang:"英文", author:"Katherine Applegate", ageMin:5, ageMax:9, themes:["独立自主","自然动物"], style:"手绘温暖", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽伯瑞金奖", buy:"亚马逊、京东", desc:"动物园里大猩猩伊万的故事，Disney改编成电影，纽伯瑞金奖，是生命教育的英文佳作。", tags:["英文","动物","生命教育","纽伯瑞"] },
+  { title:"Front Desk", lang:"英文", author:"Kelly Yang", ageMin:6, ageMax:10, themes:["独立自主","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"亚太裔美国文学奖", buy:"亚马逊、京东", desc:"移民女孩在汽车旅馆的故事，是移民文化和独立自主的热门英文章节书，近年很trending。", tags:["英文","移民","独立","亚裔"] },
+  { title:"Wonder", lang:"英文", author:"R.J. Palacio", ageMin:6, ageMax:10, themes:["独立自主","友谊社交"], style:"手绘温暖", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"全球畅销感人故事", buy:"亚马逊、京东", desc:"奇迹男孩，面部畸形男孩的校园故事，是包容善意的感人英文读本，全球销量超千万。", tags:["英文","包容","善意","感动"] },
+  { title:"The Bad Seed", lang:"英文", author:"Jory John", ageMin:3, ageMax:7, themes:["情绪管理","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊、京东", desc:"坏种子的自我救赎，幽默温暖，是改变和成长的英文好绘本，Jory John热门系列。", tags:["英文","品格","幽默","改变"] },
+  { title:"The Good Egg", lang:"英文", author:"Jory John", ageMin:3, ageMax:7, themes:["情绪管理","独立自主"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"纽约时报畅销榜", buy:"亚马逊、京东", desc:"好蛋太完美的烦恼，是接受自己和放下完美主义的英文好绘本。", tags:["英文","完美主义","品格","幽默"] },
+  { title:"The Cool Bean", lang:"英文", author:"Jory John", ageMin:3, ageMax:7, themes:["独立自主","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["亲子共读"], awards:"Amazon高分", buy:"亚马逊", desc:"酷豆子学着打招呼，是克服害羞和善意的英文好绘本，Jory John系列。", tags:["英文","害羞","友谊","品格"] },
+  { title:"When Stars Are Scattered", lang:"英文", author:"Victoria Jamieson", ageMin:6, ageMax:10, themes:["独立自主","亲子情感"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"Amazon高分图像小说", buy:"亚马逊", desc:"难民营的真实故事，图像小说，是关于希望和教育的感人英文读本，近年很trending。", tags:["英文","难民","漫画","感动"] },
+  { title:"Real Friends", lang:"英文", author:"Shannon Hale", ageMin:5, ageMax:9, themes:["友谊社交","情绪管理"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"Amazon高分图像小说", buy:"亚马逊", desc:"真正的朋友，女孩友谊的图像小说，关于排斥和真诚，是女孩友谊启蒙的好英文读本。", tags:["英文","友谊","女孩","漫画"] },
+  { title:"El Deafo", lang:"英文", author:"Cece Bell", ageMin:6, ageMax:10, themes:["独立自主","友谊社交"], style:"细节丰富", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"凯迪克荣誉奖图像小说", buy:"亚马逊", desc:"聋哑女孩的超级英雄成长故事，图像小说，凯迪克荣誉，是自我接纳的热门英文读本。", tags:["英文","自我认同","漫画","凯迪克"] },
+  { title:"Smile", lang:"英文", author:"Raina Telgemeier", ageMin:5, ageMax:9, themes:["独立自主","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽约时报畅销榜多年", buy:"亚马逊、京东", desc:"Raina的牙齿事故成长故事，图像小说，是近年最畅销的英文儿童图像小说之一。", tags:["英文","成长","漫画","女孩"] },
+  { title:"Sisters", lang:"英文", author:"Raina Telgemeier", ageMin:5, ageMax:9, themes:["亲子情感","友谊社交"], style:"简洁明快", interactive:"普通绘本", reading:["孩子自主阅读"], awards:"纽约时报畅销榜", buy:"亚马逊", desc:"Raina和妹妹的关系，图像小说，是姐妹情感和家庭关系的热门英文读本。", tags:["英文","姐妹","漫画","家庭"] },
 ];
 
 const AGE_RANGES = {"0-1岁":[0,1],"1-2岁":[1,2],"2-3岁":[2,3],"3-4岁":[3,4],"4-6岁":[4,6]};
 const AGE_OPTS = [{e:"🐣",l:"0–1 岁",v:"0-1岁"},{e:"🐥",l:"1–2 岁",v:"1-2岁"},{e:"🐰",l:"2–3 岁",v:"2-3岁"},{e:"🦊",l:"3–4 岁",v:"3-4岁"},{e:"🦁",l:"4–6 岁",v:"4-6岁"}];
-const THEME_OPTS = [{e:"✨",l:"都可以",v:"都可以"},{e:"🚗",l:"交通工具",v:"交通工具"},{e:"🐘",l:"自然动物",v:"自然动物"},{e:"🌈",l:"情绪管理",v:"情绪管理"},{e:"🤝",l:"友谊社交",v:"友谊社交"},{e:"🏫",l:"入园适应",v:"入园适应"},{e:"👶",l:"二胎家庭",v:"二胎家庭"},{e:"🚀",l:"想象力冒险",v:"想象力冒险"},{e:"🪥",l:"生活习惯",v:"生活习惯"},{e:"🔬",l:"科学探索",v:"科学探索"},{e:"🏮",l:"传统文化",v:"传统文化"},{e:"🔢",l:"数学思维",v:"数学思维"},{e:"🎨",l:"艺术启蒙",v:"艺术启蒙"},{e:"💬",l:"语言表达",v:"语言表达"},{e:"🧘",l:"专注力",v:"专注力"},{e:"💪",l:"独立自主",v:"独立自主"}];
+const TOPIC_OPTS = [
+  {e:"🐘",l:"自然动物",v:"自然动物"},{e:"🚗",l:"交通工具",v:"交通工具"},
+  {e:"🏮",l:"传统文化",v:"传统文化"},{e:"🔬",l:"科学探索",v:"科学探索"},
+  {e:"🚀",l:"想象力冒险",v:"想象力冒险"},{e:"🤝",l:"友谊社交",v:"友谊社交"},
+  {e:"🍳",l:"生活日常",v:"生活习惯"},{e:"🎨",l:"艺术与创意",v:"艺术启蒙"},
+  {e:"✨",l:"都可以",v:"都可以"}
+];
+const FUNC_OPTS = [
+  {e:"🌈",l:"情绪管理",v:"情绪管理"},{e:"💡",l:"认知启蒙",v:"认知启蒙"},
+  {e:"🧘",l:"专注力",v:"专注力"},{e:"💬",l:"语言表达",v:"语言表达"},
+  {e:"💪",l:"独立自主",v:"独立自主"},{e:"🏫",l:"入园适应",v:"入园适应"},
+  {e:"👶",l:"二胎家庭",v:"二胎家庭"},{e:"🔢",l:"数学思维",v:"数学思维"},
+  {e:"🌱",l:"生命教育",v:"生命教育"},{e:"❤️",l:"亲子情感",v:"亲子情感"},
+  {e:"✨",l:"都可以",v:"都可以"}
+];
+const THEME_OPTS = TOPIC_OPTS;
 const STYLE_OPTS = [{e:"◻️",l:"简洁明快",v:"简洁明快"},{e:"🎨",l:"细节丰富",v:"细节丰富"},{e:"✏️",l:"手绘温暖",v:"手绘温暖"},{e:"🎠",l:"都可以",v:"都可以"}];
 const INTER_OPTS = [{e:"📖",l:"普通绘本",v:"普通绘本"},{e:"🎪",l:"机关互动书",v:"机关互动书"},{e:"🔍",l:"翻翻书",v:"翻翻书"},{e:"🕳️",l:"洞洞书",v:"洞洞书"},{e:"✨",l:"都可以",v:"都可以"}];
 const READ_OPTS = [{e:"🫶",l:"亲子共读",v:"亲子共读"},{e:"🧒",l:"孩子自主阅读",v:"孩子自主阅读"},{e:"💫",l:"两者都有",v:"两者都有"}];
 const LANG_OPTS = [{e:"🇨🇳",l:"中文",v:"中文"},{e:"🇬🇧",l:"英文原版",v:"英文"},{e:"✨",l:"都可以",v:"全部"}];
 const PALETTES = [{bg:"#f2e6d8",ac:"#c49a6c",tx:"#5c3d2e"},{bg:"#dde8d8",ac:"#6a9460",tx:"#2d4a28"},{bg:"#f8ede0",ac:"#d4845a",tx:"#7a3d1a"},{bg:"#dce6f0",ac:"#5a84aa",tx:"#1a3a5c"},{bg:"#f0e8d8",ac:"#a08060",tx:"#4a3020"},{bg:"#e8dff0",ac:"#9070b0",tx:"#3d1a5c"},{bg:"#d8f0e4",ac:"#509870",tx:"#1a4a30"},{bg:"#f0edd8",ac:"#a09040",tx:"#4a3a10"}];
 
-let SEL = { age: null, themes: [], style: null, interactive: null, reading: "两者都有", lang: "全部" };
+let SEL = { age: null, topics: [], funcs: [], interactive: null, lang: "全部" };
 let currentMode = null;
+let AI_TAGS = [];
 
 document.getElementById("book-count").textContent = BOOKS.length;
 // Build title lookup map using index
@@ -1011,35 +1510,85 @@ function renderOpts(id, opts, key, multi=false) {
   });
 }
 
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById("mode-section").style.display = "none";
-  document.getElementById("browse-section").style.display = mode === "browse" ? "block" : "none";
-  document.getElementById("concern-section").style.display = mode === "concern" ? "block" : "none";
-  SEL = { age: null, themes: [], style: null, interactive: null, reading: "两者都有", lang: "全部" };
-  renderOpts("age-opts-b", AGE_OPTS, "age");
-  renderOpts("age-opts-c", AGE_OPTS, "age");
-  renderOpts("theme-opts", THEME_OPTS, "themes", true);
-  renderOpts("style-opts", STYLE_OPTS, "style");
-  renderOpts("inter-opts", INTER_OPTS, "interactive");
-  renderOpts("reading-opts", READ_OPTS, "reading");
-  renderOpts("lang-opts", LANG_OPTS, "lang");
-  // default lang
-  const langBtns = document.querySelectorAll("#lang-opts .opt-btn");
-  if (langBtns[2]) { langBtns[2].classList.add("selected"); SEL.lang = "全部"; }
-}
 
-function goBack() {
-  document.getElementById("browse-section").style.display = "none";
-  document.getElementById("concern-section").style.display = "none";
-  document.getElementById("mode-section").style.display = "block";
-  currentMode = null;
-}
+
 
 function showError(id, msg) {
   const el = document.getElementById(id);
   el.textContent = msg; el.style.display = "block";
   setTimeout(() => el.style.display = "none", 3000);
+}
+
+
+// ── 本地关键词→标签映射（API不可用时的兜底方案）──
+function localTagMatch(concern) {
+  const c = concern;
+  const tags = [];
+
+  const rules = [
+    // 睡眠相关
+    { kws:["睡觉","睡前","不睡","磨磨","哄睡","入睡","睡眠","晚安","夜醒"],
+      tags:["睡前","生活习惯","情绪管理","安全感"] },
+    // 情绪发脾气
+    { kws:["发脾气","脾气","哭闹","闹情绪","情绪","崩溃","打人","咬人","暴躁","愤怒"],
+      tags:["情绪管理","发脾气","生活习惯"] },
+    // 入园分离
+    { kws:["上幼儿园","入园","幼儿园","不想上学","分离","哭着","妈妈不走"],
+      tags:["入园适应","分离焦虑","情绪管理","安全感"] },
+    // 二胎
+    { kws:["二胎","弟弟","妹妹","老大","嫉妒","争宠","新生儿"],
+      tags:["二胎家庭","嫉妒","情绪管理","亲子情感"] },
+    // 吃饭挑食
+    { kws:["不吃饭","挑食","偏食","吃饭","辅食","吃东西","不爱吃"],
+      tags:["吃饭","挑食","生活习惯","认知启蒙"] },
+    // 专注力
+    { kws:["专注","注意力","坐不住","静不下来","分心","磨蹭","拖延","磨叽"],
+      tags:["专注力","生活习惯","情绪管理"] },
+    // 社交
+    { kws:["不合群","社交","朋友","打架","抢玩具","分享","交朋友","害羞"],
+      tags:["友谊","社交","情绪管理","独立自主"] },
+    // 如厕
+    { kws:["如厕","上厕所","马桶","尿裤子","训练如厕","戒纸尿裤"],
+      tags:["如厕","生活习惯","独立自主"] },
+    // 安全感依恋
+    { kws:["粘人","依赖","不安全","分离焦虑","认生","怕陌生","安全感"],
+      tags:["安全感","分离焦虑","亲子情感"] },
+    // 独立自主
+    { kws:["独立","自己做","不肯自己","依赖","自主","自理"],
+      tags:["独立自主","生活习惯","情绪管理"] },
+    // 语言发育
+    { kws:["说话","语言","不开口","词汇","表达","发音","迟缓"],
+      tags:["语言表达","认知启蒙"] },
+    // 注意力/阅读
+    { kws:["不爱读","读书","绘本","阅读","看书","专注"],
+      tags:["专注力","认知启蒙","语言表达"] },
+    // 恐惧害怕
+    { kws:["害怕","恐惧","怕黑","怕怪物","胆小","夜惊","噩梦"],
+      tags:["情绪管理","安全感","独立自主"] },
+    // 规则秩序
+    { kws:["规则","不听话","对着干","叛逆","terrible two","边界","秩序"],
+      tags:["情绪管理","生活习惯","独立自主"] },
+    // 亲子关系
+    { kws:["亲子","陪伴","爸爸","妈妈","爱","情感","抱抱","安慰"],
+      tags:["亲子情感","安全感","情绪管理"] },
+    // 生命教育
+    { kws:["死亡","去世","宠物死了","生病","奶奶","爷爷","离开"],
+      tags:["生命教育","情绪管理","亲子情感"] },
+  ];
+
+  const matched = new Set();
+  rules.forEach(rule => {
+    if (rule.kws.some(kw => c.includes(kw))) {
+      rule.tags.forEach(t => matched.add(t));
+    }
+  });
+
+  // 通用关键词直接当标签
+  const directTags = ["情绪管理","专注力","认知启蒙","语言表达","独立自主",
+    "入园适应","二胎家庭","数学思维","生命教育","亲子情感","睡前","生活习惯"];
+  directTags.forEach(t => { if (c.includes(t)) matched.add(t); });
+
+  return [...matched].slice(0, 8);
 }
 
 function scoreBook(book, concern) {
@@ -1049,96 +1598,68 @@ function scoreBook(book, concern) {
     if (Math.min(book.ageMax,hi) - Math.max(book.ageMin,lo) < 0) return -1;
     score += 10;
   }
+  // AI标签加权（在scoreBook里处理，确保在filter前生效）
+  if (AI_TAGS.length > 0) {
+    const allBookTags = [...(book.themes||[]), ...(book.tags||[]), book.title];
+    AI_TAGS.forEach((tag, i) => {
+      if (allBookTags.some(t => t.includes(tag) || tag.includes(t))) {
+        score += Math.max(12 - i * 1.5, 3);
+      }
+    });
+  }
   if (concern) {
     const kws = concern.replace(/[，,。？！\s]/g," ").split(" ").filter(w=>w.length>=2);
     const hit = kws.some(kw => (book.tags||[]).some(t=>t.includes(kw)||kw.includes(t)) || (book.desc||"").includes(kw) || book.title.includes(kw));
     if (hit) score += 25;
   }
-  const themes = SEL.themes.includes("都可以") ? [] : SEL.themes;
-  if (themes.length) score += themes.filter(t=>(book.themes||[]).includes(t)).length * 8;
-  if (SEL.style && SEL.style!=="都可以") { if (book.style===SEL.style) score+=5; } else score+=2;
-  if (SEL.interactive && SEL.interactive!=="都可以") { if (book.interactive===SEL.interactive) score+=5; } else score+=2;
-  if (SEL.reading && SEL.reading!=="两者都有") { if ((book.reading||[]).includes(SEL.reading)) score+=3; } else score+=2;
+  const selTopics = (SEL.topics||[]).filter(t=>t!=="都可以");
+  selTopics.forEach(t => {
+    if ((book.themes||[]).includes(t)||(book.tags||[]).includes(t)) score += 6;
+  });
+  const selFuncs = (SEL.funcs||[]).filter(f=>f!=="都可以");
+  selFuncs.forEach(f => {
+    if ((book.themes||[]).includes(f)||(book.tags||[]).includes(f)) score += 8;
+  });
+  if (SEL.interactive && SEL.interactive!=="都可以") { if (book.interactive===SEL.interactive) score+=5; }
   return score;
 }
 
 function recommend(concern) {
-  const themes = SEL.themes.includes("都可以") ? [] : SEL.themes;
-  const states = getStates();
-  return BOOKS.map(b=>({b,s:scoreBook(b,concern)}))
-    .filter(({b,s}) => {
-      if (s<=0) return false;
-      if (SEL.lang==="中文" && b.lang==="英文") return false;
-      if (SEL.lang==="英文" && b.lang!=="英文") return false;
-      if (themes.length>0 && !themes.some(t=>(b.themes||[]).includes(t))) return false;
-      // 已拥有的书不出现在推荐结果里
-      if (states[b.title] && states[b.title].own) return false;
-      return true;
+  try {
+    const selTopics = (SEL.topics||[]).filter(t=>t!=="都可以");
+    const selFuncs  = (SEL.funcs||[]).filter(f=>f!=="都可以");
+    const states = getStates();
+    const isConcernMode = !!concern;
+    return BOOKS.map(b => {
+      const s = scoreBook(b, concern);
+      return {b, s};
     })
-    .sort((a,b)=>b.s-a.s).slice(0,5).map(({b})=>b);
-}
-
-function placeholder(book) {
-  const p = hashColor(book.title);
-  const chars = Array.from(book.title).slice(0,6);
-  const spans = chars.map((c,i)=>`<span style="font-size:${i===0?13:10}px;font-weight:${i===0?700:500};color:${i===0?p.ac:p.tx};font-family:Georgia,serif;line-height:1.2">${c}</span>`).join("");
-  return `<div class="cover-placeholder" style="background:${p.bg};width:82px;height:112px;border-radius:10px;overflow:hidden;box-shadow:4px 5px 16px rgba(92,61,46,0.2);display:flex;flex-shrink:0"><div style="width:12px;flex-shrink:0;background:${p.ac};display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;font-size:7px;color:rgba(255,255,255,0.8);font-weight:600">${book.title.slice(0,5)}</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 6px 8px"><div style="width:70%;height:1.5px;background:${p.ac};opacity:0.5"></div><div style="display:flex;flex-direction:column;align-items:center;gap:1px;flex:1;justify-content:center;padding:4px 0">${spans}</div><div style="font-size:7px;color:${p.tx};opacity:0.7">${(book.author||"").slice(0,5)}</div><div style="width:70%;height:1.5px;background:${p.ac};opacity:0.5"></div></div></div>`;
-}
-
-function coverHTML(book) {
-  if (book.cover) {
-    const ph = placeholder(book);
-    const id = 'img' + Math.random().toString(36).slice(2);
-    setTimeout(() => {
-      const img = document.getElementById(id);
-      if (img) {
-        img.onerror = function() {
-          this.style.display = 'none';
-          if (this.nextSibling) this.nextSibling.style.display = 'flex';
-        };
-      }
-    }, 0);
-    return '<div style="position:relative;width:82px;flex-shrink:0;height:112px"><img id="' + id + '" src="' + book.cover + '" style="width:82px;height:112px;border-radius:10px;object-fit:cover;display:block;box-shadow:4px 5px 16px rgba(92,61,46,0.2)"><div style="display:none">' + ph + '</div></div>';
+      .filter(({b,s}) => {
+        if (s<0) return false;
+        // concern模式：只要得分>0就展示，不做额外限制
+        if (isConcernMode) return s > 0;
+        // browse模式：无AI标签且得分0的排除
+        if (s===0) return false;
+        if (SEL.lang==="中文" && b.lang==="英文") return false;
+        if (SEL.lang==="英文" && b.lang!=="英文") return false;
+        if (selTopics.length>0 && !selTopics.some(t=>(b.themes||[]).includes(t)||(b.tags||[]).includes(t))) return false;
+        if (selFuncs.length>0 && !selFuncs.some(f=>(b.themes||[]).includes(f)||(b.tags||[]).includes(f))) return false;
+        if (states[b.title] && states[b.title].own) return false;
+        return true;
+      })
+      .sort((a,b)=>b.s-a.s).slice(0,5).map(({b})=>b);
+  } catch(e) {
+    console.error("recommend error:", e);
+    return [];
   }
-  return placeholder(book);
-}
-
-function bookCardHTML(book, i) {
-  const bookIdx = BOOKS.findIndex(b => b.title === book.title);
-  const bookId = 'book_' + bookIdx;
-  const rankColors = ["#5c3d2e","#8b6355","#c4a882"];
-  const rankLabels = ["🥇 最推荐","🥈 第2名","🥉 第"+(i+1)+"名"];
-  const themes = (book.themes||[]).map(t=>`<span class="tag tag-theme">${t}</span>`).join("");
-  const award = book.awards && book.awards!=="暂无" ? `<span class="tag tag-award">🏆 ${book.awards.slice(0,12)}</span>` : "";
-  return `<div class="book-card">
-    <div class="book-top">
-      ${coverHTML(book)}
-      <div class="book-info">
-        <span class="rank-badge" style="background:${rankColors[Math.min(i,2)]}">${rankLabels[Math.min(i,2)]}</span>
-        <div class="book-title">${book.title}</div>
-        <div class="book-meta-line">${book.author||""}</div>
-        <div class="tags"><span class="tag tag-age">📅 ${book.ageMin}–${book.ageMax}岁</span>${themes}<span class="tag tag-style">🎨 ${book.style||""}</span>${award}</div>
-      </div>
-    </div>
-    <div class="book-desc">${book.desc||""}</div>
-    <div class="book-grid">
-      <div class="meta-item"><span class="meta-icon">🎪</span><div><div class="meta-label">互动性</div><div class="meta-val">${book.interactive||""}</div></div></div>
-      <div class="meta-item"><span class="meta-icon">📖</span><div><div class="meta-label">阅读方式</div><div class="meta-val">${(book.reading||[]).join(" / ")}</div></div></div>
-      <div class="meta-item"><span class="meta-icon">🛒</span><div><div class="meta-label">购买渠道</div><div class="meta-val">${book.buy||""}</div></div></div>
-      <div class="meta-item"><span class="meta-icon">🏆</span><div><div class="meta-label">权威背书</div><div class="meta-val">${book.awards||"暂无"}</div></div></div>
-    </div>
-    <div class="book-actions">
-      <button class="action-btn" data-type="fav" data-bookid="${bookId}" onclick="handleActionClick(this,event)">🔖 <span>收藏</span></button>
-      <button class="action-btn" data-type="own" data-bookid="${bookId}" onclick="handleActionClick(this,event)">📚 <span>已拥有</span></button>
-      <button class="action-btn" data-type="want" data-bookid="${bookId}" onclick="handleActionClick(this,event)">🛒 <span>想购买</span></button>
-    </div>
-  </div>`;
 }
 
 function showResults(books, showDiy) {
   document.getElementById("browse-section").style.display = "none";
   document.getElementById("concern-section").style.display = "none";
   document.getElementById("mode-section").style.display = "none";
+  document.getElementById("page-shelf").style.display = "none";
+  document.getElementById("page-fav").style.display = "none";
   const container = document.getElementById("books-container");
   container.innerHTML = books.length ? books.map((b,i)=>bookCardHTML(b,i)).join("") : `<div style="text-align:center;padding:40px;color:var(--brownL);font-size:14px">暂时没有完全匹配的绘本，试试调整筛选条件 😊</div>`;
   document.getElementById("diy-section").style.display = showDiy ? "block" : "none";
@@ -1150,306 +1671,70 @@ function showResults(books, showDiy) {
 
 function submitBrowse() {
   if (!SEL.age) return showError("error-browse","👶 请先选择宝贝的年龄");
-  if (!SEL.themes.length) return showError("error-browse","📚 请选择感兴趣的主题");
-  if (!SEL.style) return showError("error-browse","🎨 请选择喜欢的画风");
-  if (!SEL.interactive) return showError("error-browse","🎪 请选择对互动性的需求");
-  if (!SEL.reading) return showError("error-browse","📖 请选择主要的阅读方式");
   const books = recommend("");
   showResults(books, false);
 }
 
-function submitConcern() {
+async function submitConcern() {
   if (!SEL.age) return showError("error-concern","👶 请先选择宝贝的年龄");
   const concern = document.getElementById("concern-input").value.trim();
   if (!concern) return showError("error-concern","💭 请描述你的育儿困惑");
+
+  const btn = document.querySelector("#concern-section .submit-btn");
+  const origText = btn.textContent;
+  btn.textContent = "🤔 AI理解中…";
+  btn.disabled = true;
+
+  // 先用本地关键词映射快速提取标签（兜底）
+  AI_TAGS = localTagMatch(concern);
+
+  try {
+    const resp = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: "match", concern: concern, age: SEL.age })
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data.tags && data.tags.length > 0) AI_TAGS = data.tags;
+    }
+  } catch(e) {
+    // API不可用，继续用本地标签
+  } finally {
+    btn.textContent = origText;
+    btn.disabled = false;
+  }
+
   const books = recommend(concern);
+  if (books.length === 0) {
+    showError("error-concern", "暂时没有找到匹配的绘本，试试换个描述方式 😊");
+    return;
+  }
   showResults(books, true);
 }
 
-function restart() {
-  currentMode = null;
-  document.getElementById("results-section").style.display = "none";
-  document.getElementById("mode-section").style.display = "block";
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function doLookup() {
-  const input = document.getElementById("lookup-input").value;
-  const queries = input.split(/[，,\n]+/).map(s=>s.trim()).filter(Boolean);
-  const found = [], missing = [];
-  const addedTitles = new Set();
-
-  queries.forEach(query => {
-    // First try exact/partial title match
-    const byTitle = BOOKS.filter(b => b.title.includes(query) || query.includes(b.title));
-    if (byTitle.length > 0) {
-      byTitle.forEach(b => { if (!addedTitles.has(b.title)) { found.push({book:b, matchType:'title', query}); addedTitles.add(b.title); } });
-      return;
-    }
-    // Then try keyword match on tags, themes, desc
-    const byKeyword = BOOKS.filter(b =>
-      (b.tags||[]).some(t => t.includes(query) || query.includes(t)) ||
-      (b.themes||[]).some(t => t.includes(query) || query.includes(t)) ||
-      (b.desc||"").includes(query) ||
-      (b.awards||"").includes(query)
-    ).slice(0, 5); // limit to 5 per keyword
-    if (byKeyword.length > 0) {
-      byKeyword.forEach(b => { if (!addedTitles.has(b.title)) { found.push({book:b, matchType:'keyword', query}); addedTitles.add(b.title); } });
-    } else {
-      missing.push(query);
-    }
-  });
-  // Group by query for keyword results
-  let html = "";
-  let lastQuery = null;
-  found.forEach(({book:b, matchType, query}) => {
-    if (matchType === 'keyword' && query !== lastQuery) {
-      html += `<div style="font-size:11px;color:var(--brownP);margin:16px 0 8px;letter-spacing:1px">「${query}」相关绘本</div>`;
-      lastQuery = query;
-    } else if (matchType === 'title') {
-      lastQuery = null;
-    }
-    html += `<div class="lookup-item">
-      <div style="display:flex;gap:14px;margin-bottom:10px">
-        ${coverHTML(b)}
-        <div style="flex:1;min-width:0">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
-            <div style="font-family:Georgia,serif;font-size:15px;font-weight:700;color:var(--brown)">${b.title}</div>
-            <span style="font-size:10px;padding:3px 10px;border-radius:50px;background:${matchType==='keyword'?'#e8f0e4':'#e8f0e4'};color:var(--sage);font-weight:500;flex-shrink:0;margin-left:8px">${matchType==='keyword'?'🔖 相关':'✓ 收录'}</span>
-          </div>
-          <div style="font-size:11px;color:var(--brownP);margin-bottom:8px">${b.author} · ${b.ageMin}–${b.ageMax}岁 · ${(b.themes||[]).join("、")}</div>
-          ${b.awards?`<div style="font-size:12px;color:var(--brownL);margin-bottom:4px">🏆 ${b.awards}</div>`:""}
-          <div style="font-size:11px;color:var(--brownP)">🛒 ${b.buy}</div>
-        </div>
-      </div>
-      <div style="font-size:13px;color:var(--inkL);line-height:1.7">${b.desc}</div>
-    </div>`;
-  });
-  if (missing.length) {
-    html += `<div class="lookup-not-found"><div style="font-size:13px;color:var(--brownL);margin-bottom:6px">以下书目暂未收录，后续持续更新 📚</div>${missing.map(t=>`<div style="font-size:12px;color:var(--brownP);margin-bottom:2px">· ${t}</div>`).join("")}</div>`;
-  }
-  document.getElementById("lookup-result").innerHTML = html;
-}
-
-// ── 生成绘本相关 ────────────────────────────────────
-const CREATE_STYLES = [
-  {e:"🎨",l:"水彩温暖",v:"水彩温暖"},
-  {e:"✏️",l:"简笔卡通",v:"简笔卡通"},
-  {e:"🌸",l:"日系治愈",v:"日系治愈"},
-  {e:"◻️",l:"北欧简约",v:"北欧简约"},
-];
-const CREATE_LANGS = [
-  {e:"🇨🇳",l:"中文",v:"zh"},
-  {e:"🇬🇧",l:"英文",v:"en"},
-];
-const ZH_LEVELS = [
-  {e:"🐣",l:"0–2岁（超简单）",v:"0-2岁"},
-  {e:"🐥",l:"2–4岁（简单）",v:"2-4岁"},
-  {e:"🦁",l:"4–6岁（适中）",v:"4-6岁"},
-];
-const EN_LEVELS = [
-  {e:"🌱",l:"启蒙级",v:"启蒙"},
-  {e:"📗",l:"初级",v:"初级"},
-  {e:"📘",l:"中级",v:"中级"},
-];
-
-let createSel = { style: null, lang: null, level: null };
-let currentBookPages = [];
-let currentPage = 0;
-
-function initCreateOpts() {
-  renderOpts("create-style-opts", CREATE_STYLES, "createStyle");
-  renderOpts("create-lang-opts", CREATE_LANGS, "createLang");
-  renderOpts("create-level-opts", ZH_LEVELS, "createLevel");
-}
-
-// Override renderOpts for create selects
-const origRenderOpts = renderOpts;
-function renderOpts(id, opts, key, multi=false) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.innerHTML = "";
-  opts.forEach(o => {
-    const btn = document.createElement("button");
-    btn.className = "opt-btn";
-    btn.innerHTML = `<span>${o.e}</span>${o.l}`;
-    btn.onclick = () => {
-      if (key === "createStyle") {
-        createSel.style = o.v;
-        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-      } else if (key === "createLang") {
-        createSel.lang = o.v;
-        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-        // Switch level options
-        const levelOpts = document.getElementById("create-level-opts");
-        const levelQ = document.getElementById("create-level-q");
-        createSel.level = null;
-        if (o.v === "zh") {
-          levelQ.textContent = "孩子年龄？（决定故事难易程度）";
-          renderOpts("create-level-opts", ZH_LEVELS, "createLevel");
-        } else {
-          levelQ.textContent = "英文水平？（决定故事难易程度）";
-          renderOpts("create-level-opts", EN_LEVELS, "createLevel");
-        }
-      } else if (key === "createLevel") {
-        createSel.level = o.v;
-        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-      } else if (multi) {
-        if (o.v === "都可以") {
-          SEL[key] = SEL[key].includes("都可以") ? [] : ["都可以"];
-        } else {
-          const without = SEL[key].filter(x => x !== "都可以");
-          SEL[key] = without.includes(o.v) ? without.filter(x => x !== o.v) : [...without, o.v];
-        }
-        el.querySelectorAll(".opt-btn").forEach((b,i) => b.classList.toggle("selected", SEL[key].includes(opts[i].v)));
-      } else {
-        SEL[key] = o.v;
-        el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-      }
-    };
-    el.appendChild(btn);
-  });
-}
-
-function submitCreate() {
-  const name = document.getElementById("hero-name").value.trim() || "小宝";
-  const concern = document.getElementById("create-concern").value.trim();
-  if (!concern) return showError("error-create", "💭 请填写故事主题或育儿困惑");
-  if (!createSel.style) return showError("error-create", "🎨 请选择画风");
-  if (!createSel.lang) return showError("error-create", "🌏 请选择语言");
-  if (!createSel.level) return showError("error-create", "📖 请选择难度");
-  generateBook(name, concern, createSel.style, createSel.lang, createSel.level);
-}
-
-async function generateBook(name, concern, style, lang, level) {
-  var n = name || "小宝";
-  document.getElementById("create-section").style.display = "none";
-  document.getElementById("book-reader").style.display = "block";
-  document.getElementById("book-title-display").textContent = n + "的专属绘本";
-  document.getElementById("book-pages").innerHTML =
-    '<div style="text-align:center;padding:60px 20px">' +
-    '<div style="font-size:40px;margin-bottom:20px;display:inline-block">✨</div>' +
-    '<div style="font-family:Georgia,serif;font-size:16px;color:var(--brown);margin-bottom:8px">正在为' + n + '创作专属绘本…</div>' +
-    '<div style="font-size:13px;color:var(--brownP)">AI正在构思故事，约需15-20秒</div>' +
-    '</div>';
-  document.getElementById("page-dots").innerHTML = "";
-  document.getElementById("page-indicator").textContent = "";
-  document.getElementById("prev-btn").style.display = "none";
-  document.getElementById("next-btn").style.display = "none";
-
-  try {
-    var resp = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: n, concern: concern, style: style, lang: lang, level: level })
-    });
-    var book = await resp.json();
-    if (!resp.ok || book.error) throw new Error(book.error || "生成失败");
-    showBook(book.title || n + "的专属绘本", book.pages);
-  } catch(e) {
-    document.getElementById("book-pages").innerHTML =
-      '<div style="text-align:center;padding:40px">' +
-      '<div style="font-size:32px;margin-bottom:12px">😔</div>' +
-      '<div style="font-family:Georgia,serif;font-size:15px;color:var(--brown);margin-bottom:8px">生成失败了</div>' +
-      '<div style="font-size:13px;color:var(--brownP);margin-bottom:20px">' + e.message + '</div>' +
-      '<button onclick="closeReader()" style="background:var(--brown);color:var(--warm);border:none;border-radius:50px;padding:12px 28px;font-size:14px;cursor:pointer">返回重试</button>' +
-      '</div>';
-    document.getElementById("prev-btn").style.display = "none";
-    document.getElementById("next-btn").style.display = "none";
-  }
-}
-
-function showBook(title, pages) {
-  currentBookPages = pages;
-  currentPage = 0;
-  document.getElementById("book-title-display").textContent = title;
-  document.getElementById("prev-btn").style.display = "";
-  document.getElementById("next-btn").style.display = "";
-  renderPage();
-}
-
-function renderPage() {
-  const page = currentBookPages[currentPage];
-  const total = currentBookPages.length;
-  
-  // Page dots
-  document.getElementById("page-dots").innerHTML = currentBookPages.map((_, i) =>
-    `<div style="width:${i===currentPage?20:8}px;height:8px;border-radius:4px;background:${i===currentPage?'var(--brown)':'var(--border)'};transition:all 0.3s"></div>`
-  ).join("");
-  
-  document.getElementById("page-indicator").textContent = `第 ${currentPage+1} 页 / 共 ${total} 页`;
-  document.getElementById("prev-btn").style.opacity = currentPage === 0 ? "0.3" : "1";
-  document.getElementById("next-btn").textContent = currentPage === total-1 ? "✓ 读完了" : "下一页 →";
-
-  document.getElementById("book-pages").innerHTML = `
-    <div style="background:var(--warm);border-radius:20px;overflow:hidden;border:1.5px solid var(--border);box-shadow:0 4px 20px rgba(92,61,46,0.1)">
-      <!-- 画面描述区 -->
-      <div style="background:linear-gradient(135deg,#f5ede0,#ede0cc);padding:28px 26px;min-height:160px;display:flex;align-items:center;justify-content:center;border-bottom:1.5px solid var(--border)">
-        <div style="text-align:center">
-          <div style="font-size:32px;margin-bottom:12px">${getSceneEmoji(currentPage)}</div>
-          <p style="font-size:13px;color:var(--brownL);line-height:1.8;font-style:italic;max-width:400px;margin:0 auto">🎨 ${page.scene}</p>
-        </div>
-      </div>
-      <!-- 故事文字区 -->
-      <div style="padding:26px">
-        <p style="font-family:Georgia,serif;font-size:16px;color:var(--ink);line-height:2;white-space:pre-line">${page.text}</p>
-      </div>
-      <!-- 页码 -->
-      <div style="text-align:right;padding:0 20px 16px;font-size:11px;color:var(--brownP)">第 ${currentPage+1} 页</div>
-    </div>`;
-}
-
-function getSceneEmoji(page) {
-  const emojis = ["🌙","✨","😮","🦷","😊","💫"];
-  return emojis[page % emojis.length];
-}
-
-function prevPage() {
-  if (currentPage > 0) { currentPage--; renderPage(); window.scrollTo({top:0,behavior:"smooth"}); }
-}
-
-function nextPage() {
-  if (currentPage < currentBookPages.length - 1) {
-    currentPage++; renderPage(); window.scrollTo({top:0,behavior:"smooth"});
-  } else {
-    restart();
-  }
-}
-
-function closeReader() {
-  document.getElementById("book-reader").style.display = "none";
-  document.getElementById("create-section").style.display = "block";
-}
-
-// Update setMode to handle create
-const origSetMode = setMode;
+// ── 모드 전환 ──
 function setMode(mode) {
   currentMode = mode;
+  AI_TAGS = [];
   document.getElementById("mode-section").style.display = "none";
   document.getElementById("browse-section").style.display = "none";
   document.getElementById("concern-section").style.display = "none";
   document.getElementById("create-section").style.display = "none";
   document.getElementById("results-section").style.display = "none";
   document.getElementById("book-reader").style.display = "none";
-
   if (mode === "browse") {
     document.getElementById("browse-section").style.display = "block";
-    SEL = { age: null, themes: [], style: null, interactive: null, reading: "两者都有", lang: "全部" };
+    SEL = { age: null, topics: [], funcs: [], interactive: null, lang: "全部" };
     renderOpts("age-opts-b", AGE_OPTS, "age");
-    renderOpts("theme-opts", THEME_OPTS, "themes", true);
-    renderOpts("style-opts", STYLE_OPTS, "style");
-    renderOpts("inter-opts", INTER_OPTS, "interactive");
-    renderOpts("reading-opts", READ_OPTS, "reading");
+    renderOpts("topic-opts", TOPIC_OPTS, "topics", true);
+    renderOpts("func-opts", FUNC_OPTS, "funcs", true);
     renderOpts("lang-opts", LANG_OPTS, "lang");
-    const langBtns = document.querySelectorAll("#lang-opts .opt-btn");
-    if (langBtns[2]) { langBtns[2].classList.add("selected"); SEL.lang = "全部"; }
+    const lb = document.querySelectorAll("#lang-opts .opt-btn");
+    if (lb[2]) { lb[2].classList.add("selected"); SEL.lang = "全部"; }
   } else if (mode === "concern") {
     document.getElementById("concern-section").style.display = "block";
-    SEL = { age: null, themes: [], style: null, interactive: null, reading: "两者都有", lang: "全部" };
+    SEL = { age: null, topics: [], funcs: [], interactive: null, lang: "全部" };
     renderOpts("age-opts-c", AGE_OPTS, "age");
   } else if (mode === "create") {
     document.getElementById("create-section").style.display = "block";
@@ -1459,15 +1744,15 @@ function setMode(mode) {
 }
 
 function goBack() {
-  document.getElementById("browse-section").style.display = "none";
-  document.getElementById("concern-section").style.display = "none";
-  document.getElementById("create-section").style.display = "none";
-  document.getElementById("book-reader").style.display = "none";
+  ["browse-section","concern-section","create-section","book-reader","results-section"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
   document.getElementById("mode-section").style.display = "block";
   currentMode = null;
+  AI_TAGS = [];
 }
 
-// Update restart
 function restart() {
   currentMode = null;
   document.getElementById("results-section").style.display = "none";
@@ -1476,169 +1761,13 @@ function restart() {
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-// Update DIY button in results to jump to create mode with concern pre-filled
-function openCreateWithConcern(concern) {
-  setMode("create");
-  setTimeout(() => {
-    document.getElementById("create-concern").value = concern;
-  }, 100);
-}
-
-function copyTitle(title) {
-  navigator.clipboard.writeText(title).then(function() {
-    // Find and update button text
-    var btns = document.querySelectorAll("button");
-    btns.forEach(function(btn) {
-      if (btn.textContent.includes("复制书名") && btn.onclick && btn.onclick.toString().includes(title.replace(/'/g,"\\'"))) {
-        btn.textContent = "✓ 已复制：" + title;
-        btn.style.background = "#e8f0e4";
-        btn.style.borderColor = "var(--sage)";
-        btn.style.color = "var(--sage)";
-        setTimeout(function() {
-          btn.textContent = "📋 复制书名去搜索购买";
-          btn.style.background = "var(--cream)";
-          btn.style.borderColor = "var(--border)";
-          btn.style.color = "var(--brownL)";
-        }, 2000);
-      }
-    });
-  }).catch(function() {
-    // Fallback
-    var el = document.createElement("textarea");
-    el.value = title;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-    alert("已复制：" + title);
-  });
-}
-
-// ── 书库与收藏状态管理 ────────────────────────────────────
-const STORAGE_KEY = 'picbook_states';
-
-function getStates() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } 
-  catch(e) { return {}; }
-}
-
-function saveStates(states) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(states));
-}
-
-function getBookState(title, type) {
-  const states = getStates();
-  return states[title] && states[title][type];
-}
-
-function toggleBookState(bookId, type, title, e) {
-  if (e) e.stopPropagation();
-  const states = getStates();
-  if (!states[title]) states[title] = {};
-  
-  // Toggle
-  const current = states[title][type];
-  // If turning on own/want, turn off the other
-  if (type === 'own' && !current) states[title].want = false;
-  if (type === 'want' && !current) states[title].own = false;
-  states[title][type] = !current;
-  saveStates(states);
-  
-  // Update all buttons for this book (card + modal)
-  updateActionBtn(bookId, type, title);
-  // Also update if bookId format differs
-  document.querySelectorAll('[id^="btn-' + type + '-"]').forEach(btn => {
-    if (btn.id.includes(title.slice(0,8).replace(/[^a-zA-Z0-9]/g,'_'))) {
-      const bId = btn.id.replace('btn-' + type + '-', '');
-      updateActionBtn(bId, type, title);
-    }
-  });
-  // Show toast
-  const msgs = {fav: current?'已取消收藏':'已收藏 🔖', own: current?'已移除':'标记为已拥有 📚', want: current?'已移除':'加入想购买 🛒'};
-  showToast(msgs[type]);
-}
-
-function updateActionBtn(bookId, type, title) {
-  const btn = document.getElementById('btn-' + type + '-' + bookId);
-  if (!btn) return;
-  const active = getBookState(title, type);
-  const labels = {fav:['收藏','已收藏'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
-  const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
-  btn.className = 'action-btn' + (active ? ' ' + classes[type] : '');
-  btn.querySelector('span').textContent = active ? labels[type][1] : labels[type][0];
-}
-
-
-function handleActionClick(btn, e) {
-  if (e) e.stopPropagation();
-  const type = btn.dataset.type;
-  const bookId = btn.dataset.bookid;
-  const title = TITLE_MAP[bookId] || bookId;
-  const states = getStates();
-  if (!states[title]) states[title] = {};
-  if (type === 'own' && !states[title].own) states[title].want = false;
-  if (type === 'want' && !states[title].want) states[title].own = false;
-  states[title][type] = !states[title][type];
-  saveStates(states);
-  // Update all buttons for this book
-  document.querySelectorAll('[data-bookid="' + bookId + '"]').forEach(b => {
-    const t = b.dataset.type;
-    const active = states[title][t];
-    const labels = {fav:['收藏','已收藏'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
-    const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
-    b.className = 'action-btn' + (active ? ' ' + classes[t] : '');
-    b.querySelector('span').textContent = active ? labels[t][1] : labels[t][0];
-  });
-  const msgs = {fav: states[title].fav?'已收藏 🔖':'取消收藏', own: states[title].own?'已拥有 📚':'已移除', want: states[title].want?'加入想购买 🛒':'已移除'};
-  showToast(msgs[type]);
-}
-
-function initBookActions(books) {
-  const states = getStates();
-  (books||[]).forEach(book => {
-    const bIdx2 = BOOKS.findIndex(b => b.title === book.title);
-    const bId = 'book_' + bIdx2;
-    document.querySelectorAll('[data-bookid="' + bId + '"]').forEach(btn => {
-      const type = btn.dataset.type;
-      const active = states[book.title]?.[type];
-      const labels = {fav:['收藏','已收藏'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
-      const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
-      btn.className = 'action-btn' + (active ? ' ' + classes[type] : '');
-      btn.querySelector('span').textContent = active ? labels[type][1] : labels[type][0];
-    });
-  });
-}
-
-
-function showToast(msg) {
-  let toast = document.getElementById('toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'toast';
-    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--brown);color:var(--warm);padding:10px 20px;border-radius:50px;font-size:13px;z-index:300;transition:opacity 0.3s;pointer-events:none';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.style.opacity = '1';
-  clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => toast.style.opacity = '0', 2000);
-}
-
-// ── 页面导航 ────────────────────────────────────
-const HOME_SECTIONS = ['mode-section','browse-section','concern-section','create-section','results-section','book-reader'];
-
 function showPage(page) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('nav-' + page)?.classList.add('active');
   document.getElementById('page-shelf').style.display = 'none';
   document.getElementById('page-fav').style.display = 'none';
   if (page === 'shelf') {
-    const ps = document.getElementById('page-shelf');
-    ps.style.display = 'block';
-    ps.scrollTop = 0;
-    setTimeout(() => {
-      const list = document.getElementById('shelf-owned-list');
-    }, 200);
+    document.getElementById('page-shelf').style.display = 'block';
     setTimeout(renderShelf, 50);
   } else if (page === 'fav') {
     document.getElementById('page-fav').style.display = 'block';
@@ -1646,25 +1775,16 @@ function showPage(page) {
   }
 }
 
-// ── 书架渲染 ────────────────────────────────────
-const SPINE_COLORS = [
-  '#c0392b','#e67e22','#f39c12','#27ae60','#16a085',
-  '#2980b9','#8e44ad','#2c3e50','#d35400','#1abc9c',
-  '#6c5ce7','#e84393','#00b894','#fdcb6e','#e17055'
-];
-
-function getSpineColor(title) {
-  const h = Array.from(title).reduce((a,c)=>a+c.charCodeAt(0),0);
-  return SPINE_COLORS[h % SPINE_COLORS.length];
+function openCreateWithConcern(concern) {
+  setMode("create");
+  setTimeout(() => { const el = document.getElementById("create-concern"); if (el) el.value = concern; }, 100);
 }
 
+// ── 书库 & 收藏 ──
 function renderShelf() {
   const states = getStates();
   const owned = BOOKS.filter(b => states[b.title] && states[b.title].own);
   const wanted = BOOKS.filter(b => states[b.title] && states[b.title].want);
-  const ownedEl = document.getElementById('shelf-owned-list');
-  const wantedEl = document.getElementById('shelf-want-list');
-  // Direct test
   renderShelfList('shelf-owned-list', owned, '还没有绘本，去推荐页标记「已拥有」吧 📚');
   renderShelfList('shelf-want-list', wanted, '还没有绘本，去推荐页标记「想购买」吧 🛒');
 }
@@ -1682,172 +1802,114 @@ function renderShelfList(containerId, books, emptyMsg) {
   books.forEach(book => {
     const p = hashColor(book.title);
     const card = document.createElement('div');
-    card.className = 'library-card';
-    card.style.position = 'relative';
+    card.className = 'library-card'; card.style.position = 'relative';
     card.onclick = () => showBookModal(book.title);
-    // Cover
     const coverDiv = document.createElement('div');
     coverDiv.className = 'library-card-cover';
-    const makePh = () => {
-      const ph = document.createElement('div');
-      ph.style.cssText = 'width:100%;height:100%;background:' + p.bg + ';display:flex;align-items:center;justify-content:center';
-      const sp = document.createElement('span');
-      sp.style.cssText = 'font-size:28px;color:' + p.ac + ';font-family:Georgia,serif;font-weight:700';
-      sp.textContent = Array.from(book.title)[0];
-      ph.appendChild(sp);
-      return ph;
-    };
-    if (book.cover) {
-      const img = document.createElement('img');
-      img.src = book.cover;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover';
-      img.onerror = function() { this.replaceWith(makePh()); };
-      coverDiv.appendChild(img);
-    } else {
-      coverDiv.appendChild(makePh());
-    }
+    const makePh = () => { const ph = document.createElement('div'); ph.style.cssText = 'width:100%;height:100%;background:' + p.bg + ';display:flex;align-items:center;justify-content:center'; const sp = document.createElement('span'); sp.style.cssText = 'font-size:28px;color:' + p.ac + ';font-family:Georgia,serif;font-weight:700'; sp.textContent = Array.from(book.title)[0]; ph.appendChild(sp); return ph; };
+    if (book.cover) { const img = document.createElement('img'); img.src = book.cover; img.style.cssText = 'width:100%;height:100%;object-fit:cover'; img.onerror = function() { this.replaceWith(makePh()); }; coverDiv.appendChild(img); } else { coverDiv.appendChild(makePh()); }
     card.appendChild(coverDiv);
-    // Body
-    const body = document.createElement('div');
-    body.className = 'library-card-body';
-    body.innerHTML = '<div class="library-card-title">' + book.title + '</div>' +
-      '<div class="library-card-meta">' + book.ageMin + '–' + book.ageMax + '岁 · ' + (book.themes||[])[0] + '</div>';
+    const body = document.createElement('div'); body.className = 'library-card-body';
+    body.innerHTML = '<div class="library-card-title">' + book.title + '</div><div class="library-card-meta">' + book.ageMin + '–' + book.ageMax + '岁 · ' + (book.themes||[])[0] + '</div>';
     card.appendChild(body);
-    // Remove btn
-    const rm = document.createElement('button');
-    rm.textContent = '×';
-    rm.style.cssText = 'position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.8);border:none;border-radius:50%;width:22px;height:22px;font-size:14px;cursor:pointer;color:var(--brownP);line-height:1;padding:0';
-    const bIdx = BOOKS.findIndex(b => b.title === book.title);
-    rm.onclick = (e) => { e.stopPropagation(); removeFromShelf('book_' + bIdx); };
-    card.appendChild(rm);
-    grid.appendChild(card);
+    const rm = document.createElement('button'); rm.textContent = '×';
+    rm.style.cssText = 'position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:22px;height:22px;font-size:14px;cursor:pointer;color:var(--brownP);line-height:1;padding:0';
+    rm.onclick = (e) => { e.stopPropagation(); removeFromShelf(book.title); };
+    card.appendChild(rm); grid.appendChild(card);
   });
   el.appendChild(grid);
 }
 
-
-function removeFromShelf(bookId) {
-  const title = TITLE_MAP[bookId];
-  if (!title) return;
+function removeFromShelf(title) {
   const states = getStates();
   if (states[title]) { states[title].own = false; states[title].want = false; }
-  saveStates(states);
-  renderShelf();
-  showToast('已移除');
+  saveStates(states); renderShelf(); showToast('已移除');
 }
 
-// ── 收藏渲染 ────────────────────────────────────
 function renderFav() {
   const states = getStates();
   const favBooks = BOOKS.filter(b => states[b.title] && states[b.title].fav);
   const grid = document.getElementById('fav-grid');
   if (!grid) return;
   grid.innerHTML = '';
-  if (favBooks.length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--brownL);font-size:14px">还没有收藏绘本，去推荐页点击🔖收藏吧</div>';
-    return;
-  }
+  if (favBooks.length === 0) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--brownL);font-size:14px">还没有收藏绘本，去推荐页点击🔖收藏吧</div>'; return; }
   favBooks.forEach(book => {
     const p = hashColor(book.title);
-    const card = document.createElement('div');
-    card.className = 'library-card';
+    const card = document.createElement('div'); card.className = 'library-card';
     card.onclick = () => showBookModal(book.title);
-    const coverDiv = document.createElement('div');
-    coverDiv.className = 'library-card-cover';
-    const makePh = () => {
-      const ph = document.createElement('div');
-      ph.style.cssText = 'width:100%;height:100%;background:' + p.bg + ';display:flex;align-items:center;justify-content:center';
-      const sp = document.createElement('span');
-      sp.style.cssText = 'font-size:28px;color:' + p.ac + ';font-family:Georgia,serif;font-weight:700';
-      sp.textContent = Array.from(book.title)[0];
-      ph.appendChild(sp);
-      return ph;
-    };
-    if (book.cover) {
-      const img = document.createElement('img');
-      img.src = book.cover;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover';
-      img.onerror = function() { this.replaceWith(makePh()); };
-      coverDiv.appendChild(img);
-    } else {
-      coverDiv.appendChild(makePh());
-    }
+    const coverDiv = document.createElement('div'); coverDiv.className = 'library-card-cover';
+    const makePh = () => { const ph = document.createElement('div'); ph.style.cssText = 'width:100%;height:100%;background:' + p.bg + ';display:flex;align-items:center;justify-content:center'; const sp = document.createElement('span'); sp.style.cssText = 'font-size:28px;color:' + p.ac + ';font-family:Georgia,serif;font-weight:700'; sp.textContent = Array.from(book.title)[0]; ph.appendChild(sp); return ph; };
+    if (book.cover) { const img = document.createElement('img'); img.src = book.cover; img.style.cssText = 'width:100%;height:100%;object-fit:cover'; img.onerror = function() { this.replaceWith(makePh()); }; coverDiv.appendChild(img); } else { coverDiv.appendChild(makePh()); }
     card.appendChild(coverDiv);
-    const body = document.createElement('div');
-    body.className = 'library-card-body';
+    const body = document.createElement('div'); body.className = 'library-card-body';
     body.innerHTML = '<div class="library-card-title">' + book.title + '</div><div class="library-card-meta">' + book.ageMin + '–' + book.ageMax + '岁 · ' + (book.themes||[])[0] + '</div>';
-    card.appendChild(body);
-    grid.appendChild(card);
+    card.appendChild(body); grid.appendChild(card);
   });
 }
 
+// ── 状态管理 ──
+const STORAGE_KEY = 'huiben_states_v2';
+function getStates() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { return {}; } }
+function saveStates(states) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(states)); } catch(e) {} }
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--brown);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;z-index:9999;opacity:0;transition:opacity 0.3s'; document.body.appendChild(t); }
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 1800);
+}
+function initBookActions(books) {}
+function handleActionClick(btn, action, title) {
+  const states = getStates();
+  if (!states[title]) states[title] = {};
+  if (action === 'fav') { states[title].fav = !states[title].fav; btn.classList.toggle('active'); showToast(states[title].fav ? '已收藏 🔖' : '已取消收藏'); }
+  else if (action === 'own') { states[title].own = !states[title].own; btn.classList.toggle('active'); showToast(states[title].own ? '已标记拥有 📚' : '已取消'); }
+  else if (action === 'want') { states[title].want = !states[title].want; btn.classList.toggle('active'); showToast(states[title].want ? '已加入想买 🛒' : '已取消'); }
+  saveStates(states);
+}
 
-// ── 书籍详情弹窗 ────────────────────────────────────
+// ── 书籍详情弹窗 ──
 function showBookModal(title) {
   const book = BOOKS.find(b => b.title === title);
   if (!book) return;
-  const bookIdx = BOOKS.findIndex(b => b.title === book.title);
-  const bookId = 'book_' + bookIdx;
   const p = hashColor(book.title);
-  
-  // Build modal content using DOM
-  const mc = document.getElementById('modal-content');
-  mc.innerHTML = '';
-  
-  // Top section
-  const top = document.createElement('div');
-  top.style.cssText = 'display:flex;gap:16px;margin-bottom:16px';
-  top.innerHTML = coverHTML(book) +
-    '<div style="flex:1"><div style="font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--brown);margin-bottom:4px">' + book.title + '</div>' +
-    '<div style="font-size:12px;color:var(--brownP);margin-bottom:8px">' + (book.author||'') + ' · ' + book.ageMin + '–' + book.ageMax + '岁</div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:6px">' + (book.themes||[]).map(t=>'<span style="font-size:11px;padding:3px 10px;border-radius:50px;background:#e8f0e4;color:var(--sage)">' + t + '</span>').join('') + '</div></div>';
-  mc.appendChild(top);
-  
-  // Description
-  const desc = document.createElement('p');
-  desc.style.cssText = 'font-size:14px;color:var(--inkL);line-height:1.8;margin-bottom:16px';
-  desc.textContent = book.desc || '';
-  mc.appendChild(desc);
-  
-  // Action buttons
-  const btns = document.createElement('div');
-  btns.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap';
-  ['fav','own','want'].forEach(type => {
-    const btn = document.createElement('button');
-    btn.className = 'action-btn';
-    btn.id = 'modal-btn-' + type + '-' + bookId;
-    const icons = {fav:'🔖',own:'📚',want:'🛒'};
-    const labels = {fav:'收藏',own:'已拥有',want:'想购买'};
-    btn.innerHTML = icons[type] + ' <span>' + labels[type] + '</span>';
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      toggleBookState(bookId, type, book.title, e);
-      updateModalBtns(bookId, book.title);
-    };
-    btns.appendChild(btn);
+  const states = getStates();
+  const state = states[book.title] || {};
+  let modal = document.getElementById('book-modal');
+  if (modal) modal.remove();
+  modal = document.createElement('div');
+  modal.id = 'book-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.4)';
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  const coverDiv = document.createElement('div');
+  if (book.cover) { const img = document.createElement('img'); img.src = book.cover; img.style.cssText = 'width:80px;height:110px;object-fit:cover;border-radius:10px;flex-shrink:0'; img.onerror = function(){this.style.display='none'}; coverDiv.appendChild(img); } else { coverDiv.style.cssText = 'width:80px;height:110px;border-radius:10px;background:'+p.bg+';display:flex;align-items:center;justify-content:center;flex-shrink:0'; coverDiv.innerHTML = '<span style="font-size:32px;color:'+p.ac+';font-family:Georgia,serif;font-weight:700">'+Array.from(book.title)[0]+'</span>'; }
+  const inner = document.createElement('div');
+  inner.style.cssText = 'background:var(--cream);border-radius:24px 24px 0 0;padding:28px 20px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto';
+  const header = document.createElement('div'); header.style.cssText = 'display:flex;gap:16px;margin-bottom:20px';
+  header.appendChild(coverDiv);
+  const info = document.createElement('div'); info.style.cssText = 'flex:1;min-width:0';
+  info.innerHTML = '<div style="font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--brown);margin-bottom:4px">' + book.title + '</div>' +
+    '<div style="font-size:12px;color:var(--brownP);margin-bottom:8px">' + (book.author||'') + '</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">' + (book.themes||[]).map(t=>'<span class="tag-badge">'+t+'</span>').join('') + '</div>' +
+    '<div style="font-size:12px;color:var(--accent)">🏆 ' + (book.awards||'') + '</div>';
+  header.appendChild(info); inner.appendChild(header);
+  const desc = document.createElement('div'); desc.style.cssText = 'font-size:13px;color:var(--brownP);line-height:1.8;margin-bottom:20px'; desc.textContent = book.desc||'';
+  inner.appendChild(desc);
+  const actions = document.createElement('div'); actions.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px';
+  [['fav','🔖 收藏'],['own','📚 已拥有'],['want','🛒 想购买']].forEach(([a,l]) => {
+    const btn = document.createElement('button'); btn.className = 'action-btn' + (state[a]?' active':'');
+    btn.textContent = l; btn.onclick = () => handleActionClick(btn,a,book.title);
+    actions.appendChild(btn);
   });
-  mc.appendChild(btns);
-  
-  updateModalBtns(bookId, book.title);
-  document.getElementById('book-modal').classList.add('open');
+  inner.appendChild(actions);
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '关闭'; closeBtn.style.cssText = 'width:100%;margin-top:14px;padding:12px;border:none;border-radius:14px;background:var(--warm);color:var(--brownP);font-size:13px;cursor:pointer';
+  closeBtn.onclick = () => modal.remove(); inner.appendChild(closeBtn);
+  modal.appendChild(inner); document.body.appendChild(modal);
 }
 
-function updateModalBtns(bookId, title) {
-  ['fav','own','want'].forEach(type => {
-    const btn = document.getElementById('modal-btn-' + type + '-' + bookId);
-    if (!btn) return;
-    const active = getBookState(title, type);
-    const labels = {fav:['收藏','已收藏 ✓'], own:['已拥有','✓ 已拥有'], want:['想购买','✓ 想购买']};
-    const classes = {fav:'active-fav', own:'active-own', want:'active-want'};
-    btn.className = 'action-btn' + (active ? ' ' + classes[type] : '');
-    btn.querySelector('span').textContent = active ? labels[type][1] : labels[type][0];
-  });
-}
-
-function closeModal(e) {
-  if (e.target === document.getElementById('book-modal')) {
-    document.getElementById('book-modal').classList.remove('open');
-  }
+function copyTitle(title) {
+  navigator.clipboard.writeText(title).catch(()=>{});
+  showToast('书名已复制 ✓');
 }
 </script>
 </body>
