@@ -176,10 +176,16 @@ body { padding-top: 52px; }
       </div>
       <div class="mode-example">比如「孩子不爱刷牙」「总是发脾气打人」「不想去幼儿园」</div>
     </div>
-    <div class="mode-card" onclick="setMode('create')" style="background:linear-gradient(135deg,#fdf6ee,#f5ede0);border-color:var(--peachL)">
+    <div class="mode-card" style="background:linear-gradient(135deg,#fdf6ee,#f5ede0);border-color:var(--peachL);opacity:0.7;cursor:default" onclick="showToast('✨ 敬请期待，即将开放～')">
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
         <span style="font-size:32px">✨</span>
-        <div><div class="mode-title">生成专属绘本</div><div class="mode-desc">为你的宝贝量身定制一本独一无二的绘本</div></div>
+        <div>
+          <div class="mode-title" style="display:flex;align-items:center;gap:8px">
+            生成专属绘本
+            <span style="font-size:11px;background:#f5c842;color:#7a5c00;padding:2px 8px;border-radius:20px;font-family:sans-serif;font-weight:600">即将开放</span>
+          </div>
+          <div class="mode-desc">为你的宝贝量身定制一本独一无二的绘本</div>
+        </div>
       </div>
       <div class="mode-example">输入孩子名字、困惑或故事主题，AI帮你创作一本专属故事</div>
     </div>
@@ -2167,6 +2173,11 @@ function renderSimpleOpts(id, opts, key) {
     };
     el.appendChild(btn);
   });
+}
+
+
+function submitCreate() {
+  showToast('✨ 敬请期待，即将开放～');
 }
 
 </script>
