@@ -110,11 +110,11 @@ body { padding-top: 52px; }
 <!-- Navbar -->
 <nav class="navbar">
   <div class="navbar-inner">
-    <div class="navbar-logo" onclick="showPage('home')">📖 绘本小屋</div>
+    <div class="navbar-logo" onclick="restart()">📖 绘本小屋</div>
     <div class="navbar-links">
       <button class="nav-btn active" id="nav-home" onclick="showPage('home')">首页</button>
-      <button class="nav-btn" id="nav-shelf" onclick="showPage('shelf')">📚 书库</button>
-      <button class="nav-btn" id="nav-fav" onclick="showPage('fav')">🔖 收藏</button>
+      <button class="nav-btn" id="nav-shelf" onclick="showPage('shelf')">📚 我的书库</button>
+      <button class="nav-btn" id="nav-fav" onclick="showPage('fav')">🔖 我的收藏</button>
     </div>
   </div>
 </nav>
@@ -195,7 +195,7 @@ body { padding-top: 52px; }
       </div>
       <div id="lookup-result" style="margin-top:20px"></div>
     </div>
-    <div style="text-align:center;font-size:11px;color:var(--brownP);margin-top:32px">📚 收录 <span id="book-count"></span> 本 · 近年小红书妈妈圈热议绘本</div>
+    <div style="text-align:center;font-size:11px;color:var(--brownP);margin-top:32px">📚 收录 1000+ 本 · 近年国内外妈妈圈热议绘本</div>
   </div>
 
   <!-- 按需选绘本 -->
@@ -293,7 +293,7 @@ body { padding-top: 52px; }
   <div id="results-section" style="display:none">
     <div style="text-align:center;margin-bottom:30px">
       <h2 style="font-family:Georgia,serif;font-size:22px;color:var(--brown);margin-bottom:6px">为你精选了这几本 📚</h2>
-      <p style="font-size:13px;color:var(--brownL)">📚 收录 <span id="book-count2"></span> 本 · 近年小红书妈妈圈热议绘本</p>
+      <p style="font-size:13px;color:var(--brownL)">📚 收录 1000+ 本 · 近年国内外妈妈圈热议绘本</p>
     </div>
     <div id="books-container"></div>
     <div style="text-align:center;margin-top:32px">
@@ -1484,13 +1484,13 @@ let SEL = { age: null, topics: [], funcs: [], interactive: null, lang: "全部" 
 let currentMode = null;
 let AI_TAGS = [];
 
-document.getElementById("book-count").textContent = BOOKS.length;
+// book count fixed
 // Build title lookup map using index
 const TITLE_MAP = {};
 BOOKS.forEach((b, i) => {
   TITLE_MAP['book_' + i] = b.title;
 });
-document.getElementById("book-count2").textContent = BOOKS.length;
+// book count2 fixed
 
 function hashColor(title) {
   const h = Array.from(title).reduce((a,c) => a + c.charCodeAt(0), 0);
@@ -1537,57 +1537,92 @@ function showError(id, msg) {
 // ── 本地关键词→标签映射（API不可用时的兜底方案）──
 function localTagMatch(concern) {
   const c = concern;
-  const tags = [];
 
   const rules = [
-    // 睡眠相关
-    { kws:["睡觉","睡前","不睡","磨磨","哄睡","入睡","睡眠","晚安","夜醒"],
-      tags:["睡前","生活习惯","情绪管理","安全感"] },
-    // 情绪发脾气
-    { kws:["发脾气","脾气","哭闹","闹情绪","情绪","崩溃","打人","咬人","暴躁","愤怒"],
-      tags:["情绪管理","发脾气","生活习惯"] },
-    // 入园分离
-    { kws:["上幼儿园","入园","幼儿园","不想上学","分离","哭着","妈妈不走"],
-      tags:["入园适应","分离焦虑","情绪管理","安全感"] },
-    // 二胎
-    { kws:["二胎","弟弟","妹妹","老大","嫉妒","争宠","新生儿"],
-      tags:["二胎家庭","嫉妒","情绪管理","亲子情感"] },
+    // 睡眠
+    { kws:["睡觉","睡前","不睡","不肯睡","哄睡","入睡","睡眠","晚安","夜醒","不睡觉","磨蹭睡"],
+      tags:["不肯睡觉","睡前","生活习惯","情绪管理"] },
+    // 刷牙
+    { kws:["刷牙","不刷牙","不爱刷牙","抗拒刷牙","刷牙哭","牙齿"],
+      tags:["不爱刷牙","刷牙","生活习惯"] },
+    // 洗手
+    { kws:["洗手","不爱洗手","不洗手","洗手哭","讲卫生","卫生习惯"],
+      tags:["洗手","卫生","生活习惯","健康"] },
+    // 洗澡洗头
+    { kws:["洗澡","不洗澡","洗头","不洗头","抗拒洗澡","怕水","洗澡哭"],
+      tags:["洗澡","洗头","生活习惯","情绪管理"] },
     // 吃饭挑食
-    { kws:["不吃饭","挑食","偏食","吃饭","辅食","吃东西","不爱吃"],
-      tags:["吃饭","挑食","生活习惯","认知启蒙"] },
-    // 专注力
-    { kws:["专注","注意力","坐不住","静不下来","分心","磨蹭","拖延","磨叽"],
-      tags:["专注力","生活习惯","情绪管理"] },
-    // 社交
-    { kws:["不合群","社交","朋友","打架","抢玩具","分享","交朋友","害羞"],
-      tags:["友谊","社交","情绪管理","独立自主"] },
+    { kws:["不吃饭","挑食","偏食","吃饭","不爱吃","辅食","吃东西","不肯吃","厌食","挑东西吃","吃蔬菜","不吃菜"],
+      tags:["不爱吃饭","吃饭","挑食","生活习惯"] },
     // 如厕
-    { kws:["如厕","上厕所","马桶","尿裤子","训练如厕","戒纸尿裤"],
+    { kws:["如厕","上厕所","马桶","尿裤子","训练如厕","戒纸尿裤","拉裤子","不上厕所","憋大便"],
       tags:["如厕","生活习惯","独立自主"] },
+    // 看医生打针
+    { kws:["看医生","打针","看病","医院","怕医生","怕打针","体检","输液","不肯看医生"],
+      tags:["医院","看病恐惧","情绪管理","生活习惯"] },
+    // 情绪发脾气
+    { kws:["发脾气","脾气","哭闹","闹情绪","崩溃","打人","咬人","暴躁","愤怒","摔东西","大喊大叫","情绪失控"],
+      tags:["情绪管理","发脾气","哭闹"] },
+    // 哭
+    { kws:["爱哭","哭个不停","动不动哭","一点点就哭","哭太多","止不住哭"],
+      tags:["哭闹","情绪管理","安全感"] },
+    // 打人咬人
+    { kws:["打人","咬人","推人","抓人","打小朋友","攻击","暴力"],
+      tags:["打人","攻击","情绪管理","友谊"] },
+    // 入园分离
+    { kws:["上幼儿园","入园","幼儿园","不想上学","分离","哭着送","妈妈不走","上学哭","不肯去幼儿园","入园焦虑"],
+      tags:["入园适应","入园焦虑","分离焦虑","情绪管理"] },
+    // 二胎
+    { kws:["二胎","弟弟","妹妹","老大","嫉妒","争宠","新生儿","大宝","生了弟弟","有了妹妹","哥哥","姐姐打弟弟"],
+      tags:["二胎家庭","嫉妒","情绪管理","亲子情感","大宝情绪"] },
+    // 专注力
+    { kws:["专注","注意力","坐不住","静不下来","分心","磨蹭","拖延","磨叽","专注力差","做事三分钟热度"],
+      tags:["专注力","生活习惯","情绪管理"] },
+    // 社交不合群
+    { kws:["不合群","不会交朋友","社交","打架","抢玩具","分享","交朋友","害羞","内向","不爱和小朋友玩","被排挤","孤独"],
+      tags:["不会交朋友","友谊","社交","情绪管理"] },
     // 安全感依恋
-    { kws:["粘人","依赖","不安全","分离焦虑","认生","怕陌生","安全感"],
+    { kws:["粘人","依赖","不安全","分离焦虑","认生","怕陌生人","安全感","一离开就哭","黏妈妈"],
       tags:["安全感","分离焦虑","亲子情感"] },
+    // 恐惧害怕
+    { kws:["害怕","恐惧","怕黑","怕怪物","胆小","夜惊","噩梦","怕声音","怕陌生","怕狗","怕虫"],
+      tags:["情绪管理","安全感","恐惧","独立自主"] },
     // 独立自主
-    { kws:["独立","自己做","不肯自己","依赖","自主","自理"],
+    { kws:["独立","自己做","不肯自己","依赖","自主","自理","什么都要大人做","不肯穿衣","不肯吃饭自己"],
       tags:["独立自主","生活习惯","情绪管理"] },
     // 语言发育
-    { kws:["说话","语言","不开口","词汇","表达","发音","迟缓"],
+    { kws:["说话","语言","不开口","词汇","表达","发音","迟缓","不说话","语言发育","少言寡语"],
       tags:["语言表达","认知启蒙"] },
-    // 注意力/阅读
-    { kws:["不爱读","读书","绘本","阅读","看书","专注"],
-      tags:["专注力","认知启蒙","语言表达"] },
-    // 恐惧害怕
-    { kws:["害怕","恐惧","怕黑","怕怪物","胆小","夜惊","噩梦"],
-      tags:["情绪管理","安全感","独立自主"] },
     // 规则秩序
-    { kws:["规则","不听话","对着干","叛逆","terrible two","边界","秩序"],
-      tags:["情绪管理","生活习惯","独立自主"] },
+    { kws:["规则","不听话","对着干","叛逆","terrible two","边界","秩序","什么都要自己来","不遵守规则","乱来"],
+      tags:["情绪管理","生活习惯","规则","独立自主"] },
+    // 屏幕手机
+    { kws:["手机","平板","看电视","屏幕","ipad","抖音","不肯放下手机","沉迷"],
+      tags:["生活习惯","屏幕时间","情绪管理","规则"] },
     // 亲子关系
-    { kws:["亲子","陪伴","爸爸","妈妈","爱","情感","抱抱","安慰"],
-      tags:["亲子情感","安全感","情绪管理"] },
-    // 生命教育
-    { kws:["死亡","去世","宠物死了","生病","奶奶","爷爷","离开"],
+    { kws:["亲子","陪伴","爸爸不陪","妈妈上班","情感","抱抱","安慰","爸爸不在家","跟爸爸不亲"],
+      tags:["亲子情感","安全感","情绪管理","爸爸陪伴"] },
+    // 生命教育死亡
+    { kws:["死亡","去世","宠物死了","宠物去世","生病住院","奶奶去世","爷爷去世","离开","不在了","死了"],
       tags:["生命教育","情绪管理","亲子情感"] },
+    // 自信
+    { kws:["不自信","胆小","不敢","自卑","胆怯","被嘲笑","不敢表达","内向"],
+      tags:["独立自主","情绪管理","自信","友谊"] },
+    // 说谎
+    { kws:["说谎","撒谎","骗人","不诚实"],
+      tags:["规则","情绪管理","生活习惯"] },
+    // 阅读习惯
+    { kws:["不爱读","读书","绘本","阅读","看书","不爱看书","坐不住看书"],
+      tags:["专注力","认知启蒙","阅读习惯"] },
+    // 数学认知
+    { kws:["数学","数数","认识数字","不会数","逻辑","图形"],
+      tags:["数学思维","认知启蒙"] },
+    // 性教育
+    { kws:["性教育","身体","从哪里来","小鸡鸡","隐私部位","性别"],
+      tags:["性教育","生活习惯","科学"] },
+    // 祖孙
+    { kws:["爷爷","奶奶","姥姥","姥爷","外公","外婆","祖孙"],
+      tags:["祖孙情感","亲子情感"] },
   ];
 
   const matched = new Set();
@@ -1597,12 +1632,13 @@ function localTagMatch(concern) {
     }
   });
 
-  // 通用关键词直接当标签
+  // 直接标签关键词
   const directTags = ["情绪管理","专注力","认知启蒙","语言表达","独立自主",
-    "入园适应","二胎家庭","数学思维","生命教育","亲子情感","睡前","生活习惯"];
+    "入园适应","二胎家庭","数学思维","生命教育","亲子情感","睡前","生活习惯",
+    "友谊","社交","安全感","规则","如厕","刷牙","洗手"];
   directTags.forEach(t => { if (c.includes(t)) matched.add(t); });
 
-  return [...matched].slice(0, 8);
+  return [...matched].slice(0, 10);
 }
 
 function scoreBook(book, concern) {
@@ -1612,19 +1648,26 @@ function scoreBook(book, concern) {
     if (Math.min(book.ageMax,hi) - Math.max(book.ageMin,lo) < 0) return -1;
     score += 10;
   }
-  // AI标签加权（在scoreBook里处理，确保在filter前生效）
+  // AI标签加权
   if (AI_TAGS.length > 0) {
-    const allBookTags = [...(book.themes||[]), ...(book.tags||[]), book.title];
+    const allBookTags = [...(book.themes||[]), ...(book.tags||[])];
     AI_TAGS.forEach((tag, i) => {
-      if (allBookTags.some(t => t.includes(tag) || tag.includes(t))) {
-        score += Math.max(12 - i * 1.5, 3);
+      if (allBookTags.some(t => t === tag || t.includes(tag) || tag.includes(t))) {
+        score += Math.max(15 - i * 2, 4);
       }
     });
   }
   if (concern) {
     const kws = concern.replace(/[，,。？！\s]/g," ").split(" ").filter(w=>w.length>=2);
-    const hit = kws.some(kw => (book.tags||[]).some(t=>t.includes(kw)||kw.includes(t)) || (book.desc||"").includes(kw) || book.title.includes(kw));
-    if (hit) score += 25;
+    // tags完全匹配得高分
+    const tagHit = kws.filter(kw => (book.tags||[]).some(t => t.includes(kw) || kw.includes(t))).length;
+    score += tagHit * 20;
+    // desc匹配得中分
+    const descHit = kws.filter(kw => (book.desc||"").includes(kw)).length;
+    score += descHit * 8;
+    // 书名匹配
+    const titleHit = kws.some(kw => book.title.includes(kw)) ? 10 : 0;
+    score += titleHit;
   }
   const selTopics = (SEL.topics||[]).filter(t=>t!=="都可以");
   selTopics.forEach(t => {
@@ -1644,15 +1687,15 @@ function recommend(concern) {
     const selFuncs  = (SEL.funcs||[]).filter(f=>f!=="都可以");
     const states = getStates();
     const isConcernMode = !!concern;
+    // concern模式：年龄(10) + 至少一个tag命中(20) = 最低30分
+    const minConcernScore = isConcernMode ? 29 : 1;
     return BOOKS.map(b => {
       const s = scoreBook(b, concern);
       return {b, s};
     })
       .filter(({b,s}) => {
         if (s<0) return false;
-        // concern模式：只要得分>0就展示，不做额外限制
-        if (isConcernMode) return s > 0;
-        // browse模式：无AI标签且得分0的排除
+        if (isConcernMode) return s >= minConcernScore;
         if (s===0) return false;
         if (SEL.lang==="中文" && b.lang==="英文") return false;
         if (SEL.lang==="英文" && b.lang!=="英文") return false;
@@ -2167,6 +2210,101 @@ function renderSimpleOpts(id, opts, key) {
     };
     el.appendChild(btn);
   });
+}
+
+// ── 缺失函数补全 ──
+
+// 书名/关键词查询
+function doLookup() {
+  const input = document.getElementById('lookup-input');
+  const result = document.getElementById('lookup-result');
+  if (!input || !result) return;
+  const q = input.value.trim();
+  if (!q) { result.innerHTML = '<p style="color:var(--brownP);font-size:13px">请输入书名或关键词</p>'; return; }
+
+  const kws = q.replace(/[，,。？！\s]/g,' ').split(' ').filter(w => w.length >= 1);
+  const matched = BOOKS.filter(b =>
+    kws.some(kw =>
+      b.title.includes(kw) ||
+      (b.tags||[]).some(t => t.includes(kw) || kw.includes(t)) ||
+      (b.themes||[]).some(t => t.includes(kw)) ||
+      (b.desc||'').includes(kw) ||
+      (b.author||'').includes(kw)
+    )
+  ).slice(0, 8);
+
+  if (matched.length === 0) {
+    result.innerHTML = '<div style="padding:14px 18px;border-radius:14px;border-left:4px solid var(--brownP);background:var(--cream);font-size:13px;color:var(--brownL)">没有找到「' + q + '」相关的绘本，试试其他关键词？</div>';
+    return;
+  }
+
+  result.innerHTML = '<div style="font-size:12px;color:var(--brownP);margin-bottom:12px">找到 ' + matched.length + ' 本相关绘本：</div>' +
+    matched.map(b => {
+      const p = hashColor(b.title);
+      return '<div onclick="showBookModal(\'' + b.title.replace(/'/g,"\\'") + '\')" style="padding:14px 16px;margin-bottom:10px;border-radius:14px;border:1.5px solid var(--border);background:var(--cream);cursor:pointer;display:flex;gap:12px;align-items:center">' +
+        '<div style="width:40px;height:54px;border-radius:7px;background:' + p.bg + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:' + p.ac + ';font-family:Georgia,serif;font-weight:700">' + Array.from(b.title)[0] + '</div>' +
+        '<div><div style="font-family:Georgia,serif;font-size:14px;font-weight:700;color:var(--brown)">' + b.title + '</div>' +
+        '<div style="font-size:11px;color:var(--brownP);margin-top:3px">' + b.ageMin + '–' + b.ageMax + '岁 · ' + (b.themes||[])[0] + '</div></div></div>';
+    }).join('');
+}
+
+// 关闭静态弹窗
+function closeModal(e) {
+  const modal = document.getElementById('book-modal');
+  if (!modal) return;
+  if (!e || e.target === modal) modal.style.display = 'none';
+}
+
+// 绘本阅读器（专属绘本功能未上线，保留占位）
+let _readerPages = [];
+let _readerIdx = 0;
+
+function closeReader() {
+  document.getElementById('book-reader').style.display = 'none';
+  document.getElementById('results-section').style.display = 'none';
+  document.getElementById('mode-section').style.display = 'block';
+  _readerPages = [];
+  _readerIdx = 0;
+}
+
+function prevPage() {
+  if (_readerIdx > 0) {
+    _readerIdx--;
+    _renderReaderPage();
+  }
+}
+
+function nextPage() {
+  if (_readerIdx < _readerPages.length - 1) {
+    _readerIdx++;
+    _renderReaderPage();
+  } else {
+    closeReader();
+  }
+}
+
+function _renderReaderPage() {
+  const page = _readerPages[_readerIdx];
+  if (!page) return;
+  const pagesEl = document.getElementById('book-pages');
+  const indicator = document.getElementById('page-indicator');
+  const dots = document.getElementById('page-dots');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  if (pagesEl) pagesEl.innerHTML = '<div style="background:var(--warm);border-radius:20px;padding:28px;border:1.5px solid var(--border);min-height:200px;font-size:15px;line-height:2;color:var(--inkL)">' + page + '</div>';
+  if (indicator) indicator.textContent = (_readerIdx + 1) + ' / ' + _readerPages.length;
+  if (prevBtn) prevBtn.style.visibility = _readerIdx === 0 ? 'hidden' : 'visible';
+  if (nextBtn) nextBtn.textContent = _readerIdx === _readerPages.length - 1 ? '完成 ✓' : '下一页 →';
+  if (dots) {
+    dots.innerHTML = _readerPages.map((_,i) =>
+      '<div style="width:' + (i===_readerIdx?'20px':'8px') + ';height:8px;border-radius:4px;background:' + (i===_readerIdx?'var(--brown)':'var(--border)') + ';transition:all 0.3s"></div>'
+    ).join('');
+  }
+}
+
+// submitCreate - 敬请期待
+function submitCreate() {
+  showToast('✨ 专属绘本生成功能敬请期待～');
 }
 
 </script>
