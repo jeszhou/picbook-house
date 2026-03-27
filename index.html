@@ -2105,6 +2105,70 @@ function copyTitle(title) {
   navigator.clipboard.writeText(title).catch(()=>{});
   showToast('书名已复制 ✓');
 }
+
+// ── 生成绘本选项 ──
+const CREATE_STYLES = [
+  {e:"🎨",l:"水彩温暖",v:"水彩温暖"},
+  {e:"✏️",l:"简笔卡通",v:"简笔卡通"},
+  {e:"🌸",l:"日系治愈",v:"日系治愈"},
+  {e:"◻️",l:"北欧简约",v:"北欧简约"},
+];
+const CREATE_LANGS = [
+  {e:"🇨🇳",l:"中文",v:"zh"},
+  {e:"🇬🇧",l:"英文",v:"en"},
+];
+const ZH_LEVELS = [
+  {e:"🐣",l:"0–2岁（超简单）",v:"0-2岁"},
+  {e:"🐥",l:"2–4岁（简单）",v:"2-4岁"},
+  {e:"🦁",l:"4–6岁（适中）",v:"4-6岁"},
+];
+const EN_LEVELS = [
+  {e:"🌱",l:"启蒙级",v:"启蒙"},
+  {e:"📗",l:"初级",v:"初级"},
+  {e:"📘",l:"中级",v:"中级"},
+];
+
+let createSel = { style: null, lang: null, level: null };
+
+function initCreateOpts() {
+  createSel = { style: null, lang: null, level: null };
+  renderSimpleOpts("create-style-opts", CREATE_STYLES, "createStyle");
+  renderSimpleOpts("create-lang-opts", CREATE_LANGS, "createLang");
+  renderSimpleOpts("create-level-opts", ZH_LEVELS, "createLevel");
+}
+
+function renderSimpleOpts(id, opts, key) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = "";
+  opts.forEach(o => {
+    const btn = document.createElement("button");
+    btn.className = "opt-btn";
+    btn.innerHTML = "<span>" + o.e + "</span>" + o.l;
+    btn.onclick = () => {
+      if (key === "createStyle") {
+        createSel.style = o.v;
+      } else if (key === "createLang") {
+        createSel.lang = o.v;
+        createSel.level = null;
+        const levelQ = document.getElementById("create-level-q");
+        if (o.v === "zh") {
+          if (levelQ) levelQ.textContent = "孩子年龄？";
+          renderSimpleOpts("create-level-opts", ZH_LEVELS, "createLevel");
+        } else {
+          if (levelQ) levelQ.textContent = "英文水平？";
+          renderSimpleOpts("create-level-opts", EN_LEVELS, "createLevel");
+        }
+      } else if (key === "createLevel") {
+        createSel.level = o.v;
+      }
+      el.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+    };
+    el.appendChild(btn);
+  });
+}
+
 </script>
 </body>
 </html>
