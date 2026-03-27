@@ -1698,35 +1698,80 @@ async function submitConcern() {
   btn.textContent = "🤔 AI理解中…";
   btn.disabled = true;
 
-  // 先用本地关键词映射快速提取标签（兜底）
-  AI_TAGS = localTagMatch(concern);
-
   try {
-    const resp = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mode: "match", concern: concern, age: SEL.age })
+    // Step1: 按年龄预筛选，最多取200本候选
+    const [lo, hi] = AGE_RANGES[SEL.age] || [0, 6];
+    const states = getStates();
+    const candidates = BOOKS
+      .filter(b => {
+        if (Math.min(b.ageMax, hi) - Math.max(b.ageMin, lo) < 0) return false;
+        if (states[b.title]?.own) return false;
+        return true;
+      })
+      .slice(0, 200);
+
+    // Step2: 本地关键词初筛，把最相关的150本放前面
+    const localTags = localTagMatch(concern);
+    candidates.sort((a, b) => {
+      const aScore = localTags.filter(t => [...(a.themes||[]), ...(a.tags||[])].some(at => at.includes(t) || t.includes(at))).length;
+      const bScore = localTags.filter(t => [...(b.themes||[]), ...(b.tags||[])].some(bt => bt.includes(t) || t.includes(bt))).length;
+      return bScore - aScore;
     });
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data.tags && data.tags.length > 0) AI_TAGS = data.tags;
+    const top150 = candidates.slice(0, 150);
+
+    // Step3: 发给AI直接选书
+    let selectedTitles = [];
+    try {
+      const resp = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "select",
+          concern,
+          age: SEL.age,
+          books: top150.map(b => ({
+            title: b.title,
+            themes: b.themes || [],
+            tags: b.tags || []
+          }))
+        })
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.titles && data.titles.length > 0) {
+          selectedTitles = data.titles;
+        }
+      }
+    } catch(e) {
+      // API失败，降级用本地标签
     }
-  } catch(e) {
-    // API不可用，继续用本地标签
+
+    let books = [];
+    if (selectedTitles.length > 0) {
+      // AI直接选的书，按顺序展示
+      books = selectedTitles
+        .map(title => BOOKS.find(b => b.title === title))
+        .filter(Boolean);
+    }
+
+    // 兜底：AI没选到就用本地标签匹配
+    if (books.length === 0) {
+      AI_TAGS = localTags;
+      books = recommend(concern);
+    }
+
+    if (books.length === 0) {
+      showError("error-concern", "暂时没有找到匹配的绘本，试试换个描述方式 😊");
+      return;
+    }
+    showResults(books, true);
   } finally {
     btn.textContent = origText;
     btn.disabled = false;
   }
-
-  const books = recommend(concern);
-  if (books.length === 0) {
-    showError("error-concern", "暂时没有找到匹配的绘本，试试换个描述方式 😊");
-    return;
-  }
-  showResults(books, true);
 }
 
-// ── 모드 전환 ──
+
 function setMode(mode) {
   currentMode = mode;
   AI_TAGS = [];
