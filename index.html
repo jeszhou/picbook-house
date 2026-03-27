@@ -1660,8 +1660,7 @@ function showResults(books, showDiy) {
   document.getElementById("mode-section").style.display = "none";
   document.getElementById("page-shelf").style.display = "none";
   document.getElementById("page-fav").style.display = "none";
-  const container = document.getElementById("books-container");
-  container.innerHTML = books.length ? books.map((b,i)=>bookCardHTML(b,i)).join("") : `<div style="text-align:center;padding:40px;color:var(--brownL);font-size:14px">暂时没有完全匹配的绘本，试试调整筛选条件 😊</div>`;
+  renderBookCards(books);
   document.getElementById("diy-section").style.display = showDiy ? "block" : "none";
   document.getElementById("results-section").style.display = "block";
   window.scrollTo({top:0,behavior:"smooth"});
@@ -1905,6 +1904,142 @@ function showBookModal(title) {
   closeBtn.textContent = '关闭'; closeBtn.style.cssText = 'width:100%;margin-top:14px;padding:12px;border:none;border-radius:14px;background:var(--warm);color:var(--brownP);font-size:13px;cursor:pointer';
   closeBtn.onclick = () => modal.remove(); inner.appendChild(closeBtn);
   modal.appendChild(inner); document.body.appendChild(modal);
+}
+
+
+// ── bookCardHTML (DOM版，无引号问题) ──
+function bookCardHTML(book, i) {
+  return ''; // placeholder, 用DOM方式渲染
+}
+
+function renderBookCards(books) {
+  const container = document.getElementById('books-container');
+  if (!container) return;
+  container.innerHTML = '';
+  if (!books || books.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--brownL);font-size:14px">暂时没有找到匹配的绘本 😊</div>';
+    return;
+  }
+  const states = getStates();
+  books.forEach((book, i) => {
+    const p = hashColor(book.title);
+    const card = document.createElement('div');
+    card.className = 'book-card';
+
+    // 头部：封面 + 基本信息
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;gap:14px;align-items:flex-start';
+
+    // 封面
+    const coverBox = document.createElement('div');
+    coverBox.style.cssText = 'width:90px;min-width:90px;height:120px;border-radius:10px;overflow:hidden;flex-shrink:0';
+    if (book.cover) {
+      const img = document.createElement('img');
+      img.src = book.cover;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+      img.onerror = function() {
+        this.replaceWith(makeCoverPh(book, p));
+      };
+      coverBox.appendChild(img);
+    } else {
+      coverBox.appendChild(makeCoverPh(book, p));
+    }
+    header.appendChild(coverBox);
+
+    // 信息列
+    const infoCol = document.createElement('div');
+    infoCol.style.cssText = 'flex:1;min-width:0';
+
+    // 推荐徽章
+    const badge = document.createElement('span');
+    badge.className = 'rank-badge' + (i===0?' best':'');
+    badge.textContent = i===0 ? '🌟 最推荐' : '第'+(i+1)+'名';
+    infoCol.appendChild(badge);
+
+    // 书名
+    const titleEl = document.createElement('div');
+    titleEl.className = 'book-title';
+    titleEl.textContent = book.title;
+    infoCol.appendChild(titleEl);
+
+    // 作者
+    if (book.author) {
+      const auth = document.createElement('div');
+      auth.className = 'book-author';
+      auth.textContent = book.author;
+      infoCol.appendChild(auth);
+    }
+
+    // 标签
+    const tagsRow = document.createElement('div');
+    tagsRow.className = 'tags-row';
+    const ageBadge = document.createElement('span');
+    ageBadge.className = 'age-badge';
+    ageBadge.textContent = '📅 '+book.ageMin+'–'+book.ageMax+'岁';
+    tagsRow.appendChild(ageBadge);
+    (book.themes||[]).slice(0,2).forEach(t => {
+      const sp = document.createElement('span');
+      sp.className = 'tag-badge';
+      sp.textContent = t;
+      tagsRow.appendChild(sp);
+    });
+    infoCol.appendChild(tagsRow);
+
+    // 奖项
+    if (book.awards) {
+      const aw = document.createElement('div');
+      aw.className = 'award-badge';
+      aw.textContent = '🏆 '+book.awards;
+      infoCol.appendChild(aw);
+    }
+    header.appendChild(infoCol);
+    card.appendChild(header);
+
+    // 简介
+    if (book.desc) {
+      const desc = document.createElement('div');
+      desc.className = 'book-desc';
+      desc.textContent = book.desc;
+      card.appendChild(desc);
+    }
+
+    // 元信息
+    const meta = document.createElement('div');
+    meta.className = 'book-meta-grid';
+    meta.innerHTML = '<div><span class="meta-label">🎪 互动性</span><span class="meta-val">'+(book.interactive||'普通绘本')+'</span></div>'
+      +'<div><span class="meta-label">🛒 购买</span><span class="meta-val">'+(book.buy||'京东、当当')+'</span></div>';
+    card.appendChild(meta);
+
+    // 操作按钮
+    const state = states[book.title] || {};
+    const actRow = document.createElement('div');
+    actRow.className = 'action-row';
+    [['fav','🔖 收藏'],['own','📚 已拥有'],['want','🛒 想购买']].forEach(([action, label]) => {
+      const btn = document.createElement('button');
+      btn.className = 'action-btn' + (state[action]?' active':'');
+      btn.textContent = label;
+      btn.onclick = () => handleActionClick(btn, action, book.title);
+      actRow.appendChild(btn);
+    });
+    card.appendChild(actRow);
+    container.appendChild(card);
+  });
+}
+
+function makeCoverPh(book, p) {
+  const div = document.createElement('div');
+  div.style.cssText = 'width:100%;height:100%;background:'+p.bg+';display:flex;align-items:center;justify-content:center';
+  const sp = document.createElement('span');
+  sp.style.cssText = 'font-size:28px;color:'+p.ac+';font-family:Georgia,serif;font-weight:700';
+  sp.textContent = Array.from(book.title)[0];
+  div.appendChild(sp);
+  return div;
+}
+
+
+// ── getStates (确保存在) ──
+if (typeof getStates === 'undefined') {
+  function getStates() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'); } catch(e){return{};} }
 }
 
 function copyTitle(title) {
