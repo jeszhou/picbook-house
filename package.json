@@ -1,0 +1,14 @@
+{
+  "name": "picbook-house",
+  "version": "1.0.0",
+  "description": "绘本小屋 - Picture Book Recommendation App",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required for static site'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  },
+  "devDependencies": {},
+  "private": true
+}
